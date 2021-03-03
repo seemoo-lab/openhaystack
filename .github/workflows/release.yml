@@ -1,0 +1,51 @@
+name: "Create release"
+
+on:
+  push:
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+jobs:
+  build-and-release:
+    name: "Create release on GitHub"
+    runs-on: macos-latest
+    env:
+      APP: OpenHaystack
+      PROJECT_DIR: OpenHaystack
+    defaults:
+      run:
+        working-directory: ${{ env.PROJECT_DIR }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: "Select Xcode 12"
+        uses: devbotsxyz/xcode-select@v1
+        with:
+          version: "12"
+      - name: "Archive project"
+        run: xcodebuild archive -scheme ${APP} -configuration release -archivePath ${APP}.xcarchive
+      - name: "Create ZIP"
+        run: |
+          pushd ${APP}.xcarchive/Products/Applications
+          zip -r ../../../${APP}.zip ${APP}.app
+          popd
+      - name: "Create release"
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: "Upload release asset"
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.PROJECT_DIR }}/${{ env.APP }}.zip
+          asset_name: ${{ env.APP }}.zip
+          asset_content_type: application/zip

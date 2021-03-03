@@ -1,0 +1,27 @@
+name: "Build firmware"
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - Firmware/**
+  pull_request:
+    branches: [ main ]
+    paths:
+      - Firmware/**
+
+defaults:
+  run:
+    working-directory: Firmware
+
+jobs:
+  build-firmware:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      # Build firmware image
+      - name: "Install build dependencies"
+        run: brew install --cask gcc-arm-embedded
+      - name: "Build firmware image"
+        run: make

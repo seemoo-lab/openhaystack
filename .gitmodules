@@ -1,0 +1,3 @@
+[submodule "Firmware/blessed"]
+	path = Firmware/blessed
+	url = https://github.com/pauloborges/blessed.git

@@ -1,0 +1,9 @@
+# nRF SDK
+nrf51_sdk_v4_4_2_33551/
+nrf51_sdk_v4_4_2_33551.zip
+
+# Build artifacts
+*.bin
+*.map
+*.out
+*.o

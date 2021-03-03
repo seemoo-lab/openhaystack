@@ -1,0 +1,1242 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		78F7253325ED02300039C718 /* Run OFFetchReports */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 78F7253625ED02300039C718 /* Build configuration list for PBXAggregateTarget "Run OFFetchReports" */;
+			buildPhases = (
+				78F7253D25ED02390039C718 /* Codesign Offline Finder with Entitlements */,
+			);
+			dependencies = (
+				78F7253C25ED02350039C718 /* PBXTargetDependency */,
+			);
+			name = "Run OFFetchReports";
+			productName = "Create OfflineFinder";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		0211DBC12491203100ABB066 /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 0211DBC02491203100ABB066 /* Crypto */; };
+		0211DBC5249135D600ABB066 /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0211DBC3249135D600ABB066 /* MapViewController.xib */; };
+		0211DBC724913A8D00ABB066 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0211DBC624913A8D00ABB066 /* MapView.swift */; };
+		022253BA24E293B8006DF2B3 /* AuthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0298C0C8248F9506003928FE /* AuthKit.framework */; };
+		022253BB24E293B8006DF2B3 /* AuthKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0298C0C8248F9506003928FE /* AuthKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		024D98492490CE320063EBB6 /* BoringSSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 024D98482490CE320063EBB6 /* BoringSSL.m */; };
+		025DFEDC248FED250039C718 /* DecryptReports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025DFEDB248FED250039C718 /* DecryptReports.swift */; };
+		116B4EED24A913AA007BA636 /* SavePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116B4EEC24A913AA007BA636 /* SavePanel.swift */; };
+		78014A2925DC08580089F6D9 /* MicrobitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78014A2725DC01220089F6D9 /* MicrobitController.swift */; };
+		78014A2B25DC22120089F6D9 /* sample.bin in Resources */ = {isa = PBXBuildFile; fileRef = 78014A2A25DC22110089F6D9 /* sample.bin */; };
+		78014A2F25DC2F100089F6D9 /* pattern_sample.bin in Resources */ = {isa = PBXBuildFile; fileRef = 78014A2E25DC2F100089F6D9 /* pattern_sample.bin */; };
+		78108B70248E8FB50007E9C4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78108B6F248E8FB50007E9C4 /* AppDelegate.swift */; };
+		78108B72248E8FB50007E9C4 /* OFFetchReportsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78108B71248E8FB50007E9C4 /* OFFetchReportsMainView.swift */; };
+		78108B74248E8FB80007E9C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78108B73248E8FB80007E9C4 /* Assets.xcassets */; };
+		78108B77248E8FB80007E9C4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78108B76248E8FB80007E9C4 /* Preview Assets.xcassets */; };
+		78108B7A248E8FB80007E9C4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78108B78248E8FB80007E9C4 /* Main.storyboard */; };
+		78108B85248E8FDD0007E9C4 /* ReportsFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 78108B84248E8FDD0007E9C4 /* ReportsFetcher.m */; };
+		78108B8F248F70D40007E9C4 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78108B8E248F70D40007E9C4 /* Models.swift */; };
+		78108B91248F72AF0007E9C4 /* FindMyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78108B90248F72AF0007E9C4 /* FindMyController.swift */; };
+		781EB3EA25DAD7EA00FEAA19 /* ReportsFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 78108B84248E8FDD0007E9C4 /* ReportsFetcher.m */; };
+		781EB3EB25DAD7EA00FEAA19 /* SavePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116B4EEC24A913AA007BA636 /* SavePanel.swift */; };
+		781EB3EC25DAD7EA00FEAA19 /* DecryptReports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025DFEDB248FED250039C718 /* DecryptReports.swift */; };
+		781EB3EE25DAD7EA00FEAA19 /* OFFetchReportsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78108B71248E8FB50007E9C4 /* OFFetchReportsMainView.swift */; };
+		781EB3EF25DAD7EA00FEAA19 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0211DBC2249135D600ABB066 /* MapViewController.swift */; };
+		781EB3F025DAD7EA00FEAA19 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0211DBC624913A8D00ABB066 /* MapView.swift */; };
+		781EB3F125DAD7EA00FEAA19 /* FindMyKeyDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7867874724A651C600199B09 /* FindMyKeyDecoder.swift */; };
+		781EB3F225DAD7EA00FEAA19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78108B6F248E8FB50007E9C4 /* AppDelegate.swift */; };
+		781EB3F325DAD7EA00FEAA19 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78108B8E248F70D40007E9C4 /* Models.swift */; };
+		781EB3F425DAD7EA00FEAA19 /* FindMyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78108B90248F72AF0007E9C4 /* FindMyController.swift */; };
+		781EB3F525DAD7EA00FEAA19 /* BoringSSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 024D98482490CE320063EBB6 /* BoringSSL.m */; };
+		781EB3F725DAD7EA00FEAA19 /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 781EB3E725DAD7EA00FEAA19 /* Crypto */; };
+		781EB3FD25DAD7EA00FEAA19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78108B78248E8FB80007E9C4 /* Main.storyboard */; };
+		781EB3FE25DAD7EA00FEAA19 /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0211DBC3249135D600ABB066 /* MapViewController.xib */; };
+		781EB40025DAD7EA00FEAA19 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78108B76248E8FB80007E9C4 /* Preview Assets.xcassets */; };
+		781EB40225DAD7EA00FEAA19 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78108B73248E8FB80007E9C4 /* Assets.xcassets */; };
+		781EB43125DADF2B00FEAA19 /* AnisetteDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781EB40F25DADB0600FEAA19 /* AnisetteDataManager.swift */; };
+		78286CB225E3ACE700F65511 /* OpenHaystackPluginService.m in Sources */ = {isa = PBXBuildFile; fileRef = 78286CAF25E3ACE700F65511 /* OpenHaystackPluginService.m */; };
+		78286D1F25E3D8B800F65511 /* ALTAnisetteData.m in Sources */ = {isa = PBXBuildFile; fileRef = 78286CB025E3ACE700F65511 /* ALTAnisetteData.m */; };
+		78286D2A25E3EC3200F65511 /* AppleAccountData.m in Sources */ = {isa = PBXBuildFile; fileRef = 78286D2925E3EC3200F65511 /* AppleAccountData.m */; };
+		78286D2F25E3ECDF00F65511 /* AppleAccountData.m in Sources */ = {isa = PBXBuildFile; fileRef = 78286D2925E3EC3200F65511 /* AppleAccountData.m */; };
+		78286D5625E401F000F65511 /* MailPluginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78286D5525E401F000F65511 /* MailPluginManager.swift */; };
+		78286D7725E5114600F65511 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78286D7625E5114600F65511 /* ActivityIndicator.swift */; };
+		78286D8C25E5355B00F65511 /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78286D8B25E5355B00F65511 /* PreviewData.swift */; };
+		78286DBF25E5669100F65511 /* OpenHaystackMail.mailbundle in Embed PlugIns */ = {isa = PBXBuildFile; fileRef = 78286C8E25E3AC0400F65511 /* OpenHaystackMail.mailbundle */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		78286E0225E66F9400F65511 /* AccessoryListEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78286E0125E66F9400F65511 /* AccessoryListEntry.swift */; };
+		78486BEF25DD711E0007ED87 /* PopUpAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78486BEE25DD711E0007ED87 /* PopUpAlertView.swift */; };
+		78486BF425DD7AD90007ED87 /* sampleKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78486BF325DD7AD90007ED87 /* sampleKeys.plist */; };
+		78486C0A25DDCC610007ED87 /* offline-finding.bin in Resources */ = {isa = PBXBuildFile; fileRef = 78486C0925DDCC610007ED87 /* offline-finding.bin */; };
+		7851F1DD25EE90FA0049480D /* AccessoryMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7851F1DC25EE90FA0049480D /* AccessoryMapView.swift */; };
+		7867874824A651C600199B09 /* FindMyKeyDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7867874724A651C600199B09 /* FindMyKeyDecoder.swift */; };
+		787D8AC125DECD3C00148766 /* AccessoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D8AC025DECD3C00148766 /* AccessoryController.swift */; };
+		7899D1D625DE74EE00115740 /* firmware.bin in Resources */ = {isa = PBXBuildFile; fileRef = 7899D1D525DE74EE00115740 /* firmware.bin */; };
+		7899D1E125DE97E200115740 /* IconSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7899D1E025DE97E200115740 /* IconSelectionView.swift */; };
+		7899D1E925DEBF4900115740 /* AccessoryMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7899D1E825DEBF4800115740 /* AccessoryMapAnnotation.swift */; };
+		78EC226425DAE0BE0042B775 /* OpenHaystackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC226325DAE0BE0042B775 /* OpenHaystackTests.swift */; };
+		78EC226C25DBC2E40042B775 /* OpenHaystackMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC226B25DBC2E40042B775 /* OpenHaystackMainView.swift */; };
+		78EC227225DBC8CE0042B775 /* Accessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC227125DBC8CE0042B775 /* Accessory.swift */; };
+		78EC227525DBCCA00042B775 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 78EC227425DBCCA00042B775 /* .swiftlint.yml */; };
+		78EC227725DBDB7E0042B775 /* KeychainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC227625DBDB7E0042B775 /* KeychainController.swift */; };
+		F14B2BFE25EFA69B002DC056 /* AnisetteDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781EB40F25DADB0600FEAA19 /* AnisetteDataManager.swift */; };
+		F14B2C0725EFA730002DC056 /* ALTAnisetteData.m in Sources */ = {isa = PBXBuildFile; fileRef = 78286CB025E3ACE700F65511 /* ALTAnisetteData.m */; };
+		F14B2C1425EFA7A5002DC056 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0211DBC2249135D600ABB066 /* MapViewController.swift */; };
+		F14B2C1925EFA7AB002DC056 /* Accessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC227125DBC8CE0042B775 /* Accessory.swift */; };
+		F14B2C1E25EFA7BA002DC056 /* AccessoryMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7899D1E825DEBF4800115740 /* AccessoryMapAnnotation.swift */; };
+		F14B2C2325EFA7C7002DC056 /* AppleAccountData.m in Sources */ = {isa = PBXBuildFile; fileRef = 78286D2925E3EC3200F65511 /* AppleAccountData.m */; };
+		F16BA9E925E7DB2D00238183 /* NIOSSL in Frameworks */ = {isa = PBXBuildFile; productRef = F16BA9E825E7DB2D00238183 /* NIOSSL */; };
+		F16BAA0D25E7DCFC00238183 /* NIOSSL in Frameworks */ = {isa = PBXBuildFile; productRef = F16BAA0C25E7DCFC00238183 /* NIOSSL */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		78286DC025E5669100F65511 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 78108B64248E8FB50007E9C4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 78286C8D25E3AC0400F65511;
+			remoteInfo = HaystackMail;
+		};
+		78EC226625DAE0BE0042B775 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 78108B64248E8FB50007E9C4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 781EB3E425DAD7EA00FEAA19;
+			remoteInfo = FindMyAccessory;
+		};
+		78F7253B25ED02350039C718 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 78108B64248E8FB50007E9C4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 78108B6B248E8FB50007E9C4;
+			remoteInfo = OfflineFinder;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		11A3D85124A8C623009BF754 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				022253BB24E293B8006DF2B3 /* AuthKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78286CD825E3AF6900F65511 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /Library/Mail/Bundles;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78286DC225E5669100F65511 /* Embed PlugIns */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				78286DBF25E5669100F65511 /* OpenHaystackMail.mailbundle in Embed PlugIns */,
+			);
+			name = "Embed PlugIns";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0211DBC2249135D600ABB066 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		0211DBC3249135D600ABB066 /* MapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
+		0211DBC624913A8D00ABB066 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		024D98472490CE320063EBB6 /* BoringSSL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoringSSL.h; sourceTree = "<group>"; };
+		024D98482490CE320063EBB6 /* BoringSSL.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoringSSL.m; sourceTree = "<group>"; };
+		025DFEDB248FED250039C718 /* DecryptReports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecryptReports.swift; sourceTree = "<group>"; };
+		0298C0C8248F9506003928FE /* AuthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthKit.framework; path = ../../../../../../../../../../System/Library/PrivateFrameworks/AuthKit.framework; sourceTree = "<group>"; };
+		0298C0CC248FA9BB003928FE /* OfflineFinder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OfflineFinder.entitlements; sourceTree = "<group>"; };
+		116B4EEC24A913AA007BA636 /* SavePanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavePanel.swift; sourceTree = "<group>"; };
+		78014A2725DC01220089F6D9 /* MicrobitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrobitController.swift; sourceTree = "<group>"; };
+		78014A2A25DC22110089F6D9 /* sample.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = sample.bin; sourceTree = "<group>"; };
+		78014A2E25DC2F100089F6D9 /* pattern_sample.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = pattern_sample.bin; sourceTree = "<group>"; };
+		78108B6C248E8FB50007E9C4 /* OFFetchReports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OFFetchReports.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		78108B6F248E8FB50007E9C4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		78108B71248E8FB50007E9C4 /* OFFetchReportsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFFetchReportsMainView.swift; sourceTree = "<group>"; };
+		78108B73248E8FB80007E9C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		78108B76248E8FB80007E9C4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		78108B79248E8FB80007E9C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		78108B7B248E8FB80007E9C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		78108B82248E8FDD0007E9C4 /* OpenHaystack-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OpenHaystack-Bridging-Header.h"; sourceTree = "<group>"; };
+		78108B83248E8FDD0007E9C4 /* ReportsFetcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportsFetcher.h; sourceTree = "<group>"; };
+		78108B84248E8FDD0007E9C4 /* ReportsFetcher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReportsFetcher.m; sourceTree = "<group>"; };
+		78108B8E248F70D40007E9C4 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		78108B90248F72AF0007E9C4 /* FindMyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindMyController.swift; sourceTree = "<group>"; };
+		781EB40825DAD7EA00FEAA19 /* OpenHaystack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenHaystack.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		781EB40F25DADB0600FEAA19 /* AnisetteDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnisetteDataManager.swift; sourceTree = "<group>"; };
+		78286C8E25E3AC0400F65511 /* OpenHaystackMail.mailbundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenHaystackMail.mailbundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		78286C9025E3AC0400F65511 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		78286CAE25E3ACE700F65511 /* OpenHaystackPluginService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenHaystackPluginService.h; sourceTree = "<group>"; };
+		78286CAF25E3ACE700F65511 /* OpenHaystackPluginService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenHaystackPluginService.m; sourceTree = "<group>"; };
+		78286CB025E3ACE700F65511 /* ALTAnisetteData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALTAnisetteData.m; sourceTree = "<group>"; };
+		78286CB125E3ACE700F65511 /* ALTAnisetteData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALTAnisetteData.h; sourceTree = "<group>"; };
+		78286D2825E3EC3200F65511 /* AppleAccountData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppleAccountData.h; sourceTree = "<group>"; };
+		78286D2925E3EC3200F65511 /* AppleAccountData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppleAccountData.m; sourceTree = "<group>"; };
+		78286D5525E401F000F65511 /* MailPluginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailPluginManager.swift; sourceTree = "<group>"; };
+		78286D7625E5114600F65511 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		78286D8B25E5355B00F65511 /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
+		78286DDC25E56C9400F65511 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		78286E0125E66F9400F65511 /* AccessoryListEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessoryListEntry.swift; sourceTree = "<group>"; };
+		78486BEE25DD711E0007ED87 /* PopUpAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpAlertView.swift; sourceTree = "<group>"; };
+		78486BF325DD7AD90007ED87 /* sampleKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = sampleKeys.plist; sourceTree = "<group>"; };
+		78486C0925DDCC610007ED87 /* offline-finding.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "offline-finding.bin"; sourceTree = "<group>"; };
+		7851F1DC25EE90FA0049480D /* AccessoryMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessoryMapView.swift; sourceTree = "<group>"; };
+		7867874724A651C600199B09 /* FindMyKeyDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindMyKeyDecoder.swift; sourceTree = "<group>"; };
+		787D8AC025DECD3C00148766 /* AccessoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessoryController.swift; sourceTree = "<group>"; };
+		7899D1D525DE74EE00115740 /* firmware.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = firmware.bin; sourceTree = "<group>"; };
+		7899D1E025DE97E200115740 /* IconSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconSelectionView.swift; sourceTree = "<group>"; };
+		7899D1E825DEBF4800115740 /* AccessoryMapAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessoryMapAnnotation.swift; sourceTree = "<group>"; };
+		78EC226125DAE0BE0042B775 /* OpenHaystackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenHaystackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		78EC226325DAE0BE0042B775 /* OpenHaystackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenHaystackTests.swift; sourceTree = "<group>"; };
+		78EC226525DAE0BE0042B775 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		78EC226B25DBC2E40042B775 /* OpenHaystackMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenHaystackMainView.swift; sourceTree = "<group>"; };
+		78EC227125DBC8CE0042B775 /* Accessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessory.swift; sourceTree = "<group>"; };
+		78EC227425DBCCA00042B775 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		78EC227625DBDB7E0042B775 /* KeychainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		78108B69248E8FB50007E9C4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0211DBC12491203100ABB066 /* Crypto in Frameworks */,
+				022253BA24E293B8006DF2B3 /* AuthKit.framework in Frameworks */,
+				F16BAA0D25E7DCFC00238183 /* NIOSSL in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		781EB3F625DAD7EA00FEAA19 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				781EB3F725DAD7EA00FEAA19 /* Crypto in Frameworks */,
+				F16BA9E925E7DB2D00238183 /* NIOSSL in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78286C8B25E3AC0400F65511 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78EC225E25DAE0BE0042B775 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		024D98402490CD7F0063EBB6 /* BoringSSL */ = {
+			isa = PBXGroup;
+			children = (
+				024D98472490CE320063EBB6 /* BoringSSL.h */,
+				024D98482490CE320063EBB6 /* BoringSSL.m */,
+			);
+			path = BoringSSL;
+			sourceTree = "<group>";
+		};
+		78108B63248E8FB50007E9C4 = {
+			isa = PBXGroup;
+			children = (
+				78286DDC25E56C9400F65511 /* README.md */,
+				78EC227425DBCCA00042B775 /* .swiftlint.yml */,
+				78108B6E248E8FB50007E9C4 /* OpenHaystack */,
+				78EC226225DAE0BE0042B775 /* OpenHaystackTests */,
+				78286C8F25E3AC0400F65511 /* OpenHaystackMail */,
+				78108B6D248E8FB50007E9C4 /* Products */,
+				78108B82248E8FDD0007E9C4 /* OpenHaystack-Bridging-Header.h */,
+				78108B88248E90190007E9C4 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		78108B6D248E8FB50007E9C4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				78108B6C248E8FB50007E9C4 /* OFFetchReports.app */,
+				781EB40825DAD7EA00FEAA19 /* OpenHaystack.app */,
+				78EC226125DAE0BE0042B775 /* OpenHaystackTests.xctest */,
+				78286C8E25E3AC0400F65511 /* OpenHaystackMail.mailbundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		78108B6E248E8FB50007E9C4 /* OpenHaystack */ = {
+			isa = PBXGroup;
+			children = (
+				024D98402490CD7F0063EBB6 /* BoringSSL */,
+				78108B8D248F70CC0007E9C4 /* FindMy */,
+				7851F1D725EE90B20049480D /* OFFetchReports */,
+				78108B87248E8FF10007E9C4 /* ReportsFetcher */,
+				78EC226E25DBC2FC0042B775 /* HaystackApp */,
+				781EB40F25DADB0600FEAA19 /* AnisetteDataManager.swift */,
+				78108B6F248E8FB50007E9C4 /* AppDelegate.swift */,
+				0211DBC2249135D600ABB066 /* MapViewController.swift */,
+				116B4EEC24A913AA007BA636 /* SavePanel.swift */,
+				0211DBC3249135D600ABB066 /* MapViewController.xib */,
+				78108B73248E8FB80007E9C4 /* Assets.xcassets */,
+				78108B78248E8FB80007E9C4 /* Main.storyboard */,
+				78108B7B248E8FB80007E9C4 /* Info.plist */,
+				0298C0CC248FA9BB003928FE /* OfflineFinder.entitlements */,
+				78108B75248E8FB80007E9C4 /* Preview Content */,
+			);
+			path = OpenHaystack;
+			sourceTree = "<group>";
+		};
+		78108B75248E8FB80007E9C4 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				78108B76248E8FB80007E9C4 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		78108B87248E8FF10007E9C4 /* ReportsFetcher */ = {
+			isa = PBXGroup;
+			children = (
+				78108B83248E8FDD0007E9C4 /* ReportsFetcher.h */,
+				78108B84248E8FDD0007E9C4 /* ReportsFetcher.m */,
+			);
+			path = ReportsFetcher;
+			sourceTree = "<group>";
+		};
+		78108B88248E90190007E9C4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0298C0C8248F9506003928FE /* AuthKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		78108B8D248F70CC0007E9C4 /* FindMy */ = {
+			isa = PBXGroup;
+			children = (
+				78108B8E248F70D40007E9C4 /* Models.swift */,
+				78108B90248F72AF0007E9C4 /* FindMyController.swift */,
+				7867874724A651C600199B09 /* FindMyKeyDecoder.swift */,
+				025DFEDB248FED250039C718 /* DecryptReports.swift */,
+			);
+			path = FindMy;
+			sourceTree = "<group>";
+		};
+		78286C8F25E3AC0400F65511 /* OpenHaystackMail */ = {
+			isa = PBXGroup;
+			children = (
+				78286D2825E3EC3200F65511 /* AppleAccountData.h */,
+				78286D2925E3EC3200F65511 /* AppleAccountData.m */,
+				78286CB125E3ACE700F65511 /* ALTAnisetteData.h */,
+				78286CB025E3ACE700F65511 /* ALTAnisetteData.m */,
+				78286CAE25E3ACE700F65511 /* OpenHaystackPluginService.h */,
+				78286CAF25E3ACE700F65511 /* OpenHaystackPluginService.m */,
+				78286C9025E3AC0400F65511 /* Info.plist */,
+			);
+			path = OpenHaystackMail;
+			sourceTree = "<group>";
+		};
+		78286D3A25E4017400F65511 /* Mail Plugin */ = {
+			isa = PBXGroup;
+			children = (
+				78286D5525E401F000F65511 /* MailPluginManager.swift */,
+			);
+			path = "Mail Plugin";
+			sourceTree = "<group>";
+		};
+		7851F1D725EE90B20049480D /* OFFetchReports */ = {
+			isa = PBXGroup;
+			children = (
+				0211DBC624913A8D00ABB066 /* MapView.swift */,
+				78108B71248E8FB50007E9C4 /* OFFetchReportsMainView.swift */,
+			);
+			path = OFFetchReports;
+			sourceTree = "<group>";
+		};
+		78EC226225DAE0BE0042B775 /* OpenHaystackTests */ = {
+			isa = PBXGroup;
+			children = (
+				78486C0925DDCC610007ED87 /* offline-finding.bin */,
+				78486BF325DD7AD90007ED87 /* sampleKeys.plist */,
+				78014A2E25DC2F100089F6D9 /* pattern_sample.bin */,
+				78014A2A25DC22110089F6D9 /* sample.bin */,
+				78EC226325DAE0BE0042B775 /* OpenHaystackTests.swift */,
+				78EC226525DAE0BE0042B775 /* Info.plist */,
+			);
+			path = OpenHaystackTests;
+			sourceTree = "<group>";
+		};
+		78EC226E25DBC2FC0042B775 /* HaystackApp */ = {
+			isa = PBXGroup;
+			children = (
+				7899D1D525DE74EE00115740 /* firmware.bin */,
+				78286D3A25E4017400F65511 /* Mail Plugin */,
+				78EC227025DBC8BB0042B775 /* Views */,
+				78EC226F25DBC8B60042B775 /* Model */,
+				78EC227625DBDB7E0042B775 /* KeychainController.swift */,
+				78014A2725DC01220089F6D9 /* MicrobitController.swift */,
+				787D8AC025DECD3C00148766 /* AccessoryController.swift */,
+			);
+			path = HaystackApp;
+			sourceTree = "<group>";
+		};
+		78EC226F25DBC8B60042B775 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				78EC227125DBC8CE0042B775 /* Accessory.swift */,
+				78286D8B25E5355B00F65511 /* PreviewData.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		78EC227025DBC8BB0042B775 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				78286D7625E5114600F65511 /* ActivityIndicator.swift */,
+				78EC226B25DBC2E40042B775 /* OpenHaystackMainView.swift */,
+				78486BEE25DD711E0007ED87 /* PopUpAlertView.swift */,
+				7899D1E025DE97E200115740 /* IconSelectionView.swift */,
+				7899D1E825DEBF4800115740 /* AccessoryMapAnnotation.swift */,
+				78286E0125E66F9400F65511 /* AccessoryListEntry.swift */,
+				7851F1DC25EE90FA0049480D /* AccessoryMapView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		78108B6B248E8FB50007E9C4 /* OFFetchReports */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 78108B7F248E8FB80007E9C4 /* Build configuration list for PBXNativeTarget "OFFetchReports" */;
+			buildPhases = (
+				78108B68248E8FB50007E9C4 /* Sources */,
+				78108B69248E8FB50007E9C4 /* Frameworks */,
+				78108B6A248E8FB50007E9C4 /* Resources */,
+				11A3D85124A8C623009BF754 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OFFetchReports;
+			packageProductDependencies = (
+				0211DBC02491203100ABB066 /* Crypto */,
+				F16BAA0C25E7DCFC00238183 /* NIOSSL */,
+			);
+			productName = OfflineFinder;
+			productReference = 78108B6C248E8FB50007E9C4 /* OFFetchReports.app */;
+			productType = "com.apple.product-type.application";
+		};
+		781EB3E425DAD7EA00FEAA19 /* OpenHaystack */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 781EB40525DAD7EA00FEAA19 /* Build configuration list for PBXNativeTarget "OpenHaystack" */;
+			buildPhases = (
+				781EB3E925DAD7EA00FEAA19 /* Sources */,
+				781EB3F625DAD7EA00FEAA19 /* Frameworks */,
+				781EB3FC25DAD7EA00FEAA19 /* Resources */,
+				78EC227325DBC9240042B775 /* SwiftLint */,
+				78286DC225E5669100F65511 /* Embed PlugIns */,
+				F14B2C7E25EFBB11002DC056 /* Set Version Number from Git */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				78286DC125E5669100F65511 /* PBXTargetDependency */,
+			);
+			name = OpenHaystack;
+			packageProductDependencies = (
+				781EB3E725DAD7EA00FEAA19 /* Crypto */,
+				F16BA9E825E7DB2D00238183 /* NIOSSL */,
+			);
+			productName = OfflineFinder;
+			productReference = 781EB40825DAD7EA00FEAA19 /* OpenHaystack.app */;
+			productType = "com.apple.product-type.application";
+		};
+		78286C8D25E3AC0400F65511 /* OpenHaystackMail */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 78286C9325E3AC0400F65511 /* Build configuration list for PBXNativeTarget "OpenHaystackMail" */;
+			buildPhases = (
+				78286C8A25E3AC0400F65511 /* Sources */,
+				78286C8B25E3AC0400F65511 /* Frameworks */,
+				78286C8C25E3AC0400F65511 /* Resources */,
+				78286CD825E3AF6900F65511 /* CopyFiles */,
+				F14B2C8B25EFC1BA002DC056 /* Set Version Number from Git */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpenHaystackMail;
+			productName = HaystackMail;
+			productReference = 78286C8E25E3AC0400F65511 /* OpenHaystackMail.mailbundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+		78EC226025DAE0BE0042B775 /* OpenHaystackTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 78EC226825DAE0BE0042B775 /* Build configuration list for PBXNativeTarget "OpenHaystackTests" */;
+			buildPhases = (
+				78EC225D25DAE0BE0042B775 /* Sources */,
+				78EC225E25DAE0BE0042B775 /* Frameworks */,
+				78EC225F25DAE0BE0042B775 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				78EC226725DAE0BE0042B775 /* PBXTargetDependency */,
+			);
+			name = OpenHaystackTests;
+			productName = FindMyTests;
+			productReference = 78EC226125DAE0BE0042B775 /* OpenHaystackTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		78108B64248E8FB50007E9C4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+				ORGANIZATIONNAME = "SEEMOO - TU Darmstadt";
+				TargetAttributes = {
+					78108B6B248E8FB50007E9C4 = {
+						CreatedOnToolsVersion = 11.5;
+						LastSwiftMigration = 1150;
+					};
+					78286C8D25E3AC0400F65511 = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					78EC226025DAE0BE0042B775 = {
+						CreatedOnToolsVersion = 12.5;
+						TestTargetID = 781EB3E425DAD7EA00FEAA19;
+					};
+					78F7253325ED02300039C718 = {
+						CreatedOnToolsVersion = 12.4;
+					};
+				};
+			};
+			buildConfigurationList = 78108B67248E8FB50007E9C4 /* Build configuration list for PBXProject "OpenHaystack" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 78108B63248E8FB50007E9C4;
+			packageReferences = (
+				0211DBBF2491203100ABB066 /* XCRemoteSwiftPackageReference "swift-crypto" */,
+				F16BA9E725E7DB2D00238183 /* XCRemoteSwiftPackageReference "swift-nio-ssl" */,
+			);
+			productRefGroup = 78108B6D248E8FB50007E9C4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				781EB3E425DAD7EA00FEAA19 /* OpenHaystack */,
+				78286C8D25E3AC0400F65511 /* OpenHaystackMail */,
+				78EC226025DAE0BE0042B775 /* OpenHaystackTests */,
+				78108B6B248E8FB50007E9C4 /* OFFetchReports */,
+				78F7253325ED02300039C718 /* Run OFFetchReports */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		78108B6A248E8FB50007E9C4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78108B7A248E8FB80007E9C4 /* Main.storyboard in Resources */,
+				0211DBC5249135D600ABB066 /* MapViewController.xib in Resources */,
+				78108B77248E8FB80007E9C4 /* Preview Assets.xcassets in Resources */,
+				78108B74248E8FB80007E9C4 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		781EB3FC25DAD7EA00FEAA19 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				781EB3FD25DAD7EA00FEAA19 /* Main.storyboard in Resources */,
+				7899D1D625DE74EE00115740 /* firmware.bin in Resources */,
+				781EB3FE25DAD7EA00FEAA19 /* MapViewController.xib in Resources */,
+				78EC227525DBCCA00042B775 /* .swiftlint.yml in Resources */,
+				781EB40025DAD7EA00FEAA19 /* Preview Assets.xcassets in Resources */,
+				781EB40225DAD7EA00FEAA19 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78286C8C25E3AC0400F65511 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78EC225F25DAE0BE0042B775 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78486BF425DD7AD90007ED87 /* sampleKeys.plist in Resources */,
+				78486C0A25DDCC610007ED87 /* offline-finding.bin in Resources */,
+				78014A2B25DC22120089F6D9 /* sample.bin in Resources */,
+				78014A2F25DC2F100089F6D9 /* pattern_sample.bin in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		78EC227325DBC9240042B775 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint autocorrect && swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		78F7253D25ED02390039C718 /* Codesign Offline Finder with Entitlements */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Codesign Offline Finder with Entitlements";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#bin/sh\nidentities=$(security find-identity -p codesigning -v)\n#echo \"${identities}\"\npat=' ([0-9ABCDEF]+) '\n[[ $identities =~ $pat ]]\n# Can be set to a codesign identity manually\nIDT=\"${BASH_REMATCH[1]}\"\nif [ -z ${IDT+x} ]; then\n    echo \"error: Please set the codesigning identity above. \\nThe identity can be found with $ security find-identities -v -p codesigning\"\nelse\n    codesign --entitlements ${SRCROOT}/OpenHaystack/OfflineFinder.entitlements -fs ${IDT} ${TARGET_BUILD_DIR}/OfflineFinder.app/Contents/MacOS/OfflineFinder\n    echo \"warning: This app will only run on macOS systems with SIP & AMFI disabled. This should only be done on dedicated test systems\"\nfi\n";
+		};
+		F14B2C7E25EFBB11002DC056 /* Set Version Number from Git */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Set Version Number from Git";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "GIT_RELEASE_VERSION=$(git describe --tags --always --dirty)\nCOMMITS=$(git rev-list HEAD | wc -l)\nCOMMITS=$(($COMMITS))\ndefaults write \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH%.*}\" \"CFBundleShortVersionString\" \"${GIT_RELEASE_VERSION#*v}\"\ndefaults write \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH%.*}\" \"CFBundleVersion\" \"${COMMITS}\"\n";
+		};
+		F14B2C8B25EFC1BA002DC056 /* Set Version Number from Git */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Set Version Number from Git";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "GIT_RELEASE_VERSION=$(git describe --tags --always --dirty)\nCOMMITS=$(git rev-list HEAD | wc -l)\nCOMMITS=$(($COMMITS))\ndefaults write \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH%.*}\" \"CFBundleShortVersionString\" \"${GIT_RELEASE_VERSION#*v}\"\ndefaults write \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH%.*}\" \"CFBundleVersion\" \"${COMMITS}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		78108B68248E8FB50007E9C4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78108B85248E8FDD0007E9C4 /* ReportsFetcher.m in Sources */,
+				116B4EED24A913AA007BA636 /* SavePanel.swift in Sources */,
+				F14B2C1425EFA7A5002DC056 /* MapViewController.swift in Sources */,
+				025DFEDC248FED250039C718 /* DecryptReports.swift in Sources */,
+				78108B72248E8FB50007E9C4 /* OFFetchReportsMainView.swift in Sources */,
+				0211DBC724913A8D00ABB066 /* MapView.swift in Sources */,
+				7867874824A651C600199B09 /* FindMyKeyDecoder.swift in Sources */,
+				78108B70248E8FB50007E9C4 /* AppDelegate.swift in Sources */,
+				78108B8F248F70D40007E9C4 /* Models.swift in Sources */,
+				78108B91248F72AF0007E9C4 /* FindMyController.swift in Sources */,
+				F14B2BFE25EFA69B002DC056 /* AnisetteDataManager.swift in Sources */,
+				024D98492490CE320063EBB6 /* BoringSSL.m in Sources */,
+				F14B2C0725EFA730002DC056 /* ALTAnisetteData.m in Sources */,
+				F14B2C1925EFA7AB002DC056 /* Accessory.swift in Sources */,
+				F14B2C1E25EFA7BA002DC056 /* AccessoryMapAnnotation.swift in Sources */,
+				F14B2C2325EFA7C7002DC056 /* AppleAccountData.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		781EB3E925DAD7EA00FEAA19 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				781EB43125DADF2B00FEAA19 /* AnisetteDataManager.swift in Sources */,
+				7851F1DD25EE90FA0049480D /* AccessoryMapView.swift in Sources */,
+				7899D1E925DEBF4900115740 /* AccessoryMapAnnotation.swift in Sources */,
+				781EB3EA25DAD7EA00FEAA19 /* ReportsFetcher.m in Sources */,
+				78286D2F25E3ECDF00F65511 /* AppleAccountData.m in Sources */,
+				78286D8C25E5355B00F65511 /* PreviewData.swift in Sources */,
+				781EB3EB25DAD7EA00FEAA19 /* SavePanel.swift in Sources */,
+				7899D1E125DE97E200115740 /* IconSelectionView.swift in Sources */,
+				78EC227725DBDB7E0042B775 /* KeychainController.swift in Sources */,
+				78486BEF25DD711E0007ED87 /* PopUpAlertView.swift in Sources */,
+				78014A2925DC08580089F6D9 /* MicrobitController.swift in Sources */,
+				78286D1F25E3D8B800F65511 /* ALTAnisetteData.m in Sources */,
+				781EB3EC25DAD7EA00FEAA19 /* DecryptReports.swift in Sources */,
+				78EC226C25DBC2E40042B775 /* OpenHaystackMainView.swift in Sources */,
+				78EC227225DBC8CE0042B775 /* Accessory.swift in Sources */,
+				78286E0225E66F9400F65511 /* AccessoryListEntry.swift in Sources */,
+				781EB3EE25DAD7EA00FEAA19 /* OFFetchReportsMainView.swift in Sources */,
+				781EB3EF25DAD7EA00FEAA19 /* MapViewController.swift in Sources */,
+				78286D7725E5114600F65511 /* ActivityIndicator.swift in Sources */,
+				781EB3F025DAD7EA00FEAA19 /* MapView.swift in Sources */,
+				781EB3F125DAD7EA00FEAA19 /* FindMyKeyDecoder.swift in Sources */,
+				787D8AC125DECD3C00148766 /* AccessoryController.swift in Sources */,
+				781EB3F225DAD7EA00FEAA19 /* AppDelegate.swift in Sources */,
+				781EB3F325DAD7EA00FEAA19 /* Models.swift in Sources */,
+				781EB3F425DAD7EA00FEAA19 /* FindMyController.swift in Sources */,
+				781EB3F525DAD7EA00FEAA19 /* BoringSSL.m in Sources */,
+				78286D5625E401F000F65511 /* MailPluginManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78286C8A25E3AC0400F65511 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78286D2A25E3EC3200F65511 /* AppleAccountData.m in Sources */,
+				78286CB225E3ACE700F65511 /* OpenHaystackPluginService.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		78EC225D25DAE0BE0042B775 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78EC226425DAE0BE0042B775 /* OpenHaystackTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		78286DC125E5669100F65511 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 78286C8D25E3AC0400F65511 /* OpenHaystackMail */;
+			targetProxy = 78286DC025E5669100F65511 /* PBXContainerItemProxy */;
+		};
+		78EC226725DAE0BE0042B775 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 781EB3E425DAD7EA00FEAA19 /* OpenHaystack */;
+			targetProxy = 78EC226625DAE0BE0042B775 /* PBXContainerItemProxy */;
+		};
+		78F7253C25ED02350039C718 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 78108B6B248E8FB50007E9C4 /* OFFetchReports */;
+			targetProxy = 78F7253B25ED02350039C718 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		78108B78248E8FB80007E9C4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				78108B79248E8FB80007E9C4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		78108B7D248E8FB80007E9C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		78108B7E248E8FB80007E9C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		78108B80248E8FB80007E9C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"OpenHaystack/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = OpenHaystack/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				OTHER_CFLAGS = "-DAUTHKIT";
+				OTHER_SWIFT_FLAGS = "-DAUTHKIT";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.tu-darmstadt.seemoo.OfflineFinder";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "OpenHaystack-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+				);
+			};
+			name = Debug;
+		};
+		78108B81248E8FB80007E9C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"OpenHaystack/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = OpenHaystack/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				OTHER_CFLAGS = "-DAUTHKIT";
+				OTHER_SWIFT_FLAGS = "-DAUTHKIT";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.tu-darmstadt.seemoo.OfflineFinder";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "OpenHaystack-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+				);
+			};
+			name = Release;
+		};
+		781EB40625DAD7EA00FEAA19 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"OpenHaystack/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = "arm64e arm64";
+				INFOPLIST_FILE = OpenHaystack/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				OTHER_CFLAGS = (
+					"-DACCESSORY",
+					"-DAUTHKIT",
+				);
+				OTHER_SWIFT_FLAGS = "-DACCESSORY";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.tu-darmstadt.seemoo.OpenHaystack";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "OpenHaystack-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		781EB40725DAD7EA00FEAA19 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"OpenHaystack/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_PREVIEWS = YES;
+				EXCLUDED_ARCHS = "arm64e arm64";
+				INFOPLIST_FILE = OpenHaystack/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				OTHER_CFLAGS = (
+					"-DACCESSORY",
+					"-DAUTHKIT",
+				);
+				OTHER_SWIFT_FLAGS = "-DACCESSORY";
+				PRODUCT_BUNDLE_IDENTIFIER = "de.tu-darmstadt.seemoo.OpenHaystack";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "OpenHaystack-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		78286C9125E3AC0400F65511 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = OpenHaystackMail/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.tu-darmstadt.seemoo.OpenHaystackMail";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				WRAPPER_EXTENSION = mailbundle;
+			};
+			name = Debug;
+		};
+		78286C9225E3AC0400F65511 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = OpenHaystackMail/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.tu-darmstadt.seemoo.OpenHaystackMail";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				WRAPPER_EXTENSION = mailbundle;
+			};
+			name = Release;
+		};
+		78EC226925DAE0BE0042B775 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = OpenHaystackTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.tu-darmstadt.seemoo.OpenHaystackTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenHaystack.app/Contents/MacOS/OpenHaystack";
+			};
+			name = Debug;
+		};
+		78EC226A25DAE0BE0042B775 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = OpenHaystackTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				PRODUCT_BUNDLE_IDENTIFIER = "de.tu-darmstadt.seemoo.OpenHaystackTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenHaystack.app/Contents/MacOS/OpenHaystack";
+			};
+			name = Release;
+		};
+		78F7253425ED02300039C718 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = H9XHQ4WHSF;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		78F7253525ED02300039C718 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = H9XHQ4WHSF;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		78108B67248E8FB50007E9C4 /* Build configuration list for PBXProject "OpenHaystack" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				78108B7D248E8FB80007E9C4 /* Debug */,
+				78108B7E248E8FB80007E9C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		78108B7F248E8FB80007E9C4 /* Build configuration list for PBXNativeTarget "OFFetchReports" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				78108B80248E8FB80007E9C4 /* Debug */,
+				78108B81248E8FB80007E9C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		781EB40525DAD7EA00FEAA19 /* Build configuration list for PBXNativeTarget "OpenHaystack" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				781EB40625DAD7EA00FEAA19 /* Debug */,
+				781EB40725DAD7EA00FEAA19 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		78286C9325E3AC0400F65511 /* Build configuration list for PBXNativeTarget "OpenHaystackMail" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				78286C9125E3AC0400F65511 /* Debug */,
+				78286C9225E3AC0400F65511 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		78EC226825DAE0BE0042B775 /* Build configuration list for PBXNativeTarget "OpenHaystackTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				78EC226925DAE0BE0042B775 /* Debug */,
+				78EC226A25DAE0BE0042B775 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		78F7253625ED02300039C718 /* Build configuration list for PBXAggregateTarget "Run OFFetchReports" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				78F7253425ED02300039C718 /* Debug */,
+				78F7253525ED02300039C718 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0211DBBF2491203100ABB066 /* XCRemoteSwiftPackageReference "swift-crypto" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-crypto.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.2;
+			};
+		};
+		781EB3E825DAD7EA00FEAA19 /* XCRemoteSwiftPackageReference "swift-crypto" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-crypto.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.2;
+			};
+		};
+		F16BA9E725E7DB2D00238183 /* XCRemoteSwiftPackageReference "swift-nio-ssl" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-nio-ssl";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.10.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0211DBC02491203100ABB066 /* Crypto */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0211DBBF2491203100ABB066 /* XCRemoteSwiftPackageReference "swift-crypto" */;
+			productName = Crypto;
+		};
+		781EB3E725DAD7EA00FEAA19 /* Crypto */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 781EB3E825DAD7EA00FEAA19 /* XCRemoteSwiftPackageReference "swift-crypto" */;
+			productName = Crypto;
+		};
+		F16BA9E825E7DB2D00238183 /* NIOSSL */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F16BA9E725E7DB2D00238183 /* XCRemoteSwiftPackageReference "swift-nio-ssl" */;
+			productName = NIOSSL;
+		};
+		F16BAA0C25E7DCFC00238183 /* NIOSSL */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F16BA9E725E7DB2D00238183 /* XCRemoteSwiftPackageReference "swift-nio-ssl" */;
+			productName = NIOSSL;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 78108B64248E8FB50007E9C4 /* Project object */;
+}
