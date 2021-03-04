@@ -3,50 +3,17 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 52;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		78F7253325ED02300039C718 /* Run OFFetchReports */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 78F7253625ED02300039C718 /* Build configuration list for PBXAggregateTarget "Run OFFetchReports" */;
-			buildPhases = (
-				78F7253D25ED02390039C718 /* Codesign Offline Finder with Entitlements */,
-			);
-			dependencies = (
-				78F7253C25ED02350039C718 /* PBXTargetDependency */,
-			);
-			name = "Run OFFetchReports";
-			productName = "Create OfflineFinder";
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
-		0211DBC12491203100ABB066 /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 0211DBC02491203100ABB066 /* Crypto */; };
-		0211DBC5249135D600ABB066 /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0211DBC3249135D600ABB066 /* MapViewController.xib */; };
-		0211DBC724913A8D00ABB066 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0211DBC624913A8D00ABB066 /* MapView.swift */; };
-		022253BA24E293B8006DF2B3 /* AuthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0298C0C8248F9506003928FE /* AuthKit.framework */; };
-		022253BB24E293B8006DF2B3 /* AuthKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0298C0C8248F9506003928FE /* AuthKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		024D98492490CE320063EBB6 /* BoringSSL.m in Sources */ = {isa = PBXBuildFile; fileRef = 024D98482490CE320063EBB6 /* BoringSSL.m */; };
-		025DFEDC248FED250039C718 /* DecryptReports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025DFEDB248FED250039C718 /* DecryptReports.swift */; };
-		116B4EED24A913AA007BA636 /* SavePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116B4EEC24A913AA007BA636 /* SavePanel.swift */; };
 		78014A2925DC08580089F6D9 /* MicrobitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78014A2725DC01220089F6D9 /* MicrobitController.swift */; };
 		78014A2B25DC22120089F6D9 /* sample.bin in Resources */ = {isa = PBXBuildFile; fileRef = 78014A2A25DC22110089F6D9 /* sample.bin */; };
 		78014A2F25DC2F100089F6D9 /* pattern_sample.bin in Resources */ = {isa = PBXBuildFile; fileRef = 78014A2E25DC2F100089F6D9 /* pattern_sample.bin */; };
-		78108B70248E8FB50007E9C4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78108B6F248E8FB50007E9C4 /* AppDelegate.swift */; };
-		78108B72248E8FB50007E9C4 /* OFFetchReportsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78108B71248E8FB50007E9C4 /* OFFetchReportsMainView.swift */; };
-		78108B74248E8FB80007E9C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78108B73248E8FB80007E9C4 /* Assets.xcassets */; };
-		78108B77248E8FB80007E9C4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78108B76248E8FB80007E9C4 /* Preview Assets.xcassets */; };
-		78108B7A248E8FB80007E9C4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78108B78248E8FB80007E9C4 /* Main.storyboard */; };
-		78108B85248E8FDD0007E9C4 /* ReportsFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 78108B84248E8FDD0007E9C4 /* ReportsFetcher.m */; };
-		78108B8F248F70D40007E9C4 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78108B8E248F70D40007E9C4 /* Models.swift */; };
-		78108B91248F72AF0007E9C4 /* FindMyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78108B90248F72AF0007E9C4 /* FindMyController.swift */; };
 		781EB3EA25DAD7EA00FEAA19 /* ReportsFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 78108B84248E8FDD0007E9C4 /* ReportsFetcher.m */; };
 		781EB3EB25DAD7EA00FEAA19 /* SavePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116B4EEC24A913AA007BA636 /* SavePanel.swift */; };
 		781EB3EC25DAD7EA00FEAA19 /* DecryptReports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025DFEDB248FED250039C718 /* DecryptReports.swift */; };
-		781EB3EE25DAD7EA00FEAA19 /* OFFetchReportsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78108B71248E8FB50007E9C4 /* OFFetchReportsMainView.swift */; };
 		781EB3EF25DAD7EA00FEAA19 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0211DBC2249135D600ABB066 /* MapViewController.swift */; };
-		781EB3F025DAD7EA00FEAA19 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0211DBC624913A8D00ABB066 /* MapView.swift */; };
 		781EB3F125DAD7EA00FEAA19 /* FindMyKeyDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7867874724A651C600199B09 /* FindMyKeyDecoder.swift */; };
 		781EB3F225DAD7EA00FEAA19 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78108B6F248E8FB50007E9C4 /* AppDelegate.swift */; };
 		781EB3F325DAD7EA00FEAA19 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78108B8E248F70D40007E9C4 /* Models.swift */; };
@@ -71,7 +38,6 @@
 		78486BF425DD7AD90007ED87 /* sampleKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78486BF325DD7AD90007ED87 /* sampleKeys.plist */; };
 		78486C0A25DDCC610007ED87 /* offline-finding.bin in Resources */ = {isa = PBXBuildFile; fileRef = 78486C0925DDCC610007ED87 /* offline-finding.bin */; };
 		7851F1DD25EE90FA0049480D /* AccessoryMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7851F1DC25EE90FA0049480D /* AccessoryMapView.swift */; };
-		7867874824A651C600199B09 /* FindMyKeyDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7867874724A651C600199B09 /* FindMyKeyDecoder.swift */; };
 		787D8AC125DECD3C00148766 /* AccessoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787D8AC025DECD3C00148766 /* AccessoryController.swift */; };
 		7899D1D625DE74EE00115740 /* firmware.bin in Resources */ = {isa = PBXBuildFile; fileRef = 7899D1D525DE74EE00115740 /* firmware.bin */; };
 		7899D1E125DE97E200115740 /* IconSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7899D1E025DE97E200115740 /* IconSelectionView.swift */; };
@@ -81,14 +47,7 @@
 		78EC227225DBC8CE0042B775 /* Accessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC227125DBC8CE0042B775 /* Accessory.swift */; };
 		78EC227525DBCCA00042B775 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 78EC227425DBCCA00042B775 /* .swiftlint.yml */; };
 		78EC227725DBDB7E0042B775 /* KeychainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC227625DBDB7E0042B775 /* KeychainController.swift */; };
-		F14B2BFE25EFA69B002DC056 /* AnisetteDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781EB40F25DADB0600FEAA19 /* AnisetteDataManager.swift */; };
-		F14B2C0725EFA730002DC056 /* ALTAnisetteData.m in Sources */ = {isa = PBXBuildFile; fileRef = 78286CB025E3ACE700F65511 /* ALTAnisetteData.m */; };
-		F14B2C1425EFA7A5002DC056 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0211DBC2249135D600ABB066 /* MapViewController.swift */; };
-		F14B2C1925EFA7AB002DC056 /* Accessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC227125DBC8CE0042B775 /* Accessory.swift */; };
-		F14B2C1E25EFA7BA002DC056 /* AccessoryMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7899D1E825DEBF4800115740 /* AccessoryMapAnnotation.swift */; };
-		F14B2C2325EFA7C7002DC056 /* AppleAccountData.m in Sources */ = {isa = PBXBuildFile; fileRef = 78286D2925E3EC3200F65511 /* AppleAccountData.m */; };
 		F16BA9E925E7DB2D00238183 /* NIOSSL in Frameworks */ = {isa = PBXBuildFile; productRef = F16BA9E825E7DB2D00238183 /* NIOSSL */; };
-		F16BAA0D25E7DCFC00238183 /* NIOSSL in Frameworks */ = {isa = PBXBuildFile; productRef = F16BAA0C25E7DCFC00238183 /* NIOSSL */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,27 +65,9 @@
 			remoteGlobalIDString = 781EB3E425DAD7EA00FEAA19;
 			remoteInfo = FindMyAccessory;
 		};
-		78F7253B25ED02350039C718 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 78108B64248E8FB50007E9C4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 78108B6B248E8FB50007E9C4;
-			remoteInfo = OfflineFinder;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		11A3D85124A8C623009BF754 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				022253BB24E293B8006DF2B3 /* AuthKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		78286CD825E3AF6900F65511 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -152,7 +93,6 @@
 /* Begin PBXFileReference section */
 		0211DBC2249135D600ABB066 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		0211DBC3249135D600ABB066 /* MapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
-		0211DBC624913A8D00ABB066 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		024D98472490CE320063EBB6 /* BoringSSL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoringSSL.h; sourceTree = "<group>"; };
 		024D98482490CE320063EBB6 /* BoringSSL.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoringSSL.m; sourceTree = "<group>"; };
 		025DFEDB248FED250039C718 /* DecryptReports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecryptReports.swift; sourceTree = "<group>"; };
@@ -162,9 +102,7 @@
 		78014A2725DC01220089F6D9 /* MicrobitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrobitController.swift; sourceTree = "<group>"; };
 		78014A2A25DC22110089F6D9 /* sample.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = sample.bin; sourceTree = "<group>"; };
 		78014A2E25DC2F100089F6D9 /* pattern_sample.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = pattern_sample.bin; sourceTree = "<group>"; };
-		78108B6C248E8FB50007E9C4 /* OFFetchReports.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OFFetchReports.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78108B6F248E8FB50007E9C4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		78108B71248E8FB50007E9C4 /* OFFetchReportsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OFFetchReportsMainView.swift; sourceTree = "<group>"; };
 		78108B73248E8FB80007E9C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		78108B76248E8FB80007E9C4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		78108B79248E8FB80007E9C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -208,16 +146,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		78108B69248E8FB50007E9C4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0211DBC12491203100ABB066 /* Crypto in Frameworks */,
-				022253BA24E293B8006DF2B3 /* AuthKit.framework in Frameworks */,
-				F16BAA0D25E7DCFC00238183 /* NIOSSL in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		781EB3F625DAD7EA00FEAA19 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -270,7 +198,6 @@
 		78108B6D248E8FB50007E9C4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				78108B6C248E8FB50007E9C4 /* OFFetchReports.app */,
 				781EB40825DAD7EA00FEAA19 /* OpenHaystack.app */,
 				78EC226125DAE0BE0042B775 /* OpenHaystackTests.xctest */,
 				78286C8E25E3AC0400F65511 /* OpenHaystackMail.mailbundle */,
@@ -283,7 +210,6 @@
 			children = (
 				024D98402490CD7F0063EBB6 /* BoringSSL */,
 				78108B8D248F70CC0007E9C4 /* FindMy */,
-				7851F1D725EE90B20049480D /* OFFetchReports */,
 				78108B87248E8FF10007E9C4 /* ReportsFetcher */,
 				78EC226E25DBC2FC0042B775 /* HaystackApp */,
 				781EB40F25DADB0600FEAA19 /* AnisetteDataManager.swift */,
@@ -358,15 +284,6 @@
 			path = "Mail Plugin";
 			sourceTree = "<group>";
 		};
-		7851F1D725EE90B20049480D /* OFFetchReports */ = {
-			isa = PBXGroup;
-			children = (
-				0211DBC624913A8D00ABB066 /* MapView.swift */,
-				78108B71248E8FB50007E9C4 /* OFFetchReportsMainView.swift */,
-			);
-			path = OFFetchReports;
-			sourceTree = "<group>";
-		};
 		78EC226225DAE0BE0042B775 /* OpenHaystackTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -420,28 +337,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		78108B6B248E8FB50007E9C4 /* OFFetchReports */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 78108B7F248E8FB80007E9C4 /* Build configuration list for PBXNativeTarget "OFFetchReports" */;
-			buildPhases = (
-				78108B68248E8FB50007E9C4 /* Sources */,
-				78108B69248E8FB50007E9C4 /* Frameworks */,
-				78108B6A248E8FB50007E9C4 /* Resources */,
-				11A3D85124A8C623009BF754 /* Embed Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = OFFetchReports;
-			packageProductDependencies = (
-				0211DBC02491203100ABB066 /* Crypto */,
-				F16BAA0C25E7DCFC00238183 /* NIOSSL */,
-			);
-			productName = OfflineFinder;
-			productReference = 78108B6C248E8FB50007E9C4 /* OFFetchReports.app */;
-			productType = "com.apple.product-type.application";
-		};
 		781EB3E425DAD7EA00FEAA19 /* OpenHaystack */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 781EB40525DAD7EA00FEAA19 /* Build configuration list for PBXNativeTarget "OpenHaystack" */;
@@ -514,19 +409,12 @@
 				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "SEEMOO - TU Darmstadt";
 				TargetAttributes = {
-					78108B6B248E8FB50007E9C4 = {
-						CreatedOnToolsVersion = 11.5;
-						LastSwiftMigration = 1150;
-					};
 					78286C8D25E3AC0400F65511 = {
 						CreatedOnToolsVersion = 12.4;
 					};
 					78EC226025DAE0BE0042B775 = {
 						CreatedOnToolsVersion = 12.5;
 						TestTargetID = 781EB3E425DAD7EA00FEAA19;
-					};
-					78F7253325ED02300039C718 = {
-						CreatedOnToolsVersion = 12.4;
 					};
 				};
 			};
@@ -550,24 +438,11 @@
 				781EB3E425DAD7EA00FEAA19 /* OpenHaystack */,
 				78286C8D25E3AC0400F65511 /* OpenHaystackMail */,
 				78EC226025DAE0BE0042B775 /* OpenHaystackTests */,
-				78108B6B248E8FB50007E9C4 /* OFFetchReports */,
-				78F7253325ED02300039C718 /* Run OFFetchReports */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		78108B6A248E8FB50007E9C4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				78108B7A248E8FB80007E9C4 /* Main.storyboard in Resources */,
-				0211DBC5249135D600ABB066 /* MapViewController.xib in Resources */,
-				78108B77248E8FB80007E9C4 /* Preview Assets.xcassets in Resources */,
-				78108B74248E8FB80007E9C4 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		781EB3FC25DAD7EA00FEAA19 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -620,25 +495,6 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint autocorrect && swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
-		78F7253D25ED02390039C718 /* Codesign Offline Finder with Entitlements */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Codesign Offline Finder with Entitlements";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#bin/sh\nidentities=$(security find-identity -p codesigning -v)\n#echo \"${identities}\"\npat=' ([0-9ABCDEF]+) '\n[[ $identities =~ $pat ]]\n# Can be set to a codesign identity manually\nIDT=\"${BASH_REMATCH[1]}\"\nif [ -z ${IDT+x} ]; then\n    echo \"error: Please set the codesigning identity above. \\nThe identity can be found with $ security find-identities -v -p codesigning\"\nelse\n    codesign --entitlements ${SRCROOT}/OpenHaystack/OfflineFinder.entitlements -fs ${IDT} ${TARGET_BUILD_DIR}/OFFetchReports.app/Contents/MacOS/OFFetchReports\n    echo \"warning: This app will only run on macOS systems with SIP & AMFI disabled. This should only be done on dedicated test systems\"\nfi\n";
-		};
 		F14B2C7E25EFBB11002DC056 /* Set Version Number from Git */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -678,29 +534,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		78108B68248E8FB50007E9C4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				78108B85248E8FDD0007E9C4 /* ReportsFetcher.m in Sources */,
-				116B4EED24A913AA007BA636 /* SavePanel.swift in Sources */,
-				F14B2C1425EFA7A5002DC056 /* MapViewController.swift in Sources */,
-				025DFEDC248FED250039C718 /* DecryptReports.swift in Sources */,
-				78108B72248E8FB50007E9C4 /* OFFetchReportsMainView.swift in Sources */,
-				0211DBC724913A8D00ABB066 /* MapView.swift in Sources */,
-				7867874824A651C600199B09 /* FindMyKeyDecoder.swift in Sources */,
-				78108B70248E8FB50007E9C4 /* AppDelegate.swift in Sources */,
-				78108B8F248F70D40007E9C4 /* Models.swift in Sources */,
-				78108B91248F72AF0007E9C4 /* FindMyController.swift in Sources */,
-				F14B2BFE25EFA69B002DC056 /* AnisetteDataManager.swift in Sources */,
-				024D98492490CE320063EBB6 /* BoringSSL.m in Sources */,
-				F14B2C0725EFA730002DC056 /* ALTAnisetteData.m in Sources */,
-				F14B2C1925EFA7AB002DC056 /* Accessory.swift in Sources */,
-				F14B2C1E25EFA7BA002DC056 /* AccessoryMapAnnotation.swift in Sources */,
-				F14B2C2325EFA7C7002DC056 /* AppleAccountData.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		781EB3E925DAD7EA00FEAA19 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -721,10 +554,8 @@
 				78EC226C25DBC2E40042B775 /* OpenHaystackMainView.swift in Sources */,
 				78EC227225DBC8CE0042B775 /* Accessory.swift in Sources */,
 				78286E0225E66F9400F65511 /* AccessoryListEntry.swift in Sources */,
-				781EB3EE25DAD7EA00FEAA19 /* OFFetchReportsMainView.swift in Sources */,
 				781EB3EF25DAD7EA00FEAA19 /* MapViewController.swift in Sources */,
 				78286D7725E5114600F65511 /* ActivityIndicator.swift in Sources */,
-				781EB3F025DAD7EA00FEAA19 /* MapView.swift in Sources */,
 				781EB3F125DAD7EA00FEAA19 /* FindMyKeyDecoder.swift in Sources */,
 				787D8AC125DECD3C00148766 /* AccessoryController.swift in Sources */,
 				781EB3F225DAD7EA00FEAA19 /* AppDelegate.swift in Sources */,
@@ -764,11 +595,6 @@
 			isa = PBXTargetDependency;
 			target = 781EB3E425DAD7EA00FEAA19 /* OpenHaystack */;
 			targetProxy = 78EC226625DAE0BE0042B775 /* PBXContainerItemProxy */;
-		};
-		78F7253C25ED02350039C718 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 78108B6B248E8FB50007E9C4 /* OFFetchReports */;
-			targetProxy = 78F7253B25ED02350039C718 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -896,70 +722,6 @@
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-			};
-			name = Release;
-		};
-		78108B80248E8FB80007E9C4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Manual;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"OpenHaystack/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				ENABLE_HARDENED_RUNTIME = NO;
-				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = OpenHaystack/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				OTHER_CFLAGS = "-DAUTHKIT";
-				OTHER_SWIFT_FLAGS = "-DAUTHKIT";
-				PRODUCT_BUNDLE_IDENTIFIER = "de.tu-darmstadt.seemoo.OfflineFinder";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "OpenHaystack-Bridging-Header.h";
-				SWIFT_VERSION = 5.0;
-				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
-				);
-			};
-			name = Debug;
-		};
-		78108B81248E8FB80007E9C4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Manual;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"OpenHaystack/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				ENABLE_HARDENED_RUNTIME = NO;
-				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = OpenHaystack/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				OTHER_CFLAGS = "-DAUTHKIT";
-				OTHER_SWIFT_FLAGS = "-DAUTHKIT";
-				PRODUCT_BUNDLE_IDENTIFIER = "de.tu-darmstadt.seemoo.OfflineFinder";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "OpenHaystack-Bridging-Header.h";
-				SWIFT_VERSION = 5.0;
-				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
-				);
 			};
 			name = Release;
 		};
@@ -1111,24 +873,6 @@
 			};
 			name = Release;
 		};
-		78F7253425ED02300039C718 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = H9XHQ4WHSF;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		78F7253525ED02300039C718 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = H9XHQ4WHSF;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1137,15 +881,6 @@
 			buildConfigurations = (
 				78108B7D248E8FB80007E9C4 /* Debug */,
 				78108B7E248E8FB80007E9C4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		78108B7F248E8FB80007E9C4 /* Build configuration list for PBXNativeTarget "OFFetchReports" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				78108B80248E8FB80007E9C4 /* Debug */,
-				78108B81248E8FB80007E9C4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1173,15 +908,6 @@
 			buildConfigurations = (
 				78EC226925DAE0BE0042B775 /* Debug */,
 				78EC226A25DAE0BE0042B775 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		78F7253625ED02300039C718 /* Build configuration list for PBXAggregateTarget "Run OFFetchReports" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				78F7253425ED02300039C718 /* Debug */,
-				78F7253525ED02300039C718 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1216,22 +942,12 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0211DBC02491203100ABB066 /* Crypto */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0211DBBF2491203100ABB066 /* XCRemoteSwiftPackageReference "swift-crypto" */;
-			productName = Crypto;
-		};
 		781EB3E725DAD7EA00FEAA19 /* Crypto */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 781EB3E825DAD7EA00FEAA19 /* XCRemoteSwiftPackageReference "swift-crypto" */;
 			productName = Crypto;
 		};
 		F16BA9E825E7DB2D00238183 /* NIOSSL */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F16BA9E725E7DB2D00238183 /* XCRemoteSwiftPackageReference "swift-nio-ssl" */;
-			productName = NIOSSL;
-		};
-		F16BAA0C25E7DCFC00238183 /* NIOSSL */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F16BA9E725E7DB2D00238183 /* XCRemoteSwiftPackageReference "swift-nio-ssl" */;
 			productName = NIOSSL;

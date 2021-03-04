@@ -43,7 +43,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"Machine ID: %@\nOne-Time Password: %@\nLocal User ID: %@\nRouting Info: %@\nDevice UDID: %@\nDevice Serial Number: %@\nDevice Description: %@\nDate: %@\nLocale: %@\nTime Zone: %@ Search Party token %@",
+    return [NSString stringWithFormat:@"Machine ID: %@\nOne-Time Password: %@\nLocal User ID: %@\nRouting Info: %@\nDevice UDID: %@\nDevice Serial Number: %@\nDevice Description: %@\nDate: %@\nLocale: %@\nTime Zone: %@ ",
             self.machineID, self.oneTimePassword, self.localUserID, @(self.routingInfo), self.deviceUniqueIdentifier, self.deviceSerialNumber, self.deviceDescription, self.date, self.locale.localeIdentifier, self.timeZone];
 }
 

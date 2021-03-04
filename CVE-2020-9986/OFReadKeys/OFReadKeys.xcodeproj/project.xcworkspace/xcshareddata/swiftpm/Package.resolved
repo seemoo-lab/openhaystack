@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "swift-crypto",
+        "repositoryURL": "https://github.com/apple/swift-crypto.git",
+        "state": {
+          "branch": null,
+          "revision": "296d3308b4b2fa355cfe0de4ca411bf7a1cd8cf8",
+          "version": "1.1.4"
+        }
+      },
+      {
+        "package": "swift-nio",
+        "repositoryURL": "https://github.com/apple/swift-nio.git",
+        "state": {
+          "branch": null,
+          "revision": "6d3ca7e54e06a69d0f2612c2ce8bb8b7319085a4",
+          "version": "2.26.0"
+        }
+      },
+      {
+        "package": "swift-nio-ssl",
+        "repositoryURL": "https://github.com/apple/swift-nio-ssl",
+        "state": {
+          "branch": null,
+          "revision": "bbb38fbcbbe9dc4665b2c638dfa5681b01079bfb",
+          "version": "2.10.4"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
