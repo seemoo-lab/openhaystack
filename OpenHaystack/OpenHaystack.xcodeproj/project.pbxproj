@@ -97,7 +97,6 @@
 		024D98482490CE320063EBB6 /* BoringSSL.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BoringSSL.m; sourceTree = "<group>"; };
 		025DFEDB248FED250039C718 /* DecryptReports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecryptReports.swift; sourceTree = "<group>"; };
 		0298C0C8248F9506003928FE /* AuthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthKit.framework; path = ../../../../../../../../../../System/Library/PrivateFrameworks/AuthKit.framework; sourceTree = "<group>"; };
-		0298C0CC248FA9BB003928FE /* OfflineFinder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OfflineFinder.entitlements; sourceTree = "<group>"; };
 		116B4EEC24A913AA007BA636 /* SavePanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavePanel.swift; sourceTree = "<group>"; };
 		78014A2725DC01220089F6D9 /* MicrobitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrobitController.swift; sourceTree = "<group>"; };
 		78014A2A25DC22110089F6D9 /* sample.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = sample.bin; sourceTree = "<group>"; };
@@ -220,7 +219,6 @@
 				78108B73248E8FB80007E9C4 /* Assets.xcassets */,
 				78108B78248E8FB80007E9C4 /* Main.storyboard */,
 				78108B7B248E8FB80007E9C4 /* Info.plist */,
-				0298C0CC248FA9BB003928FE /* OfflineFinder.entitlements */,
 				78108B75248E8FB80007E9C4 /* Preview Content */,
 			);
 			path = OpenHaystack;
@@ -730,7 +728,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -745,11 +742,6 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				OTHER_CFLAGS = (
-					"-DACCESSORY",
-					"-DAUTHKIT",
-				);
-				OTHER_SWIFT_FLAGS = "-DACCESSORY";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.tu-darmstadt.seemoo.OpenHaystack";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -763,7 +755,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -778,11 +769,6 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				OTHER_CFLAGS = (
-					"-DACCESSORY",
-					"-DAUTHKIT",
-				);
-				OTHER_SWIFT_FLAGS = "-DACCESSORY";
 				PRODUCT_BUNDLE_IDENTIFIER = "de.tu-darmstadt.seemoo.OpenHaystack";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

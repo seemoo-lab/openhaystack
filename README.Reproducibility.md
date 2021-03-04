@@ -57,7 +57,6 @@ The attacker machine needs to have system integrity protection (SIP) and AMFI **
 
 #### Fetching reports
 
-9. Open the Xcode project in [OpenHaystack](OpenHaystack).
-10. Run the _Run OFFetchReports_ target.
-11. Import the exported key file via drag and drop.
-12. Watch _OFFetchReports_ downloading and decrypting the location reports.
+9. Run the _Run OFFetchReports_ target.
+10. Import the exported key file via drag and drop.
+11. Watch _OFFetchReports_ downloading and decrypting the location reports.
