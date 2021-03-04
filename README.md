@@ -103,6 +103,12 @@ We use our Apple Mail plugin, which runs with elevated privileges, to access the
 Currently, we only provide a convenient deployment method of our OpenHaystack firmware for the BBC micro:bit.
 However, you should be able to implement the advertisements on other devices that support Bluetooth Low Energy based on the [source code of our firmware](Firmware) and the specification in [our paper](#references).
 
+In addition, you can easily turn any Linux machine (including **Raspberry Pi**) into a _tag_ that can be tracked via the Find My network. Our Python script uses HCI calls to configure Bluetooth advertising. You can copy the required `ADVERTISMENT_KEY` from the app by right-clicking on your accessory. Then run the script:
+
+```bash
+sudo python3 HCI.py --key <ADVERTISMENT_KEY>
+```
+
 ![Setup](Resources/Setup.jpg)
 
 ## Authors
