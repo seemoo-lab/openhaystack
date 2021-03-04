@@ -13,7 +13,7 @@
 #if ACCESSORY
 #import "OpenHaystack-Swift.h"
 #else
-#import "OfflineFinder-Swift.h"
+#import "OFFetchReports-Swift.h"
 #endif
 
 @implementation ReportsFetcher
