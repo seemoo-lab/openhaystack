@@ -637,7 +637,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#bin/sh\nidentities=$(security find-identity -p codesigning -v)\n#echo \"${identities}\"\npat=' ([0-9ABCDEF]+) '\n[[ $identities =~ $pat ]]\n# Can be set to a codesign identity manually\nIDT=\"${BASH_REMATCH[1]}\"\nif [ -z ${IDT+x} ]; then\n    echo \"error: Please set the codesigning identity above. \\nThe identity can be found with $ security find-identities -v -p codesigning\"\nelse\n    codesign --entitlements ${SRCROOT}/OpenHaystack/OfflineFinder.entitlements -fs ${IDT} ${TARGET_BUILD_DIR}/OfflineFinder.app/Contents/MacOS/OfflineFinder\n    echo \"warning: This app will only run on macOS systems with SIP & AMFI disabled. This should only be done on dedicated test systems\"\nfi\n";
+			shellScript = "#bin/sh\nidentities=$(security find-identity -p codesigning -v)\n#echo \"${identities}\"\npat=' ([0-9ABCDEF]+) '\n[[ $identities =~ $pat ]]\n# Can be set to a codesign identity manually\nIDT=\"${BASH_REMATCH[1]}\"\nif [ -z ${IDT+x} ]; then\n    echo \"error: Please set the codesigning identity above. \\nThe identity can be found with $ security find-identities -v -p codesigning\"\nelse\n    codesign --entitlements ${SRCROOT}/OpenHaystack/OfflineFinder.entitlements -fs ${IDT} ${TARGET_BUILD_DIR}/OFFetchReports.app/Contents/MacOS/OFFetchReports\n    echo \"warning: This app will only run on macOS systems with SIP & AMFI disabled. This should only be done on dedicated test systems\"\nfi\n";
 		};
 		F14B2C7E25EFBB11002DC056 /* Set Version Number from Git */ = {
 			isa = PBXShellScriptBuildPhase;

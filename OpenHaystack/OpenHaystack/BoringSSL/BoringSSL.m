@@ -41,6 +41,12 @@
     
     if (res < 1) {
         NSLog(@"Failed with error: %d", res);
+        BIO *bio = BIO_new(BIO_s_mem());
+        ERR_print_errors(bio);
+        char *buf;
+        size_t len = BIO_get_mem_data(bio, &buf);
+        NSLog(@"Generating shared key failed %s", buf); 
+        BIO_free(bio);
     }
     
     NSLog(@"Shared key: %@", [sharedKey base64EncodedStringWithOptions:0]);

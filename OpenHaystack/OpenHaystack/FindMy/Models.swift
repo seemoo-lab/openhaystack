@@ -46,6 +46,24 @@ struct FindMyKey: Codable {
         self.yCoordinate = yCoordinate
         self.fullKey = fullKey
     }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.advertisedKey = try container.decode(Data.self, forKey: .advertisedKey)
+        self.hashedKey = try container.decode(Data.self, forKey: .hashedKey)
+        let privateKey = try container.decode(Data.self, forKey: .privateKey)
+        if privateKey.count == 85 {
+            self.privateKey = privateKey.subdata(in: 57..<privateKey.endIndex)
+        }else {
+            self.privateKey = privateKey
+        }
+        
+        self.startTime = try? container.decode(Date.self, forKey: .startTime)
+        self.duration = try? container.decode(Double.self, forKey: .duration)
+        self.pu = try? container.decode(Data.self, forKey: .pu)
+        self.yCoordinate = try? container.decode(Data.self, forKey: .yCoordinate)
+        self.fullKey = try? container.decode(Data.self, forKey: .fullKey)
+    }
 
     /// The advertising key
     let advertisedKey: Data
