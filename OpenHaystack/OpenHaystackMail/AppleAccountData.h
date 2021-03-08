@@ -11,27 +11,27 @@
 //
 //  SPDX-License-Identifier: AGPL-3.0-only
 
-#import <Foundation/Foundation.h>
 #import "ALTAnisetteData.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface AppleAccountData : NSObject <NSCopying, NSSecureCoding>
 
-@property (nonatomic, copy) NSString *machineID;
-@property (nonatomic, copy) NSString *oneTimePassword;
-@property (nonatomic, copy) NSString *localUserID;
-@property (nonatomic) unsigned long long routingInfo;
+@property(nonatomic, copy) NSString *machineID;
+@property(nonatomic, copy) NSString *oneTimePassword;
+@property(nonatomic, copy) NSString *localUserID;
+@property(nonatomic) unsigned long long routingInfo;
 
-@property (nonatomic, copy) NSString *deviceUniqueIdentifier;
-@property (nonatomic, copy) NSString *deviceSerialNumber;
-@property (nonatomic, copy) NSString *deviceDescription;
+@property(nonatomic, copy) NSString *deviceUniqueIdentifier;
+@property(nonatomic, copy) NSString *deviceSerialNumber;
+@property(nonatomic, copy) NSString *deviceDescription;
 
-@property (nonatomic, copy) NSDate *date;
-@property (nonatomic, copy) NSLocale *locale;
-@property (nonatomic, copy) NSTimeZone *timeZone;
+@property(nonatomic, copy) NSDate *date;
+@property(nonatomic, copy) NSLocale *locale;
+@property(nonatomic, copy) NSTimeZone *timeZone;
 
-@property (nonatomic, copy) NSData *searchPartyToken;
+@property(nonatomic, copy) NSData *searchPartyToken;
 
 - (instancetype)initWithMachineID:(NSString *)machineID
                   oneTimePassword:(NSString *)oneTimePassword
@@ -44,8 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
                            locale:(NSLocale *)locale
                          timeZone:(NSTimeZone *)timeZone;
 
-- (instancetype) initFromALTAnissetteData:(ALTAnisetteData *) altAnisetteData;
-
+- (instancetype)initFromALTAnissetteData:(ALTAnisetteData *)altAnisetteData;
 
 @end
 

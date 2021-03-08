@@ -6,7 +6,7 @@
 //  SPDX-License-Identifier: AGPL-3.0-only
 
 #import <Foundation/Foundation.h>
-//https://github.com/Matchstic/ReProvision/issues/96#issuecomment-551928795
+// https://github.com/Matchstic/ReProvision/issues/96#issuecomment-551928795
 #import <Security/Security.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -37,8 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)serverFriendlyDescription;
 @end
 
-
-
 @interface ReportsFetcher : NSObject
 
 /// WARNING: Runs synchronous network request. Please run this in a background thread.
@@ -48,13 +46,17 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param duration Duration checked
 /// @param searchPartyToken Search Party token
 /// @param completion Called when finished
-- (void) queryForHashes:(NSArray *)publicKeys startDate: (NSDate *) date duration: (double) duration searchPartyToken:(nonnull NSData *)searchPartyToken completion: (void (^)(NSData* _Nullable)) completion;
+- (void)queryForHashes:(NSArray *)publicKeys
+             startDate:(NSDate *)date
+              duration:(double)duration
+      searchPartyToken:(nonnull NSData *)searchPartyToken
+            completion:(void (^)(NSData *_Nullable))completion;
 
-/// Fetches the search party token from the macOS Keychain. Returns null if it fails 
-- (NSData * _Nullable) fetchSearchpartyToken;
+/// Fetches the search party token from the macOS Keychain. Returns null if it fails
+- (NSData *_Nullable)fetchSearchpartyToken;
 
 /// Get AnisetteData from AuthKit or return an empty dictionary
-- (NSDictionary *_Nonnull) anisetteDataDictionary;
+- (NSDictionary *_Nonnull)anisetteDataDictionary;
 
 @end
 
