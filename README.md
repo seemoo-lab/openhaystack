@@ -33,6 +33,7 @@ By using the app, you can track your micro:bit tag anywhere on earth without cel
 OpenHaystack is the result of reverse-engineering and security analysis work of Apple's _Find My network_ (or _offline finding_). We at the [Secure Mobile Networking Lab](https://seemoo.de) of TU Darmstadt started analyzing offline finding after its initial announcement in June 2019. We identified how Apple devices can be found by iPhones devices, even when they are offline through this work. The whole system is a clever combination of Bluetooth advertisements, public-key cryptography, and a central database of encrypted location reports. We disclosed a specification of the closed parts of offline finding and conducted a comprehensive security and privacy analysis.
 We found two distinct vulnerabilities. The most severe one, which allowed a malicious application to access location data, has meanwhile been fixed by Apple ([CVE-2020-9986](https://support.apple.com/en-us/HT211849)).
 For more information about the security analysis, please read [our paper](#references).
+Since its release, we received quite a bit of [press and media coverage](https://owlink.org/press/).
 
 ### Disclaimer
 
