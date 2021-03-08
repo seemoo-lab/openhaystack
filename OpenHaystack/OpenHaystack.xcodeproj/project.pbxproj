@@ -339,11 +339,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 781EB40525DAD7EA00FEAA19 /* Build configuration list for PBXNativeTarget "OpenHaystack" */;
 			buildPhases = (
+				78EC227325DBC9240042B775 /* Run SwiftLint */,
+				F125DE4525F65E0700135D32 /* Run swift-format */,
+				F1D0A05C25F6BBC7004F9326 /* Run clang-format */,
 				781EB3E925DAD7EA00FEAA19 /* Sources */,
 				781EB3F625DAD7EA00FEAA19 /* Frameworks */,
 				781EB3FC25DAD7EA00FEAA19 /* Resources */,
-				78EC227325DBC9240042B775 /* SwiftLint */,
-				F125DE4525F65E0700135D32 /* Run swift-format */,
 				78286DC225E5669100F65511 /* Embed PlugIns */,
 				F14B2C7E25EFBB11002DC056 /* Set Version Number from Git */,
 			);
@@ -476,7 +477,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		78EC227325DBC9240042B775 /* SwiftLint */ = {
+		78EC227325DBC9240042B775 /* Run SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -485,14 +486,14 @@
 			);
 			inputPaths = (
 			);
-			name = SwiftLint;
+			name = "Run SwiftLint";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint autocorrect && swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "if command -v swiftlint >/dev/null; then\n  swiftlint autocorrect && swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		F125DE4525F65E0700135D32 /* Run swift-format */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -510,7 +511,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swift-format >/dev/null; then\n  swift-format format -r -i \"$SRCROOT\" && swift-format lint -r \"$SRCROOT\"\nelse\n  echo \"warning: swift-format not installed, download from https://github.com/apple/swift-format\"\nfi\n";
+			shellScript = "if command -v swift-format >/dev/null; then\n  swift-format format -r -i \"$SRCROOT\" && swift-format lint -r \"$SRCROOT\"\nelse\n  echo \"warning: swift-format not installed, download from https://github.com/apple/swift-format\"\nfi\n";
 		};
 		F14B2C7E25EFBB11002DC056 /* Set Version Number from Git */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -547,6 +548,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "GIT_RELEASE_VERSION=$(git describe --tags --always --dirty)\nCOMMITS=$(git rev-list HEAD | wc -l)\nCOMMITS=$(($COMMITS))\ndefaults write \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH%.*}\" \"CFBundleShortVersionString\" \"${GIT_RELEASE_VERSION#*v}\"\ndefaults write \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH%.*}\" \"CFBundleVersion\" \"${COMMITS}\"\n";
+		};
+		F1D0A05C25F6BBC7004F9326 /* Run clang-format */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run clang-format";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if command -v clang-format >/dev/null; then\n  clang-format -i \"$SRCROOT\"/**/*.{h,m}\nelse\n  echo \"warning: clang-format not installed\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

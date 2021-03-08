@@ -16,8 +16,8 @@
 #import <dlfcn.h>
 
 #import "AppleAccountData.h"
-#import <Security/Security.h>
 #import <Accounts/Accounts.h>
+#import <Security/Security.h>
 
 @import AppKit;
 
@@ -34,51 +34,49 @@
 
 @interface OpenHaystackPluginService ()
 
-@property (nonatomic, readonly) NSISO8601DateFormatter *dateFormatter;
+@property(nonatomic, readonly) NSISO8601DateFormatter *dateFormatter;
 
 @end
 
 @implementation OpenHaystackPluginService
 
-+ (instancetype)sharedService
-{
++ (instancetype)sharedService {
     static OpenHaystackPluginService *_service = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _service = [[self alloc] init];
+      _service = [[self alloc] init];
     });
-    
+
     return _service;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
-    if (self)
-    {
+    if (self) {
         _dateFormatter = [[NSISO8601DateFormatter alloc] init];
     }
-    
+
     return self;
 }
 
-+ (void)initialize
-{
++ (void)initialize {
     [[OpenHaystackPluginService sharedService] start];
 }
 
-- (void)start
-{
+- (void)start {
     dlopen("/System/Library/PrivateFrameworks/AuthKit.framework/AuthKit", RTLD_NOW);
-    
-    [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveNotification:) name:@"de.tu-darmstadt.seemoo.OpenHaystack.FetchAnisetteData" object:nil];
+
+    [[NSDistributedNotificationCenter defaultCenter] addObserver:self
+                                                        selector:@selector(receiveNotification:)
+                                                            name:@"de.tu-darmstadt.seemoo.OpenHaystack.FetchAnisetteData"
+                                                          object:nil];
 }
 
-- (void)receiveNotification:(NSNotification *)notification
-{
+- (void)receiveNotification:(NSNotification *)notification {
     NSString *requestUUID = notification.userInfo[@"requestUUID"];
-    
-    NSMutableURLRequest* req = [[NSMutableURLRequest alloc] initWithURL:[[NSURL alloc] initWithString:@"https://developerservices2.apple.com/services/QH65B2/listTeams.action?clientId=XABBG36SBA"]];
+
+    NSMutableURLRequest *req =
+        [[NSMutableURLRequest alloc] initWithURL:[[NSURL alloc] initWithString:@"https://developerservices2.apple.com/services/QH65B2/listTeams.action?clientId=XABBG36SBA"]];
     [req setHTTPMethod:@"POST"];
 
     AKAppleIDSession *session = [[NSClassFromString(@"AKAppleIDSession") alloc] initWithIdentifier:@"com.apple.gs.xcode.auth"];
@@ -86,40 +84,45 @@
 
     AKDevice *device = [NSClassFromString(@"AKDevice") currentDevice];
     NSDate *date = [self.dateFormatter dateFromString:headers[@"X-Apple-I-Client-Time"]];
-    
+
     NSData *sptoken = [self fetchSearchpartyToken];
     AppleAccountData *anisetteData = [[NSClassFromString(@"AppleAccountData") alloc] initWithMachineID:headers[@"X-Apple-I-MD-M"]
-                                                                                     oneTimePassword:headers[@"X-Apple-I-MD"]
-                                                                                         localUserID:headers[@"X-Apple-I-MD-LU"]
-                                                                                         routingInfo:[headers[@"X-Apple-I-MD-RINFO"] longLongValue]
-                                                                              deviceUniqueIdentifier:device.uniqueDeviceIdentifier
-                                                                                  deviceSerialNumber:device.serialNumber
-                                                                                   deviceDescription:device.serverFriendlyDescription
-                                                                                                date:date
-                                                                                              locale:[NSLocale currentLocale]
-                                                                                            timeZone:[NSTimeZone localTimeZone]];
+                                                                                       oneTimePassword:headers[@"X-Apple-I-MD"]
+                                                                                           localUserID:headers[@"X-Apple-I-MD-LU"]
+                                                                                           routingInfo:[headers[@"X-Apple-I-MD-RINFO"] longLongValue]
+                                                                                deviceUniqueIdentifier:device.uniqueDeviceIdentifier
+                                                                                    deviceSerialNumber:device.serialNumber
+                                                                                     deviceDescription:device.serverFriendlyDescription
+                                                                                                  date:date
+                                                                                                locale:[NSLocale currentLocale]
+                                                                                              timeZone:[NSTimeZone localTimeZone]];
     if (sptoken != nil) {
         anisetteData.searchPartyToken = [sptoken copy];
     }
-    
+
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:anisetteData requiringSecureCoding:YES error:nil];
-    
-    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"de.tu-darmstadt.seemoo.OpenHaystack.AnisetteDataResponse" object:nil userInfo:@{@"requestUUID": requestUUID, @"anisetteData": data} deliverImmediately:YES];
+
+    [[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"de.tu-darmstadt.seemoo.OpenHaystack.AnisetteDataResponse"
+                                                                   object:nil
+                                                                 userInfo:@{@"requestUUID" : requestUUID, @"anisetteData" : data}
+                                                       deliverImmediately:YES];
 }
 
-- (NSData * _Nullable) fetchSearchpartyToken {
+- (NSData *_Nullable)fetchSearchpartyToken {
     ACAccountStore *accountStore = [[ACAccountStore alloc] init];
     ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:@"com.apple.account.AppleAccount"];
-    
+
     NSArray *appleAccounts = [accountStore accountsWithAccountType:accountType];
-    
-    if (appleAccounts == nil && appleAccounts.count > 0) {return nil;}
-    
+
+    if (appleAccounts == nil && appleAccounts.count > 0) {
+        return nil;
+    }
+
     ACAccount *iCloudAccount = appleAccounts[0];
     ACAccountCredential *iCloudCredentials = iCloudAccount.credential;
-    
+
     if ([iCloudCredentials respondsToSelector:NSSelectorFromString(@"credentialItems")]) {
-        NSDictionary* credentialItems = [iCloudCredentials performSelector:NSSelectorFromString(@"credentialItems")];
+        NSDictionary *credentialItems = [iCloudCredentials performSelector:NSSelectorFromString(@"credentialItems")];
         NSString *searchPartyToken = credentialItems[@"search-party-token"];
         NSData *tokenData = [searchPartyToken dataUsingEncoding:NSASCIIStringEncoding];
         return tokenData;

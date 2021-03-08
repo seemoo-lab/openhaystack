@@ -11,16 +11,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BoringSSL : NSObject
 
-+ (NSData * _Nullable) deriveSharedKeyFromPrivateKey: (NSData *) privateKey andEphemeralKey: (NSData*) ephemeralKeyPoint;
++ (NSData *_Nullable)deriveSharedKeyFromPrivateKey:(NSData *)privateKey andEphemeralKey:(NSData *)ephemeralKeyPoint;
 
 /// Derive a public key from a given private key
 /// @param privateKeyData an EC private key on the P-224 curve
 /// @returns The public key in a compressed format using 29 bytes. The first byte is used for identifying if its odd or even.
-/// For OF the first byte has to be dropped 
-+ (NSData * _Nullable) derivePublicKeyFromPrivateKey: (NSData*) privateKeyData;
+/// For OF the first byte has to be dropped
++ (NSData *_Nullable)derivePublicKeyFromPrivateKey:(NSData *)privateKeyData;
 
 /// Generate a new EC private key and exports it as data
-+ (NSData * _Nullable) generateNewPrivateKey;
++ (NSData *_Nullable)generateNewPrivateKey;
 
 @end
 
