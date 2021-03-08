@@ -31,29 +31,16 @@ struct OpenHaystackMainView: View {
     @State var showESP32DeploySheet = false
 
     var body: some View {
-        GeometryReader { geo in
-            ZStack {
-                VStack {
-                    HStack {
-                        ManageAccessoriesView(
-                            alertType: self.$alertType,
-                            focusedAccessory: self.$focusedAccessory,
-                            accessoryToDeploy: self.$accessoryToDeploy,
-                            showESP32DeploySheet: self.$showESP32DeploySheet)
 
-                        Spacer()
+        NavigationView {
+            ManageAccessoriesView(
+                alertType: self.$alertType,
+                focusedAccessory: self.$focusedAccessory,
+                accessoryToDeploy: self.$accessoryToDeploy,
+                showESP32DeploySheet: self.$showESP32DeploySheet)
 
-                        VStack {
-                            self.mapView
-                        }.frame(width: geo.size.width * 0.5, alignment: .trailing)
-
-                    }
-
-                    if searchPartyTokenLoaded == false {
-                        TextField("Search Party token", text: self.$searchPartyToken)
-                    }
-                }
-
+            VStack {
+                self.mapView
                 if self.popUpAlertType != nil {
                     VStack {
                         Spacer()
@@ -88,8 +75,7 @@ struct OpenHaystackMainView: View {
                 self.onAppear()
             }
         }
-        .padding([.leading, .trailing, .bottom])
-        .frame(minWidth: 720, maxWidth: .infinity, minHeight: 480, maxHeight: .infinity)
+        .navigationTitle("OpenHaystack")
     }
 
     // MARK: Subviews
@@ -113,9 +99,6 @@ struct OpenHaystackMainView: View {
 
             AccessoryMapView(accessoryController: self.accessoryController, mapType: self.$mapType, focusedAccessory: self.focusedAccessory)
                 .overlay(self.mapOverlay)
-                .cornerRadius(15.0)
-                .clipped()
-                .padding([.top, .bottom], 15)
 
             VStack {
                 Spacer()
