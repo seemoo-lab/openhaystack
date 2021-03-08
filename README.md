@@ -15,7 +15,7 @@ OpenHaystack is a framework for tracking personal Bluetooth devices via Apple's 
   - [Usage](#usage)
 - [How does Apple's Find My network work?](#how-does-apples-find-my-network-work)
   - [Pairing](#pairing-1)
-  - [Loosing](#loosing-2)
+  - [Losing](#losing-2)
   - [Finding](#finding-3)
   - [Searching](#searching-4)
 - [How to track other Bluetooth devices?](#how-to-track-other-bluetooth-devices)
@@ -82,7 +82,7 @@ We briefly explain Apple's offline finding system (aka [_Find My network_](https
 
 To use Apple's Find My network, we generate a public-private key pair on an elliptic curve (P-224). The private key remains on the Mac securely stored in the keychain, and the public key will be deployed on the tag, e.g., an attached micro:bit.
 
-### Loosing (2)
+### Losing (2)
 
 In short, the tags broadcast the public key as Bluetooth Low Energy (BLE) advertisements (see [firmware](Firmware).
 Nearby iPhones will not be able to distinguish our tags from a genuine Apple device or certified accessory.
