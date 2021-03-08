@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import SwiftUI
 import MapKit
+import SwiftUI
 
 struct AccessoryMapView: NSViewControllerRepresentable {
     @ObservedObject var accessoryController: AccessoryController

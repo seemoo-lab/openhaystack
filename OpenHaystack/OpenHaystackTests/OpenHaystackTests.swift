@@ -5,8 +5,9 @@
 //
 //  SPDX-License-Identifier: AGPL-3.0-only
 
-import XCTest
 import CryptoKit
+import XCTest
+
 @testable import OpenHaystack
 
 class OpenHaystackTests: XCTestCase {
@@ -72,7 +73,7 @@ class OpenHaystackTests: XCTestCase {
         XCTAssertNotEqual(publicKey, accessory.privateKey)
     }
 
-    func testStoreAccessories()  throws {
+    func testStoreAccessories() throws {
         let accessory = try Accessory(name: "Test accessory")
         try KeychainController.storeInKeychain(accessories: [accessory], test: true)
         let fetchedAccessories = KeychainController.loadAccessoriesFromKeychain(test: true)
@@ -107,7 +108,7 @@ class OpenHaystackTests: XCTestCase {
             _ = try MicrobitController.patchFirmware(firmware, pattern: pattern, with: key)
             XCTFail("Should thrown an erorr before")
         } catch PatchingError.patternNotFound {
-            // This should be thrown 
+            // This should be thrown
         } catch {
             XCTFail("Unexpected error")
         }
@@ -183,7 +184,7 @@ class OpenHaystackTests: XCTestCase {
         XCTAssertNotNil(sharedKey)
 
         // Now we follow the standard key derivation used in OF
-        let derivedKey = DecryptReports.kdf(fromSharedSecret: sharedKey, andEphemeralKey: ephPublicKey )
+        let derivedKey = DecryptReports.kdf(fromSharedSecret: sharedKey, andEphemeralKey: ephPublicKey)
         // Let's encrypt some test string
         let message = "This is a message that should be encrypted"
         let messageData = message.data(using: .ascii)!

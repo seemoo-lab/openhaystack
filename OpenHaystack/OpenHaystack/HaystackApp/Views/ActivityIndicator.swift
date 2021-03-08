@@ -5,9 +5,9 @@
 //
 //  SPDX-License-Identifier: AGPL-3.0-only
 
+import AppKit
 import Foundation
 import SwiftUI
-import AppKit
 
 final class ActivityIndicator: NSViewRepresentable {
 

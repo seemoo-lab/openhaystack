@@ -5,16 +5,18 @@
 //
 //  SPDX-License-Identifier: AGPL-3.0-only
 
-import Foundation
 import CryptoKit
+import Foundation
 
 /// Decode key files found in newer macOS versions.
 class FindMyKeyDecoder {
-    /// Key files can be in different format. The old <= 10.15.3 have been using normal plists. Newer once use a binary format which needs different parsing
+    /// Key files can be in different format.
+    ///
+    /// The old <= 10.15.3 have been using normal plists. Newer once use a binary format which needs different parsing.
     enum KeyFileFormat {
         /// Catalina > 10.15.4 key file format | Big Sur 11.0 Beta 1 uses a similar key file format that can be parsed identically.
         /// macOS 10.15.7 uses a new key file format that has not been reversed yet.
-        /// (The key files are protected by sandboxing and only usable from a SIP disabled) 
+        /// (The key files are protected by sandboxing and only usable from a SIP disabled)
         case catalina_10_15_4
     }
 
@@ -59,7 +61,7 @@ class FindMyKeyDecoder {
 
         while i + 117 < keyFile.count {
             // We could not identify what those keys were
-            _ = keyFile.subdata(in: i..<i+32)
+            _ = keyFile.subdata(in: i..<i + 32)
             i += 32
             if keyFile[i] == 0x00 {
                 // Public key only.
@@ -72,9 +74,9 @@ class FindMyKeyDecoder {
                 throw ParsingError.wrongFormat
             }
             // Step over 0x01
-            i+=1
+            i += 1
             // Read the key (starting with 0x04)
-            let fullKey = keyFile.subdata(in: i..<i+85)
+            let fullKey = keyFile.subdata(in: i..<i + 85)
             i += 85
             // Create the sub keys. No actual need, but we do that to put them into a similar format as used before 10.15.4
             let advertisedKey = fullKey.subdata(in: 1..<29)
@@ -84,14 +86,15 @@ class FindMyKeyDecoder {
             shaDigest.update(data: advertisedKey)
             let hashedKey = Data(shaDigest.finalize())
 
-            let fmKey = FindMyKey(advertisedKey: advertisedKey,
-                                  hashedKey: hashedKey,
-                                  privateKey: fullKey,
-                                  startTime: nil,
-                                  duration: nil,
-                                  pu: nil,
-                                  yCoordinate: yCoordinate,
-                                  fullKey: fullKey)
+            let fmKey = FindMyKey(
+                advertisedKey: advertisedKey,
+                hashedKey: hashedKey,
+                privateKey: fullKey,
+                startTime: nil,
+                duration: nil,
+                pu: nil,
+                yCoordinate: yCoordinate,
+                fullKey: fullKey)
 
             keys.append(fmKey)
         }

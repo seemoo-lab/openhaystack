@@ -5,13 +5,13 @@
 //
 //  SPDX-License-Identifier: AGPL-3.0-only
 
+import AppKit
 import Foundation
 import OSLog
-import AppKit
 
 let mailBundleName = "OpenHaystackMail"
 
-/// Manages plugin installation
+/// Manages plugin installation.
 struct MailPluginManager {
 
     let pluginsFolderURL = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Mail/Bundles")
@@ -22,7 +22,7 @@ struct MailPluginManager {
         return FileManager.default.fileExists(atPath: pluginURL.path)
     }
 
-    /// Shows a NSSavePanel to install the mail plugin at the required place
+    /// Shows a NSSavePanel to install the mail plugin at the required place.
     func askForPermission() -> Bool {
 
         let panel = NSSavePanel()
@@ -73,11 +73,12 @@ struct MailPluginManager {
 
     }
 
-    /// Copy a folder recursively
+    /// Copy a folder recursively.
+    ///
     /// - Parameters:
     ///   - from: Folder source
     ///   - to: Folder destination
-    /// - Throws: An error if copying or acessing files fails 
+    /// - Throws: An error if copying or acessing files fails
     func copyFolder(from: URL, to: URL) throws {
         // Create the folder
         try? FileManager.default.createDirectory(at: to, withIntermediateDirectories: false, attributes: nil)
@@ -102,11 +103,13 @@ struct MailPluginManager {
         try FileManager.default.removeItem(at: pluginURL)
     }
 
-    /// Copy plugin to downloads folder
+    /// Copy plugin to downloads folder.
+    ///
     /// - Throws: An error if the copy fails, because of missing permissions
-     func pluginDownload() throws {
+    func pluginDownload() throws {
         guard let localPluginURL = Bundle.main.url(forResource: mailBundleName, withExtension: "mailbundle"),
-              let downloadsFolder = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first else {
+            let downloadsFolder = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first
+        else {
             throw PluginError.downloadFailed
         }
 

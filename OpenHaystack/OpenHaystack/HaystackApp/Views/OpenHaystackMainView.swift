@@ -5,9 +5,9 @@
 //
 //  SPDX-License-Identifier: AGPL-3.0-only
 
-import SwiftUI
-import OSLog
 import MapKit
+import OSLog
+import SwiftUI
 
 struct OpenHaystackMainView: View {
 
@@ -63,19 +63,25 @@ struct OpenHaystackMainView: View {
 
                 }
             }
-            .alert(item: self.$alertType, content: { alertType in
-                return self.alert(for: alertType)
-            })
+            .alert(
+                item: self.$alertType,
+                content: { alertType in
+                    return self.alert(for: alertType)
+                }
+            )
             .onChange(of: self.searchPartyToken) { (searchPartyToken) in
-                guard !searchPartyToken.isEmpty, self.accessories.isEmpty == false else {return}
+                guard !searchPartyToken.isEmpty, self.accessories.isEmpty == false else { return }
                 self.downloadLocationReports()
             }
-            .onChange(of: self.popUpAlertType, perform: { popUpAlert in
-                guard popUpAlert != nil else {return}
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.popUpAlertType = nil
+            .onChange(
+                of: self.popUpAlertType,
+                perform: { popUpAlert in
+                    guard popUpAlert != nil else { return }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        self.popUpAlertType = nil
+                    }
                 }
-            })
+            )
             .onAppear {
                 self.onAppear()
             }
@@ -105,9 +111,12 @@ struct OpenHaystackMainView: View {
                 IconSelectionView(selectedImageName: self.$selectedIcon)
             }
 
-            Button(action: self.addAccessory, label: {
-                Text("Generate key and deploy")
-            })
+            Button(
+                action: self.addAccessory,
+                label: {
+                    Text("Generate key and deploy")
+                }
+            )
             .disabled(self.keyName.isEmpty)
             .padding(.bottom)
 
@@ -130,20 +139,21 @@ struct OpenHaystackMainView: View {
         }
     }
 
-    /// Accessory List view
+    /// Accessory List view.
     var accessoryList: some View {
         List(self.accessories) { accessory in
-            AccessoryListEntry(accessory: accessory,
-                               alertType: self.$alertType,
-                               delete: self.delete(accessory:),
-                               deployAccessoryToMicrobit: self.deployAccessoryToMicrobit(accessory:),
-                               zoomOn: {self.focusedAccessory = $0})
+            AccessoryListEntry(
+                accessory: accessory,
+                alertType: self.$alertType,
+                delete: self.delete(accessory:),
+                deployAccessoryToMicrobit: self.deployAccessoryToMicrobit(accessory:),
+                zoomOn: { self.focusedAccessory = $0 })
         }
         .background(Color.clear)
         .cornerRadius(15.0)
     }
 
-    /// Overlay for the map that is gray and shows an activity indicator when loading
+    /// Overlay for the map that is gray and shows an activity indicator when loading.
     var mapOverlay: some View {
         ZStack {
             if self.isLoading {
@@ -177,10 +187,13 @@ struct OpenHaystackMainView: View {
                     .pickerStyle(SegmentedPickerStyle())
                     .frame(width: 150, alignment: .center)
 
-                    Button(action: self.downloadLocationReports, label: {
-                        Image(systemName: "arrow.clockwise")
-                        Text("Reload")
-                    })
+                    Button(
+                        action: self.downloadLocationReports,
+                        label: {
+                            Image(systemName: "arrow.clockwise")
+                            Text("Reload")
+                        }
+                    )
                     .opacity(1.0)
                     .disabled(self.accessories.isEmpty)
                 }
@@ -189,7 +202,7 @@ struct OpenHaystackMainView: View {
         }
     }
 
-    /// Add an accessory with the provided details
+    /// Add an accessory with the provided details.
     func addAccessory() {
         let keyName = self.keyName
         self.keyName = ""
@@ -223,7 +236,8 @@ struct OpenHaystackMainView: View {
             }
 
             guard !self.searchPartyToken.isEmpty,
-                  let tokenData = self.searchPartyToken.data(using: .utf8) else {
+                let tokenData = self.searchPartyToken.data(using: .utf8)
+            else {
                 self.alertType = .searchPartyToken
                 return
             }
@@ -244,7 +258,7 @@ struct OpenHaystackMainView: View {
             FindMyController.shared.devices = findMyDevices
             FindMyController.shared.fetchReports(with: tokenData) { error in
 
-                let reports = FindMyController.shared.devices.compactMap({$0.reports}).flatMap({$0})
+                let reports = FindMyController.shared.devices.compactMap({ $0.reports }).flatMap({ $0 })
                 if reports.isEmpty {
                     withAnimation {
                         self.popUpAlertType = .noReportsFound
@@ -257,7 +271,7 @@ struct OpenHaystackMainView: View {
                     self.isLoading = false
                 }
 
-                guard error != nil else {return}
+                guard error != nil else { return }
                 os_log("Error: %@", String(describing: error))
 
             }
@@ -265,11 +279,11 @@ struct OpenHaystackMainView: View {
 
     }
 
-    /// Delete an accessory from the list of accessories
+    /// Delete an accessory from the list of accessories.
     func delete(accessory: Accessory) {
         do {
             var accessories = self.accessories
-            guard let idx = accessories.firstIndex(of: accessory) else {return}
+            guard let idx = accessories.firstIndex(of: accessory) else { return }
 
             accessories.remove(at: idx)
 
@@ -284,12 +298,13 @@ struct OpenHaystackMainView: View {
 
     }
 
-    /// Deploy the public key of the accessory to a BBC microbit
+    /// Deploy the public key of the accessory to a BBC microbit.
     func deployAccessoryToMicrobit(accessory: Accessory) {
         do {
             let microbits = try MicrobitController.findMicrobits()
             guard let microBitURL = microbits.first,
-                  let firmwareURL = Bundle.main.url(forResource: "firmware", withExtension: "bin") else {
+                let firmwareURL = Bundle.main.url(forResource: "firmware", withExtension: "bin")
+            else {
                 self.alertType = .deployFailed
                 return
             }
@@ -314,7 +329,8 @@ struct OpenHaystackMainView: View {
         /// Checks if the search party token can be fetched without the Mail Plugin. If true the plugin is not needed for this environment. (e.g.  when SIP is disabled)
         let reportsFetcher = ReportsFetcher()
         if let token = reportsFetcher.fetchSearchpartyToken(),
-           let tokenString = String(data: token, encoding: .ascii) {
+            let tokenString = String(data: token, encoding: .ascii)
+        {
             self.searchPartyToken = tokenString
             return
         }
@@ -330,7 +346,7 @@ struct OpenHaystackMainView: View {
         }
     }
 
-    /// Ask to install and activate the mail plugin
+    /// Ask to install and activate the mail plugin.
     func installMailPlugin() {
         let pluginManager = MailPluginManager()
         guard pluginManager.isMailPluginInstalled == false else {
@@ -338,7 +354,7 @@ struct OpenHaystackMainView: View {
             return
         }
         do {
-            try  pluginManager.installMailPlugin()
+            try pluginManager.installMailPlugin()
         } catch {
             DispatchQueue.main.async {
                 self.alertType = .pluginInstallFailed
@@ -371,8 +387,8 @@ struct OpenHaystackMainView: View {
                         }
                     }
                     completion?(false)
+                }
             }
-          }
         }
     }
 
@@ -386,7 +402,8 @@ struct OpenHaystackMainView: View {
 
     // MARK: - Alerts
 
-    /// Create an alert for the given alert type
+    /// Create an alert for the given alert type.
+    ///
     /// - Parameter alertType: current alert type
     /// - Returns: A SwiftUI Alert
     func alert(for alertType: AlertType) -> Alert {
@@ -394,51 +411,60 @@ struct OpenHaystackMainView: View {
         case .keyError:
             return Alert(title: Text("Could not create accessory"), message: Text(String(describing: self.errorDescription)), dismissButton: Alert.Button.cancel())
         case .searchPartyToken:
-            return Alert(title: Text("Add the search party token"),
-                         message: Text(
-                            """
-                            Please paste the search party token below after copying itfrom the macOS Keychain.
-                            The item that contains the key can be found by searching for:
-                            com.apple.account.DeviceLocator.search-party-token
-                            """
-                         ),
-                         dismissButton: Alert.Button.okay())
+            return Alert(
+                title: Text("Add the search party token"),
+                message: Text(
+                    """
+                    Please paste the search party token below after copying itfrom the macOS Keychain.
+                    The item that contains the key can be found by searching for:
+                    com.apple.account.DeviceLocator.search-party-token
+                    """
+                ),
+                dismissButton: Alert.Button.okay())
         case .deployFailed:
-            return Alert(title: Text("Could not deploy"),
-                  message: Text("Deploying to microbit failed. Please reconnect the device over USB"),
-                  dismissButton: Alert.Button.okay())
+            return Alert(
+                title: Text("Could not deploy"),
+                message: Text("Deploying to microbit failed. Please reconnect the device over USB"),
+                dismissButton: Alert.Button.okay())
         case .deployedSuccessfully:
-            return Alert(title: Text("Deploy successfull"),
-                  message: Text("This device will now be tracked by all iPhones and you can use this app to find its last reported location"),
-                  dismissButton: Alert.Button.okay())
+            return Alert(
+                title: Text("Deploy successfull"),
+                message: Text("This device will now be tracked by all iPhones and you can use this app to find its last reported location"),
+                dismissButton: Alert.Button.okay())
         case .deletionFailed:
             return Alert(title: Text("Could not delete accessory"), dismissButton: Alert.Button.okay())
 
         case .noReportsFound:
-            return Alert(title: Text("No reports found"),
-                         message: Text("Your accessory might have not been found yet or it is not powered. Make sure it has enough power to be found by nearby iPhones"),
-                         dismissButton: Alert.Button.okay())
+            return Alert(
+                title: Text("No reports found"),
+                message: Text("Your accessory might have not been found yet or it is not powered. Make sure it has enough power to be found by nearby iPhones"),
+                dismissButton: Alert.Button.okay())
         case .activatePlugin:
             let message =
-            """
-            To access your Apple ID for downloading location reports we need to use a plugin in Apple Mail.
-            Please make sure Apple Mail is running.
-            Open Mail -> Preferences -> General -> Manage Plug-Ins... -> Select Haystack
+                """
+                To access your Apple ID for downloading location reports we need to use a plugin in Apple Mail.
+                Please make sure Apple Mail is running.
+                Open Mail -> Preferences -> General -> Manage Plug-Ins... -> Select Haystack
 
-            We do not access any of your e-mail data. This is just necessary, because Apple blocks access to certain iCloud tokens otherwise.
-            """
+                We do not access any of your e-mail data. This is just necessary, because Apple blocks access to certain iCloud tokens otherwise.
+                """
 
-            return Alert(title: Text("Install & Activate Mail Plugin"), message: Text(message),
-                         primaryButton: .default(Text("Okay"), action: {self.installMailPlugin()}),
-                         secondaryButton: .cancel())
+            return Alert(
+                title: Text("Install & Activate Mail Plugin"), message: Text(message),
+                primaryButton: .default(Text("Okay"), action: { self.installMailPlugin() }),
+                secondaryButton: .cancel())
 
         case .pluginInstallFailed:
-            return Alert(title: Text("Mail Plugin installation failed"),
-                         message: Text("To access the location reports of your devices an Apple Mail plugin is necessary" +
-                         "\nThe installtion of this plugin has failed.\n\n Please download it manually unzip it and move it to /Library/Mail/Bundles"),
-                         primaryButton: .default(Text("Download plug-in"), action: {
-                            self.downloadPlugin()
-                         }), secondaryButton: .cancel())
+            return Alert(
+                title: Text("Mail Plugin installation failed"),
+                message: Text(
+                    "To access the location reports of your devices an Apple Mail plugin is necessary"
+                        + "\nThe installtion of this plugin has failed.\n\n Please download it manually unzip it and move it to /Library/Mail/Bundles"),
+                primaryButton: .default(
+                    Text("Download plug-in"),
+                    action: {
+                        self.downloadPlugin()
+                    }), secondaryButton: .cancel())
         }
     }
 

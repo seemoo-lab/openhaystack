@@ -31,12 +31,12 @@ class AccessoryController: ObservableObject {
     func updateWithDecryptedReports(devices: [FindMyDevice]) {
         // Assign last locations
         for device in FindMyController.shared.devices {
-            if let idx = self.accessories.firstIndex(where: {$0.id == Int(device.deviceId)}) {
+            if let idx = self.accessories.firstIndex(where: { $0.id == Int(device.deviceId) }) {
                 self.objectWillChange.send()
                 let accessory = self.accessories[idx]
 
                 let report = device.decryptedReports?
-                    .sorted(by: {$0.timestamp ?? Date.distantPast > $1.timestamp  ?? Date.distantPast })
+                    .sorted(by: { $0.timestamp ?? Date.distantPast > $1.timestamp ?? Date.distantPast })
                     .first
 
                 accessory.lastLocation = report?.location

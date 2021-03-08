@@ -25,8 +25,9 @@ struct PopUpAlertView: View {
             }
 
         }
-        .background(RoundedRectangle(cornerRadius: 7.5)
-                        .fill(Color.gray))
+        .background(
+            RoundedRectangle(cornerRadius: 7.5)
+                .fill(Color.gray))
     }
 }
 

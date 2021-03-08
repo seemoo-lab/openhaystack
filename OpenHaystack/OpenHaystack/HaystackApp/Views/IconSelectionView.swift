@@ -16,24 +16,29 @@ struct IconSelectionView: View {
     var body: some View {
 
         ZStack {
-            Button(action: {
-                withAnimation {
-                    self.showImagePicker.toggle()
+            Button(
+                action: {
+                    withAnimation {
+                        self.showImagePicker.toggle()
+                    }
+                },
+                label: {
+                    Circle()
+                        .strokeBorder(Color.gray, lineWidth: 0.5)
+                        .background(
+                            Image(systemName: self.selectedImageName)
+                        )
+                        .frame(width: 30, height: 30)
                 }
-            }, label: {
-                Circle()
-                    .strokeBorder(Color.gray, lineWidth: 0.5)
-                    .background(
-                        Image(systemName: self.selectedImageName)
-                    )
-                    .frame(width: 30, height: 30)
-            })
+            )
             .buttonStyle(PlainButtonStyle())
-            .popover(isPresented: self.$showImagePicker, content: {
-                ImageSelectionList(selectedImageName: self.$selectedImageName) {
-                    self.showImagePicker = false
-                }
-            })
+            .popover(
+                isPresented: self.$showImagePicker,
+                content: {
+                    ImageSelectionList(selectedImageName: self.$selectedImageName) {
+                        self.showImagePicker = false
+                    }
+                })
         }
     }
 }
@@ -59,16 +64,19 @@ struct ImageSelectionList: View {
 
     var body: some View {
         List(self.selectableIcons, id: \.self) { iconName in
-            Button(action: {
-                self.selectedImageName = iconName
-                self.dismiss()
-            }, label: {
-                HStack {
-                   Spacer()
-                    Image(systemName: iconName)
-                    Spacer()
+            Button(
+                action: {
+                    self.selectedImageName = iconName
+                    self.dismiss()
+                },
+                label: {
+                    HStack {
+                        Spacer()
+                        Image(systemName: iconName)
+                        Spacer()
+                    }
                 }
-            })
+            )
             .buttonStyle(PlainButtonStyle())
             .contentShape(Rectangle())
         }

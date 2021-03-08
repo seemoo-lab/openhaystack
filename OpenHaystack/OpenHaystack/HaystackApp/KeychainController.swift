@@ -6,18 +6,18 @@
 //  SPDX-License-Identifier: AGPL-3.0-only
 
 import Foundation
-import Security
 import OSLog
+import Security
 
 struct KeychainController {
 
-    static func loadAccessoriesFromKeychain(test: Bool=false) -> [Accessory] {
+    static func loadAccessoriesFromKeychain(test: Bool = false) -> [Accessory] {
         var query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrLabel: "FindMyAccessories",
             kSecAttrService: "SEEMOO-FINDMY",
             kSecMatchLimit: kSecMatchLimitOne,
-            kSecReturnData: true
+            kSecReturnData: true,
         ]
 
         if test {
@@ -27,7 +27,8 @@ struct KeychainController {
         var result: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &result)
         guard status == errSecSuccess,
-              let resultData = result as? Data else {
+            let resultData = result as? Data
+        else {
             return []
         }
 
@@ -42,13 +43,13 @@ struct KeychainController {
         return []
     }
 
-    static func storeInKeychain(accessories: [Accessory], test: Bool=false) throws {
+    static func storeInKeychain(accessories: [Accessory], test: Bool = false) throws {
         // Store or update
         var attributes: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrLabel: "FindMyAccessories",
             kSecAttrService: "SEEMOO-FINDMY",
-            kSecValueData: try PropertyListEncoder().encode(accessories)
+            kSecValueData: try PropertyListEncoder().encode(accessories),
         ]
 
         if test {
@@ -62,7 +63,7 @@ struct KeychainController {
             var query: [CFString: Any] = [
                 kSecClass: kSecClassGenericPassword,
                 kSecAttrLabel: "FindMyAccessories",
-                kSecAttrService: "SEEMOO-FINDMY"
+                kSecAttrService: "SEEMOO-FINDMY",
             ]
 
             if test {

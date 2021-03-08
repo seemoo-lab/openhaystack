@@ -343,6 +343,7 @@
 				781EB3F625DAD7EA00FEAA19 /* Frameworks */,
 				781EB3FC25DAD7EA00FEAA19 /* Resources */,
 				78EC227325DBC9240042B775 /* SwiftLint */,
+				F125DE4525F65E0700135D32 /* Run swift-format */,
 				78286DC225E5669100F65511 /* Embed PlugIns */,
 				F14B2C7E25EFBB11002DC056 /* Set Version Number from Git */,
 			);
@@ -492,6 +493,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint autocorrect && swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		F125DE4525F65E0700135D32 /* Run swift-format */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run swift-format";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swift-format >/dev/null; then\n  swift-format format -r -i \"$SRCROOT\" && swift-format lint -r \"$SRCROOT\"\nelse\n  echo \"warning: swift-format not installed, download from https://github.com/apple/swift-format\"\nfi\n";
 		};
 		F14B2C7E25EFBB11002DC056 /* Set Version Number from Git */ = {
 			isa = PBXShellScriptBuildPhase;
