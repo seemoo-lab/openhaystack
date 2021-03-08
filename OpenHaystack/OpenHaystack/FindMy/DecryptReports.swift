@@ -5,12 +5,13 @@
 //
 //  SPDX-License-Identifier: AGPL-3.0-only
 
-import Foundation
 import CryptoKit
+import Foundation
 
 struct DecryptReports {
 
-    /// Decrypt a find my report with the according key
+    /// Decrypt a find my report with the according key.
+    ///
     /// - Parameters:
     ///   - report: An encrypted FindMy Report
     ///   - key: A FindMyKey
@@ -40,7 +41,8 @@ struct DecryptReports {
         return locationReport
     }
 
-    /// Decrypt the payload
+    /// Decrypt the payload.
+    ///
     /// - Parameters:
     ///   - payload: Encrypted payload part
     ///   - symmetricKey: Symmetric key
@@ -63,18 +65,18 @@ struct DecryptReports {
 
     static func decode(content: Data, report: FindMyReport) -> FindMyLocationReport {
         var longitude: Int32 = 0
-        _ = withUnsafeMutableBytes(of: &longitude, {content.subdata(in: 4..<8).copyBytes(to: $0)})
+        _ = withUnsafeMutableBytes(of: &longitude, { content.subdata(in: 4..<8).copyBytes(to: $0) })
         longitude = Int32(bigEndian: longitude)
 
         var latitude: Int32 = 0
-        _ = withUnsafeMutableBytes(of: &latitude, {content.subdata(in: 0..<4).copyBytes(to: $0)})
+        _ = withUnsafeMutableBytes(of: &latitude, { content.subdata(in: 0..<4).copyBytes(to: $0) })
         latitude = Int32(bigEndian: latitude)
 
         var accuracy: UInt8 = 0
-        _ = withUnsafeMutableBytes(of: &accuracy, {content.subdata(in: 8..<9).copyBytes(to: $0)})
+        _ = withUnsafeMutableBytes(of: &accuracy, { content.subdata(in: 8..<9).copyBytes(to: $0) })
 
-        let latitudeDec = Double(latitude)/10000000.0
-        let longitudeDec = Double(longitude)/10000000.0
+        let latitudeDec = Double(latitude) / 10000000.0
+        let longitudeDec = Double(longitude) / 10000000.0
 
         return FindMyLocationReport(lat: latitudeDec, lng: longitudeDec, acc: accuracy, dP: report.datePublished, t: report.timestamp, c: report.confidence)
     }

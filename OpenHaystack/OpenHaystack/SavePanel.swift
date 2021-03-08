@@ -5,8 +5,8 @@
 //
 //  SPDX-License-Identifier: AGPL-3.0-only
 
-import Foundation
 import AppKit
+import Foundation
 
 class SavePanel: NSObject, NSOpenSavePanelDelegate {
 
@@ -40,7 +40,7 @@ class SavePanel: NSObject, NSOpenSavePanelDelegate {
     }
 
     func panel(_ sender: Any, userEnteredFilename filename: String, confirmed okFlag: Bool) -> String? {
-        guard okFlag else {return nil}
+        guard okFlag else { return nil }
 
         return filename
     }

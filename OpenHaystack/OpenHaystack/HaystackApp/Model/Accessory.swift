@@ -5,11 +5,11 @@
 //
 //  SPDX-License-Identifier: AGPL-3.0-only
 
-import Foundation
+import CoreLocation
 import CryptoKit
+import Foundation
 import Security
 import SwiftUI
-import CoreLocation
 
 class Accessory: ObservableObject, Codable, Identifiable, Equatable {
     let name: String
@@ -39,9 +39,10 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable {
         self.privateKey = try container.decode(Data.self, forKey: .privateKey)
         self.icon = (try? container.decode(String.self, forKey: .icon)) ?? "briefcase.fill"
 
-        if  var colorComponents = try? container.decode([CGFloat].self, forKey: .colorComponents),
+        if var colorComponents = try? container.decode([CGFloat].self, forKey: .colorComponents),
             let spaceName = try? container.decode(String.self, forKey: .colorSpaceName),
-            let cgColor = CGColor(colorSpace: CGColorSpace(name: spaceName as CFString)!, components: &colorComponents) {
+            let cgColor = CGColor(colorSpace: CGColorSpace(name: spaceName as CFString)!, components: &colorComponents)
+        {
             self.color = Color(cgColor)
         } else {
             self.color = Color.white
@@ -57,7 +58,8 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable {
         try container.encode(self.icon, forKey: .icon)
 
         if let colorComponents = self.color.cgColor?.components,
-           let colorSpace = self.color.cgColor?.colorSpace?.name {
+            let colorSpace = self.color.cgColor?.colorSpace?.name
+        {
             try container.encode(colorComponents, forKey: .colorComponents)
             try container.encode(colorSpace as String, forKey: .colorSpaceName)
         }
@@ -79,7 +81,7 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable {
         // Drop the first byte to just have the 28 bytes version
         publicKey = publicKey.dropFirst()
         assert(publicKey.count == 28)
-        guard publicKey.count == 28 else {throw KeyError.keyDerivationFailed}
+        guard publicKey.count == 28 else { throw KeyError.keyDerivationFailed }
 
         return publicKey
     }
@@ -103,20 +105,22 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable {
 
     func toFindMyDevice() throws -> FindMyDevice {
 
-        let findMyKey = FindMyKey(advertisedKey: try self.getAdvertisementKey(),
-                                  hashedKey: try self.hashedPublicKey(),
-                                  privateKey: self.privateKey,
-                                  startTime: nil,
-                                  duration: nil,
-                                  pu: nil,
-                                  yCoordinate: nil,
-                                  fullKey: nil)
+        let findMyKey = FindMyKey(
+            advertisedKey: try self.getAdvertisementKey(),
+            hashedKey: try self.hashedPublicKey(),
+            privateKey: self.privateKey,
+            startTime: nil,
+            duration: nil,
+            pu: nil,
+            yCoordinate: nil,
+            fullKey: nil)
 
-        return FindMyDevice(deviceId: String(self.id),
-                            keys: [findMyKey],
-                            catalinaBigSurKeyFiles: nil,
-                            reports: nil,
-                            decryptedReports: nil)
+        return FindMyDevice(
+            deviceId: String(self.id),
+            keys: [findMyKey],
+            catalinaBigSurKeyFiles: nil,
+            reports: nil,
+            decryptedReports: nil)
     }
 
     enum CodingKeys: String, CodingKey {

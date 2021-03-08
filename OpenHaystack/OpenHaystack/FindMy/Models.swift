@@ -5,8 +5,8 @@
 //
 //  SPDX-License-Identifier: AGPL-3.0-only
 
-import Foundation
 import CoreLocation
+import Foundation
 
 struct FindMyDevice: Codable, Hashable {
 
@@ -15,7 +15,7 @@ struct FindMyDevice: Codable, Hashable {
 
     var catalinaBigSurKeyFiles: [Data]?
 
-    /// KeyHash: Report results
+    /// KeyHash: Report results.
     var reports: [FindMyReport]?
 
     var decryptedReports: [FindMyLocationReport]?
@@ -65,22 +65,22 @@ struct FindMyKey: Codable {
         self.fullKey = try? container.decode(Data.self, forKey: .fullKey)
     }
 
-    /// The advertising key
+    /// The advertising key.
     let advertisedKey: Data
-    /// Hashed advertisement key using SHA256
+    /// Hashed advertisement key using SHA256.
     let hashedKey: Data
-    /// The private key from which the advertisement keys can be derived
+    /// The private key from which the advertisement keys can be derived.
     let privateKey: Data
-    /// When this key was used to send out BLE advertisements
+    /// When this key was used to send out BLE advertisements.
     let startTime: Date?
-    /// Duration from start time how long the key has been used to send out BLE advertisements
+    /// Duration from start time how long the key has been used to send out BLE advertisements.
     let duration: Double?
     /// ?
     let pu: Data?
 
-    /// As exported from Big Sur
+    /// As exported from Big Sur.
     let yCoordinate: Data?
-    /// As exported from BigSur
+    /// As exported from Big Sur.
     let fullKey: Data?
 }
 
@@ -108,7 +108,7 @@ struct FindMyReport: Codable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         let dateTimestamp = try values.decode(Double.self, forKey: .datePublished)
         // Convert from milis to time interval
-        let dP = Date(timeIntervalSince1970: dateTimestamp/1000)
+        let dP = Date(timeIntervalSince1970: dateTimestamp / 1000)
         let df = DateFormatter()
         df.dateFormat = "YYYY-MM-dd"
 

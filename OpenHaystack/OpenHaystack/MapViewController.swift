@@ -25,7 +25,7 @@ final class MapViewController: NSViewController, MKMapViewDelegate {
         }
 
         // Zoom to first location
-        if let location =  devices.first?.decryptedReports?.first {
+        if let location = devices.first?.decryptedReports?.first {
             let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
             let span = MKCoordinateSpan(latitudeDelta: 5.0, longitudeDelta: 5.0)
             let region = MKCoordinateRegion(center: coordinate, span: span)
@@ -36,7 +36,7 @@ final class MapViewController: NSViewController, MKMapViewDelegate {
         // Add pins
         for device in devices {
 
-            guard let reports = device.decryptedReports else {continue}
+            guard let reports = device.decryptedReports else { continue }
             for report in reports {
                 let pin = MKPointAnnotation()
                 pin.title = device.deviceId
@@ -49,7 +49,7 @@ final class MapViewController: NSViewController, MKMapViewDelegate {
 
     func zoom(on accessory: Accessory?) {
         self.focusedAccessory = accessory
-        guard let location = accessory?.lastLocation else {return}
+        guard let location = accessory?.lastLocation else { return }
         let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
         let region = MKCoordinateRegion(center: location.coordinate, span: span)
         DispatchQueue.main.async {
@@ -63,7 +63,7 @@ final class MapViewController: NSViewController, MKMapViewDelegate {
         }
 
         // Zoom to first location
-        if focusedAccessory == nil, let location =  accessories.first(where: {$0.lastLocation != nil})?.lastLocation {
+        if focusedAccessory == nil, let location = accessories.first(where: { $0.lastLocation != nil })?.lastLocation {
             let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
             let region = MKCoordinateRegion(center: location.coordinate, span: span)
             DispatchQueue.main.async {
@@ -73,7 +73,7 @@ final class MapViewController: NSViewController, MKMapViewDelegate {
 
         // Add pins
         for accessory in accessories {
-            guard accessory.lastLocation != nil else {continue}
+            guard accessory.lastLocation != nil else { continue }
 
             let annotation = AccessoryAnnotation(accessory: accessory)
             self.mapView.addAnnotation(annotation)

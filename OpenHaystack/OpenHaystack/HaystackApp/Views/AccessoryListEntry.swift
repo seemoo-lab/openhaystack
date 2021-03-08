@@ -5,8 +5,8 @@
 //
 //  SPDX-License-Identifier: AGPL-3.0-only
 
-import SwiftUI
 import OSLog
+import SwiftUI
 
 struct AccessoryListEntry: View {
     var accessory: Accessory
@@ -18,39 +18,47 @@ struct AccessoryListEntry: View {
     var body: some View {
         VStack {
             HStack {
-                Button(action: {
-                    self.zoomOn(self.accessory)
-                }, label: {
-                    HStack {
-                        Text(accessory.name)
-                        Spacer()
+                Button(
+                    action: {
+                        self.zoomOn(self.accessory)
+                    },
+                    label: {
+                        HStack {
+                            Text(accessory.name)
+                            Spacer()
+                        }
+                        .contentShape(Rectangle())
                     }
-                    .contentShape(Rectangle())
-                })
+                )
                 .buttonStyle(PlainButtonStyle())
 
                 HStack(alignment: .center) {
 
-                    Button(action: {self.zoomOn(self.accessory)}, label: {
-                        Circle()
-                            .strokeBorder(accessory.color, lineWidth: 2.0)
-                            .background(
-                                ZStack {
-                                    Circle().fill(Color("PinColor"))
-                                    Image(systemName: accessory.icon)
-                                        .padding(3)
-                                }
+                    Button(
+                        action: { self.zoomOn(self.accessory) },
+                        label: {
+                            Circle()
+                                .strokeBorder(accessory.color, lineWidth: 2.0)
+                                .background(
+                                    ZStack {
+                                        Circle().fill(Color("PinColor"))
+                                        Image(systemName: accessory.icon)
+                                            .padding(3)
+                                    }
                                 )
 
-                            .frame(width: 30, height: 30)
-                    })
+                                .frame(width: 30, height: 30)
+                        }
+                    )
                     .buttonStyle(PlainButtonStyle())
 
-                    Button(action: {
-                        self.deployAccessoryToMicrobit(accessory)
-                    }, label: {
-                        Text("Deploy")
-                    })
+                    Button(
+                        action: {
+                            self.deployAccessoryToMicrobit(accessory)
+                        },
+                        label: {
+                            Text("Deploy")
+                        })
 
                 }
                 .padding(.trailing)
@@ -60,10 +68,10 @@ struct AccessoryListEntry: View {
         }
         .contentShape(Rectangle())
         .contextMenu {
-            Button("Delete", action: {self.delete(accessory)})
+            Button("Delete", action: { self.delete(accessory) })
             Divider()
-            Button("Copy advertisment key (Base64)", action: {self.copyPublicKey(of: accessory)})
-            Button("Copy key id (Base64)", action: {self.copyPublicKeyHash(of: accessory)})
+            Button("Copy advertisment key (Base64)", action: { self.copyPublicKey(of: accessory) })
+            Button("Copy key id (Base64)", action: { self.copyPublicKeyHash(of: accessory) })
         }
 
     }

@@ -9,19 +9,21 @@ import Foundation
 
 struct MicrobitController {
 
-    /// Find all microbits connected to this mac
+    /// Find all microbits connected to this Mac.
+    ///
     /// - Throws: If a volume is inaccessible
     /// - Returns: an array of urls
     static func findMicrobits() throws -> [URL] {
         let fm = FileManager.default
         let volumes = try fm.contentsOfDirectory(atPath: "/Volumes")
 
-        let microbits: [URL] = volumes.filter({$0.lowercased().contains("microbit")}).map({URL(fileURLWithPath: "/Volumes").appendingPathComponent($0)})
+        let microbits: [URL] = volumes.filter({ $0.lowercased().contains("microbit") }).map({ URL(fileURLWithPath: "/Volumes").appendingPathComponent($0) })
 
         return microbits
     }
 
-    /// Deploy the firmware to a USB connected microbit at the given URL
+    /// Deploy the firmware to a USB connected microbit at the given URL.
+    ///
     /// - Parameters:
     ///   - microbitURL: URL to the microbit
     ///   - firmwareFile: Firmware file as binary data
@@ -32,6 +34,7 @@ struct MicrobitController {
     }
 
     /// Patch the given firmware.
+    ///
     /// This will replace the pattern data (the place for the key) with the actual key
     /// - Parameters:
     ///   - firmware: The firmware data that should be patched
