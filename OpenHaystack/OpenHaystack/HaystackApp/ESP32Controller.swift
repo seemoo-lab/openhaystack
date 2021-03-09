@@ -9,10 +9,6 @@
 import Foundation
 
 struct ESP32Controller {
-    static var portURL: URL? {
-        self.findPort().first
-    }
-
     static var espFirmwareDirectory: URL? {
         Bundle.main.resourceURL?.appendingPathComponent("ESP32")
     }
@@ -20,7 +16,7 @@ struct ESP32Controller {
     /// Tries to find the port / path at which the ESP32 module is attached
     static func findPort() -> [URL] {
         // List all ports
-        let ports = try? FileManager.default.contentsOfDirectory(atPath: "/dev").filter({$0.contains("cu.usb")})
+        let ports = try? FileManager.default.contentsOfDirectory(atPath: "/dev").filter({$0.contains("cu.")})
 
         let portURLs = ports?.map({URL(fileURLWithPath: "/dev/\($0)")})
 
@@ -28,7 +24,7 @@ struct ESP32Controller {
     }
 
     /// Runs the script to flash the firmware on an ESP32
-    static func flashToESP32(accessory: Accessory, completion: @escaping (Result<Void, Error>) -> Void) throws {
+    static func flashToESP32(accessory: Accessory, port: URL, completion: @escaping (Result<Void, Error>) -> Void) throws {
 
         // Copy firmware to a temporary directory
         let temp = NSTemporaryDirectory() + "OpenHaystack"
@@ -42,10 +38,7 @@ struct ESP32Controller {
         try FileManager.default.copyFolder(from: espDirectory, to: urlTemp)
         let scriptPath = urlTemp.appendingPathComponent("flash_esp32.sh")
 
-        guard let port = portURL
-            else {throw FirmwareFlashError.notFound}
-
-        let key = accessory.privateKey.base64EncodedString()
+        let key = try accessory.getAdvertisementKey().base64EncodedString()
         let arguments = ["-p", "\(port.path)", key]
 
         let task = try NSUserUnixTask(url: scriptPath)

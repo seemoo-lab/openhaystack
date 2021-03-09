@@ -88,7 +88,8 @@ class MicrocontrollerTests: XCTestCase {
     func testESP32Deploy() throws {
         let accessory = try Accessory(name: "Sample")
         let expect = expectation(description: "ESP32 Flash")
-        try ESP32Controller.flashToESP32(accessory: accessory) { result in
+        let port = ESP32Controller.findPort().first(where: {$0.absoluteString.contains("usb")})!
+        try ESP32Controller.flashToESP32(accessory: accessory, port: port) { result in
             expect.fulfill()
             switch result {
             case .success(_):

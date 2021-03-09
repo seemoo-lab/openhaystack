@@ -11,10 +11,6 @@ import SwiftUI
 
 struct OpenHaystackMainView: View {
 
-    @State var keyName: String = ""
-    @State var accessoryColor: Color = Color.white
-    @State var selectedIcon: String = "briefcase.fill"
-
     @State var loading = false
     @ObservedObject var accessoryController = AccessoryController.shared
     var accessories: [Accessory] {
@@ -32,13 +28,18 @@ struct OpenHaystackMainView: View {
     @State var focusedAccessory: Accessory?
     @State var accessoryToDeploy: Accessory?
 
+    @State var showESP32DeploySheet = false
+
     var body: some View {
         GeometryReader { geo in
             ZStack {
                 VStack {
                     HStack {
-                        self.accessoryView
-                            .frame(width: geo.size.width * 0.5)
+                        ManageAccessoriesView(
+                            alertType: self.$alertType,
+                            focusedAccessory: self.$focusedAccessory,
+                            accessoryToDeploy: self.$accessoryToDeploy,
+                            showESP32DeploySheet: self.$showESP32DeploySheet)
 
                         Spacer()
 
@@ -93,67 +94,6 @@ struct OpenHaystackMainView: View {
 
     // MARK: Subviews
 
-    /// Left side of the view. Shows a list of accessories and the possibility to add accessories
-    var accessoryView: some View {
-        VStack {
-            Text("Create a new tracking accessory")
-                .font(.title2)
-                .padding(.top)
-
-            Text("A BBC Microbit can be used to track anything you care about. Connect it over USB, name the accessory (e.g. Backpack) generate the key and deploy it")
-                .multilineTextAlignment(.center)
-                .font(.caption)
-                .foregroundColor(.gray)
-
-            HStack {
-                TextField("Name", text: self.$keyName)
-                ColorPicker("", selection: self.$accessoryColor)
-                    .frame(maxWidth: 50, maxHeight: 20)
-                IconSelectionView(selectedImageName: self.$selectedIcon)
-            }
-
-            Button(
-                action: self.addAccessory,
-                label: {
-                    Text("Generate key and deploy")
-                }
-            )
-            .disabled(self.keyName.isEmpty)
-            .padding(.bottom)
-
-            Divider()
-
-            Text("Your accessories")
-                .font(.title2)
-                .padding(.top)
-
-            if self.accessories.isEmpty {
-                Spacer()
-                Text("No accessories have been added yet. Go ahead and add one above")
-                    .multilineTextAlignment(.center)
-            } else {
-                self.accessoryList
-            }
-
-            Spacer()
-
-        }
-    }
-
-    /// Accessory List view.
-    var accessoryList: some View {
-        List(self.accessories) { accessory in
-            AccessoryListEntry(
-                accessory: accessory,
-                alertType: self.$alertType,
-                delete: self.delete(accessory:),
-                deployAccessoryToMicrobit: self.deploy(accessory:),
-                zoomOn: { self.focusedAccessory = $0 })
-        }
-        .background(Color.clear)
-        .cornerRadius(15.0)
-    }
-
     /// Overlay for the map that is gray and shows an activity indicator when loading.
     var mapOverlay: some View {
         ZStack {
@@ -203,32 +143,25 @@ struct OpenHaystackMainView: View {
         }
     }
 
-    /// Add an accessory with the provided details.
-    func addAccessory() {
-        let keyName = self.keyName
-        self.keyName = ""
+    func onAppear() {
 
-        do {
-            let accessory = try Accessory(name: keyName, color: self.accessoryColor, iconName: self.selectedIcon)
-
-            let accessories = self.accessories + [accessory]
-
-            withAnimation {
-                self.accessoryController.accessories = accessories
-            }
-            try self.accessoryController.save()
-
-            if let microbits = try? MicrobitController.findMicrobits(), microbits.isEmpty == false {
-                self.deployAccessoryToMicrobit(accessory: accessory)
-            } else if ESP32Controller.portURL != nil {
-                self.deployAccessoryToESP32(accessory: accessory)
-            }
-
-        } catch {
-            self.errorDescription = String(describing: error)
-            self.showKeyError = true
+        /// Checks if the search party token can be fetched without the Mail Plugin. If true the plugin is not needed for this environment. (e.g.  when SIP is disabled)
+        let reportsFetcher = ReportsFetcher()
+        if let token = reportsFetcher.fetchSearchpartyToken(),
+            let tokenString = String(data: token, encoding: .ascii) {
+            self.searchPartyToken = tokenString
+            return
         }
 
+        let pluginManager = MailPluginManager()
+
+        // Check if the plugin is installed
+        if pluginManager.isMailPluginInstalled == false {
+            // Install the mail plugin
+            self.alertType = .activatePlugin
+        } else {
+            self.checkPluginIsRunning(nil)
+        }
     }
 
     /// Download the location reports for all current accessories. Shows an error if something fails, like plug-in is missing
@@ -251,54 +184,22 @@ struct OpenHaystackMainView: View {
                 self.isLoading = true
             }
 
-            let findMyDevices = self.accessories.compactMap({ acc -> FindMyDevice? in
-                do {
-                    return try acc.toFindMyDevice()
-                } catch {
-                    os_log("Failed getting id for key %@", String(describing: error))
-                    return nil
-                }
-            })
-
-            FindMyController.shared.devices = findMyDevices
-            FindMyController.shared.fetchReports(with: tokenData) { error in
-
-                let reports = FindMyController.shared.devices.compactMap({ $0.reports }).flatMap({ $0 })
-                if reports.isEmpty {
-                    withAnimation {
-                        self.popUpAlertType = .noReportsFound
+            FindMyController.shared.fetchReports(for: accessories, with: tokenData) { result in
+                switch result {
+                case .failure(let error):
+                    os_log(.error, "Downloading reports failed %@", error.localizedDescription)
+                case .success(let devices):
+                    let reports = devices.compactMap({ $0.reports }).flatMap({ $0 })
+                    if reports.isEmpty {
+                        withAnimation {
+                            self.popUpAlertType = .noReportsFound
+                        }
                     }
-                } else {
-                    self.accessoryController.updateWithDecryptedReports(devices: FindMyController.shared.devices)
                 }
-
                 withAnimation {
                     self.isLoading = false
                 }
-
-                guard error != nil else { return }
-                os_log("Error: %@", String(describing: error))
-
             }
-        }
-
-    }
-
-    /// Delete an accessory from the list of accessories.
-    func delete(accessory: Accessory) {
-        do {
-            var accessories = self.accessories
-            guard let idx = accessories.firstIndex(of: accessory) else { return }
-
-            accessories.remove(at: idx)
-
-            withAnimation {
-                self.accessoryController.accessories = accessories
-            }
-            try self.accessoryController.save()
-
-        } catch {
-            self.alertType = .deletionFailed
         }
 
     }
@@ -321,46 +222,6 @@ struct OpenHaystackMainView: View {
         self.alertType = .deployedSuccessfully
 
         self.accessoryToDeploy = nil
-    }
-
-    func deployAccessoryToESP32(accessory: Accessory) {
-        do {
-            try ESP32Controller.flashToESP32(accessory: accessory, completion: { result in
-                switch result {
-                case .success(_):
-                    self.alertType = .deployedSuccessfully
-                case .failure(let error):
-                    os_log(.error, "Flashing to ESP32 failed %@", String(describing: error))
-                    self.alertType = .deployFailed
-                }
-            })
-        } catch {
-            os_log(.error, "Execution of script failed %@", String(describing: error))
-            self.alertType = .deployFailed
-        }
-
-        self.accessoryToDeploy = nil
-    }
-
-    func onAppear() {
-
-        /// Checks if the search party token can be fetched without the Mail Plugin. If true the plugin is not needed for this environment. (e.g.  when SIP is disabled)
-        let reportsFetcher = ReportsFetcher()
-        if let token = reportsFetcher.fetchSearchpartyToken(),
-            let tokenString = String(data: token, encoding: .ascii) {
-            self.searchPartyToken = tokenString
-            return
-        }
-
-        let pluginManager = MailPluginManager()
-
-        // Check if the plugin is installed
-        if pluginManager.isMailPluginInstalled == false {
-            // Install the mail plugin
-            self.alertType = .activatePlugin
-        } else {
-            self.checkPluginIsRunning(nil)
-        }
     }
 
     /// Ask to install and activate the mail plugin.
@@ -487,7 +348,7 @@ struct OpenHaystackMainView: View {
             let microbitButton = Alert.Button.default(Text("Microbit"), action: {self.deployAccessoryToMicrobit(accessory: self.accessoryToDeploy!)})
 
             let esp32Button = Alert.Button.default(Text("ESP32"), action: {
-                self.deployAccessoryToESP32(accessory: self.accessoryToDeploy!)
+                self.showESP32DeploySheet = true
             })
 
             return Alert(title: Text("Select target"),
@@ -521,7 +382,7 @@ struct OpenHaystackMainView_Previews: PreviewProvider {
 
     static var previews: some View {
         OpenHaystackMainView(accessoryController: AccessoryController(accessories: accessories))
-            .frame(width: 640, height: 480, alignment: .center)
+            .frame(width: 800, height: 600, alignment: .center)
     }
 }
 
