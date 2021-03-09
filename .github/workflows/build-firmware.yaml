@@ -12,7 +12,7 @@ on:
 
 defaults:
   run:
-    working-directory: Firmware
+    working-directory: Firmware/Microbit_v1
 
 jobs:
   build-firmware:
