@@ -5,6 +5,7 @@
 //
 //  SPDX-License-Identifier: AGPL-3.0-only
 
+import Combine
 import Foundation
 import SwiftUI
 import Combine
@@ -13,19 +14,33 @@ class AccessoryController: ObservableObject {
     static let shared = AccessoryController()
 
     @Published var accessories: [Accessory]
+    var cancellables = [AnyCancellable]()
+    var saveCancellable: AnyCancellable?
 
     var accessoryObserver: AnyCancellable?
 
     init() {
         self.accessories = KeychainController.loadAccessoriesFromKeychain()
-        self.accessoryObserver = self.accessories.publisher
-            .sink { _ in
-                try? self.save()
-            }
+        initObserver()
+    }
+
+    func initObserver() {
+        self.accessories.forEach({
+            let c = $0.objectWillChange.sink(receiveValue: { self.objectWillChange.send() })
+
+            // Important: You have to keep the returned value allocated,
+            // otherwise the sink subscription gets cancelled
+            self.cancellables.append(c)
+        })
+        self.saveCancellable = self.$accessories.sink { _ in
+            // FIXME: accessories actually don't change
+            try? self.save()
+        }
     }
 
     init(accessories: [Accessory]) {
         self.accessories = accessories
+        initObserver()
     }
 
     func save() throws {
@@ -49,8 +64,6 @@ class AccessoryController: ObservableObject {
 
                 accessory.lastLocation = report?.location
                 accessory.locationTimestamp = report?.timestamp
-
-                self.accessories[idx] = accessory
             }
         }
     }

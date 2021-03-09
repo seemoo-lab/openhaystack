@@ -10,11 +10,16 @@ import SwiftUI
 
 struct AccessoryListEntry: View {
     var accessory: Accessory
+    @Binding var accessoryIcon: String
+    @Binding var accessoryColor: Color
+    @Binding var accessoryName: String
     @Binding var alertType: OpenHaystackMainView.AlertType?
     var delete: (Accessory) -> Void
     var deployAccessoryToMicrobit: (Accessory) -> Void
     var zoomOn: (Accessory) -> Void
     let formatter = DateFormatter()
+
+    @State var editingName: Bool = false
 
     func timestampView() -> some View {
         formatter.dateStyle = .short
@@ -30,33 +35,22 @@ struct AccessoryListEntry: View {
     }
 
     var body: some View {
+
         HStack {
-            Circle()
-                .strokeBorder(accessory.color, lineWidth: 2.0)
-                .background(
-                    ZStack {
-                        Circle().fill(Color("PinColor"))
-                        Image(systemName: accessory.icon)
-                            .padding(3)
-                    }
-                )
-                .frame(width: 40, height: 40)
+            IconSelectionView(selectedImageName: $accessoryIcon, selectedColor: $accessoryColor)
 
-            Button(
-                action: {
-                    self.zoomOn(self.accessory)
-                },
-                label: {
-                    VStack(alignment: .leading) {
-                        Text(accessory.name)
-                            .font(.headline)
-                        self.timestampView()
-
-                    }
-                    .contentShape(Rectangle())
+            VStack(alignment: .leading) {
+                if self.editingName {
+                    TextField("Enter accessory name", text: $accessoryName, onCommit: { self.editingName = false })
+                        .font(.headline)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                } else {
+                    Text(accessory.name)
+                        .font(.headline)
                 }
-            )
-            .buttonStyle(PlainButtonStyle())
+                self.timestampView()
+
+            }
 
             Spacer()
 
@@ -69,9 +63,9 @@ struct AccessoryListEntry: View {
                 }
             )
         }
-        .contentShape(Rectangle())
-        .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
+        .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0))
         .contextMenu {
+            Button("Rename", action: { self.editingName = true })
             Button("Delete", action: { self.delete(accessory) })
             Divider()
             Button("Copy advertisment key (Base64)", action: { self.copyPublicKey(of: accessory) })

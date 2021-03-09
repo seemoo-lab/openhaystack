@@ -11,13 +11,16 @@ import Foundation
 import Security
 import SwiftUI
 
-class Accessory: ObservableObject, Codable, Identifiable, Equatable {
-    let name: String
+class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
+    @Published var name: String
     let id: Int
     let privateKey: Data
-    let color: Color
-    let icon: String
-
+    @Published var color: Color
+    @Published var icon: String {
+        didSet {
+            print("Setting icon")
+        }
+    }
     @Published var lastLocation: CLLocation?
     @Published var locationTimestamp: Date?
 
@@ -90,6 +93,10 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable {
     /// - Returns: A base64 id of the current key
     func getKeyId() throws -> String {
         try self.hashedPublicKey().base64EncodedString()
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
     }
 
     private func hashedPublicKey() throws -> Data {

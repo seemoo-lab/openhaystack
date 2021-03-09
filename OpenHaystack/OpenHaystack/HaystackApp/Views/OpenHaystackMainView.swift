@@ -25,7 +25,7 @@ struct OpenHaystackMainView: View {
     @State var searchPartyTokenLoaded = false
     @State var mapType: MKMapType = .standard
     @State var isLoading = false
-    @State var focusedAccessory: Accessory?
+    @State var focusedAccessory: Accessory? = nil
     @State var accessoryToDeploy: Accessory?
 
     @State var showESP32DeploySheet = false
@@ -33,25 +33,32 @@ struct OpenHaystackMainView: View {
     var body: some View {
 
         NavigationView {
+
             ManageAccessoriesView(
                 alertType: self.$alertType,
                 focusedAccessory: self.$focusedAccessory,
                 accessoryToDeploy: self.$accessoryToDeploy,
                 showESP32DeploySheet: self.$showESP32DeploySheet)
+            .toolbar(content: {
+                Spacer()
+                Button(action: self.addAccessory) {
+                    Label("Add accessory", systemImage: "plus")
+                }
+            })
+            .navigationTitle(self.focusedAccessory?.name ?? "OpenHaystack")
 
-            VStack {
+            ZStack {
                 self.mapView
                 if self.popUpAlertType != nil {
                     VStack {
                         Spacer()
-
                         PopUpAlertView(alertType: self.popUpAlertType!)
                             .transition(AnyTransition.move(edge: .bottom))
                             .padding(.bottom, 30)
                     }
-
                 }
             }
+            .ignoresSafeArea(.all)
             .alert(
                 item: self.$alertType,
                 content: { alertType in
@@ -75,7 +82,6 @@ struct OpenHaystackMainView: View {
                 self.onAppear()
             }
         }
-        .navigationTitle("OpenHaystack")
     }
 
     // MARK: Subviews

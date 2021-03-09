@@ -10,8 +10,8 @@ import SwiftUI
 struct IconSelectionView: View {
 
     @State var showImagePicker = false
-    @State var color: Color = .red
     @Binding var selectedImageName: String
+    @Binding var selectedColor: Color
 
     var body: some View {
 
@@ -24,11 +24,15 @@ struct IconSelectionView: View {
                 },
                 label: {
                     Circle()
-                        .strokeBorder(Color.gray, lineWidth: 0.5)
+                        .strokeBorder(self.selectedColor, lineWidth: 2)
+
                         .background(
-                            Image(systemName: self.selectedImageName)
+                            ZStack {
+                                Circle().fill(Color("PinColor"))
+                                Image(systemName: self.selectedImageName)
+                            }
                         )
-                        .frame(width: 30, height: 30)
+                        .frame(width: 40, height: 40)
                 }
             )
             .buttonStyle(PlainButtonStyle())
@@ -45,11 +49,12 @@ struct IconSelectionView: View {
 
 struct ColorSelectionView_Previews: PreviewProvider {
     @State static var selectedImageName: String = "briefcase.fill"
+    @State static var selectedColor: Color = .red
 
     static var previews: some View {
         Group {
-            IconSelectionView(selectedImageName: self.$selectedImageName)
-            ImageSelectionList(selectedImageName: self.$selectedImageName, dismiss: {})
+            IconSelectionView(selectedImageName: self.$selectedImageName, selectedColor: self.$selectedColor)
+            ImageSelectionList(selectedImageName: self.$selectedImageName, dismiss: { () })
         }
 
     }
@@ -63,24 +68,26 @@ struct ImageSelectionList: View {
     let dismiss: () -> Void
 
     var body: some View {
-        List(self.selectableIcons, id: \.self) { iconName in
-            Button(
-                action: {
-                    self.selectedImageName = iconName
-                    self.dismiss()
-                },
-                label: {
-                    HStack {
-                        Spacer()
-                        Image(systemName: iconName)
-                        Spacer()
+        VStack {
+            List(self.selectableIcons, id: \.self) { iconName in
+                Button(
+                    action: {
+                        self.selectedImageName = iconName
+                        self.dismiss()
+                    },
+                    label: {
+                        HStack {
+                            Spacer()
+                            Image(systemName: iconName)
+                            Spacer()
+                        }
                     }
-                }
-            )
-            .buttonStyle(PlainButtonStyle())
-            .contentShape(Rectangle())
+                )
+                .buttonStyle(PlainButtonStyle())
+                .contentShape(Rectangle())
+            }
+            .frame(width: 100)
         }
-        .frame(width: 100)
     }
 
 }
