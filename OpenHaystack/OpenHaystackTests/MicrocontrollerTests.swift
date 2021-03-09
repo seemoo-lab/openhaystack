@@ -97,7 +97,7 @@ class MicrocontrollerTests: XCTestCase {
                 XCTFail(error.localizedDescription)
             }
         }
-        wait(for: [expect], timeout: 5.0)
+        wait(for: [expect], timeout: 60.0)
     }
 
 }

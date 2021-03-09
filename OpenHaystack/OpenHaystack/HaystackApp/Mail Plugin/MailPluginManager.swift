@@ -63,7 +63,7 @@ struct MailPluginManager {
         } catch {
             print(error.localizedDescription)
         }
-        try self.copyFolder(from: localPluginURL, to: pluginURL)
+        try FileManager.default.copyFolder(from: localPluginURL, to: pluginURL)
 
         self.openAppleMail()
     }
@@ -71,32 +71,6 @@ struct MailPluginManager {
     fileprivate func openAppleMail() {
         NSWorkspace.shared.openApplication(at: URL(fileURLWithPath: "/System/Applications/Mail.app"), configuration: NSWorkspace.OpenConfiguration(), completionHandler: nil)
 
-    }
-
-    /// Copy a folder recursively.
-    ///
-    /// - Parameters:
-    ///   - from: Folder source
-    ///   - to: Folder destination
-    /// - Throws: An error if copying or acessing files fails
-    func copyFolder(from: URL, to: URL) throws {
-        // Create the folder
-        try? FileManager.default.createDirectory(at: to, withIntermediateDirectories: false, attributes: nil)
-
-        let files = try FileManager.default.contentsOfDirectory(atPath: from.path)
-        for file in files {
-            // Check if file is a folder
-            var isDir: ObjCBool = .init(booleanLiteral: false)
-            let fileURL = from.appendingPathComponent(file)
-            FileManager.default.fileExists(atPath: fileURL.path, isDirectory: &isDir)
-
-            if isDir.boolValue == true {
-                try self.copyFolder(from: fileURL, to: to.appendingPathComponent(file))
-            } else {
-                // Copy file
-                try FileManager.default.copyItem(at: fileURL, to: to.appendingPathComponent(file))
-            }
-        }
     }
 
     func uninstallMailPlugin() throws {
@@ -115,7 +89,7 @@ struct MailPluginManager {
 
         let downloadsPluginURL = downloadsFolder.appendingPathComponent(mailBundleName + ".mailbundle")
 
-        try self.copyFolder(from: localPluginURL, to: downloadsPluginURL)
+        try FileManager.default.copyFolder(from: localPluginURL, to: downloadsPluginURL)
     }
 
 }

@@ -218,9 +218,9 @@ struct OpenHaystackMainView: View {
             }
             try self.accessoryController.save()
 
-            if let microbits = try? MicrobitController.findMicrobits() {
+            if let microbits = try? MicrobitController.findMicrobits(), microbits.isEmpty == false {
                 self.deployAccessoryToMicrobit(accessory: accessory)
-            } else if let esp32Port = ESP32Controller.findPort() {
+            } else if ESP32Controller.portURL != nil {
                 self.deployAccessoryToESP32(accessory: accessory)
             }
 
@@ -335,6 +335,7 @@ struct OpenHaystackMainView: View {
                 }
             })
         } catch {
+            os_log(.error, "Execution of script failed %@", String(describing: error))
             self.alertType = .deployFailed
         }
 

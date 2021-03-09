@@ -9,6 +9,9 @@ VENV_DIR="$SCRIPT_DIR/venv"
 # Defaults: Serial port to access the ESP32
 PORT=/dev/ttyS0
 
+# Defaults: Fast baud rate
+BAUDRATE=921600
+
 # Parameter parsing
 while [[ $# -gt 0 ]]; do
     KEY="$1"
@@ -16,6 +19,10 @@ while [[ $# -gt 0 ]]; do
         -p|--port)
             PORT="$2"
             shift
+            shift
+        ;;
+        -s|--slow)
+            BAUDRATE=115200
             shift
         ;;
         -v|--venvdir)
@@ -28,7 +35,7 @@ while [[ $# -gt 0 ]]; do
             echo ""
             echo "  This script will create a virtual environment for the required tools."
             echo ""
-            echo "Call: flash_esp32.sh [-p <port>] [-v <dir>] PUBKEY"
+            echo "Call: flash_esp32.sh [-p <port>] [-v <dir>] [-s] PUBKEY"
             echo ""
             echo "Required Arguments:"
             echo "  PUBKEY"
@@ -36,11 +43,15 @@ while [[ $# -gt 0 ]]; do
             echo ""
             echo "Optional Arguments:"
             echo "  -h, --help"
-            echo "      Show this message and exit"
+            echo "      Show this message and exit."
             echo "  -p, --port <port>"
-            echo "      Specify the serial interface where the device is located"
+            echo "      Specify the serial interface to which the device is connected."
+            echo "  -s, --slow"
+            echo "      Use 115200 instead of 921600 baud when flashing."
+            echo "      Might be required for long/bad USB cables or slow USB-to-Serial converters."
             echo "  -v, --venvdir <dir>"
-            echo "      Python virtual environment with esptool installed"
+            echo "      Select Python virtual environment with esptool installed."
+            echo "      If the directory does not exist, it will be created."
             exit 1
         ;;
         *)
@@ -86,7 +97,7 @@ if [[ ! -d "$VENV_DIR" ]]; then
         echo "Python 3 module \"venv\" was not found."
         exit 1
     fi
-    python -m venv "$VENV_DIR"
+    $PYTHON -m venv "$VENV_DIR"
     if [[ $? != 0 ]]; then
         echo "Creating the virtual environment in $VENV_DIR failed."
         exit 1
@@ -120,8 +131,9 @@ set -e
 # Clear NVM
 esptool.py --after no_reset \
     erase_region 0x9000 0x5000
-esptool.py --before no_reset \
-    write_flash 0x8000  "$SCRIPT_DIR/build/partition_table/partition-table.bin" \
+esptool.py --before no_reset --baud $BAUDRATE \
+    write_flash 0x1000  "$SCRIPT_DIR/build/bootloader/bootloader.bin" \
+                0x8000  "$SCRIPT_DIR/build/partition_table/partition-table.bin" \
                 0xe000  "$KEYFILE" \
                 0x10000 "$SCRIPT_DIR/build/openhaystack.bin"
 rm "$KEYFILE"
