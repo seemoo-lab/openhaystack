@@ -1,0 +1,38 @@
+name: 'Build Firmware with ESP-IDF'
+description: 'Builds a firmware for the ESP32 using the ESP-IDF'
+inputs:
+  src-dir:
+    description: 'Source directory for the ESP-IDF project'
+    required: true
+  out-dir:
+    description: 'Directory to which bin files will be written'
+    required: true
+  app-name:
+    description: 'Name of the IDF application/main binary'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Prepare ESP-IDF
+      shell: bash
+      run: |
+        sudo apt update
+        sudo apt install git wget flex bison gperf python3 python3-pip python3-setuptools cmake ninja-build ccache libffi-dev libssl-dev dfu-util libusb-1.0-0
+        mkdir -p /opt/esp
+        cd /opt/esp
+        git clone --recursive --depth 1 --branch v4.2 https://github.com/espressif/esp-idf.git
+        cd /opt/esp/esp-idf
+        ./install.sh
+    - name: Build firmware
+      shell: bash
+      run: |
+        source /opt/esp/esp-idf/export.sh
+        cd ${{ inputs.src-dir }}
+        idf.py build
+    - name: Bundle output files
+      shell: bash
+      run: |
+        mkdir -p "${{ inputs.out-dir }}/bootloader" "${{ inputs.out-dir }}/partition_table"
+        cp "${{ inputs.src-dir }}/build/bootloader/bootloader.bin" "${{ inputs.out-dir }}/bootloader/bootloader.bin"
+        cp "${{ inputs.src-dir }}/build/partition_table/partition-table.bin" "${{ inputs.out-dir }}/partition_table/partition-table.bin"
+        cp "${{ inputs.src-dir }}/build/${{ inputs.app-name }}.bin" "${{ inputs.out-dir }}/${{ inputs.app-name }}.bin"
