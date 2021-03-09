@@ -28,47 +28,18 @@ struct ManageAccessoriesView: View {
 
     var body: some View {
         VStack {
-            Text("Create a new tracking accessory")
-                .font(.title2)
-                .padding(.top)
-
-            Text("A BBC Microbit can be used to track anything you care about. Connect it over USB, name the accessory (e.g. Backpack) generate the key and deploy it")
-                .multilineTextAlignment(.center)
-                .font(.caption)
-                .foregroundColor(.gray)
-
-            HStack {
-                TextField("Name", text: self.$keyName)
-                ColorPicker("", selection: self.$accessoryColor)
-                    .frame(maxWidth: 50, maxHeight: 20)
-                IconSelectionView(selectedImageName: self.$selectedIcon)
-            }
-
-            Button(
-                action: self.addAccessory,
-                label: {
-                    Text("Generate key and deploy")
-                }
-            )
-            .disabled(self.keyName.isEmpty)
-            .padding(.bottom)
-
-            Divider()
-
             Text("Your accessories")
                 .font(.title2)
                 .padding(.top)
 
             if self.accessories.isEmpty {
                 Spacer()
-                Text("No accessories have been added yet. Go ahead and add one above")
+                Text("No accessories have been added yet. Go ahead and add one via the '+' icon.")
                     .multilineTextAlignment(.center)
+                Spacer()
             } else {
                 self.accessoryList
             }
-
-            Spacer()
-
         }
         .sheet(isPresented: self.$showESP32DeploySheet, content: {
             ESP32InstallSheet(accessory: self.$accessoryToDeploy, alertType: self.$alertType)
@@ -77,16 +48,27 @@ struct ManageAccessoriesView: View {
 
     /// Accessory List view.
     var accessoryList: some View {
-        List(self.accessories) { accessory in
+        List(self.accessories, id: \.self, selection: $focusedAccessory) { accessory in
             AccessoryListEntry(
                 accessory: accessory,
+                accessoryIcon: Binding(
+                    get: { accessory.icon },
+                    set: { accessory.icon = $0 }
+                ),
+                accessoryColor: Binding(
+                    get: { accessory.color },
+                    set: { accessory.color = $0 }
+                ),
+                accessoryName: Binding(
+                    get: { accessory.name },
+                    set: { accessory.name = $0 }
+                ),
                 alertType: self.$alertType,
                 delete: self.delete(accessory:),
-                deployAccessoryToMicrobit: self.deploy(accessory:),
+                deployAccessoryToMicrobit: self.deployAccessoryToMicrobit(accessory:),
                 zoomOn: { self.focusedAccessory = $0 })
         }
-        .background(Color.clear)
-        .cornerRadius(15.0)
+        .listStyle(SidebarListStyle())
     }
 
     /// Delete an accessory from the list of accessories.

@@ -71,40 +71,6 @@ class AccessoryAnnotationView: MKAnnotationView {
         self.canShowCallout = true
     }
 
-    //    override func draw(_ dirtyRect: NSRect) {
-    //        guard let accessoryAnnotation = self.annotation as? AccessoryAnnotation else {
-    //            super.draw(dirtyRect)
-    //            return
-    //        }
-    //
-    //        let path = NSBezierPath(ovalIn: dirtyRect)
-    //        path.lineWidth = 2.0
-    //
-    //        guard let cgColor = accessoryAnnotation.accessory.color.cgColor,
-    //              let strokeColor = NSColor(cgColor: cgColor)?.withAlphaComponent(0.8) else {return}
-    //
-    //        NSColor(named: NSColor.Name("PinColor"))?.setFill()
-    //
-    //        path.fill()
-    //
-    //        strokeColor.setStroke()
-    //        path.stroke()
-    //
-    //        let accessory = accessoryAnnotation.accessory
-    //
-    //        guard let image = NSImage(systemSymbolName: accessory.icon, accessibilityDescription: accessory.name) else {return}
-    //
-    //        let ratio = image.size.width / image.size.height
-    //        let imageWidth: CGFloat = 20
-    //        let imageHeight = imageWidth / ratio
-    //        let imageRect = NSRect(
-    //            x: dirtyRect.width/2 - imageWidth/2,
-    //            y: dirtyRect.height/2 - imageHeight/2,
-    //            width: imageWidth, height: imageHeight)
-    //
-    //        image.draw(in: imageRect)
-    //    }
-
     struct AccessoryPinView: View {
         var accessory: Accessory
 
