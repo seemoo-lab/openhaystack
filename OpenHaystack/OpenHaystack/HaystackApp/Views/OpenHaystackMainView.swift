@@ -30,6 +30,7 @@ struct OpenHaystackMainView: View {
     @State var mapType: MKMapType = .standard
     @State var isLoading = false
     @State var focusedAccessory: Accessory?
+    @State var accessoryToDeploy: Accessory?
 
     var body: some View {
         GeometryReader { geo in
@@ -146,7 +147,7 @@ struct OpenHaystackMainView: View {
                 accessory: accessory,
                 alertType: self.$alertType,
                 delete: self.delete(accessory:),
-                deployAccessoryToMicrobit: self.deployAccessoryToMicrobit(accessory:),
+                deployAccessoryToMicrobit: self.deploy(accessory:),
                 zoomOn: { self.focusedAccessory = $0 })
         }
         .background(Color.clear)
@@ -217,7 +218,11 @@ struct OpenHaystackMainView: View {
             }
             try self.accessoryController.save()
 
-            self.deployAccessoryToMicrobit(accessory: accessory)
+            if let microbits = try? MicrobitController.findMicrobits() {
+                self.deployAccessoryToMicrobit(accessory: accessory)
+            } else if let esp32Port = ESP32Controller.findPort() {
+                self.deployAccessoryToESP32(accessory: accessory)
+            }
 
         } catch {
             self.errorDescription = String(describing: error)
@@ -298,23 +303,15 @@ struct OpenHaystackMainView: View {
 
     }
 
+    func deploy(accessory: Accessory) {
+        self.accessoryToDeploy = accessory
+        self.alertType = .selectDepoyTarget
+    }
+
     /// Deploy the public key of the accessory to a BBC microbit.
     func deployAccessoryToMicrobit(accessory: Accessory) {
         do {
-            let microbits = try MicrobitController.findMicrobits()
-            guard let microBitURL = microbits.first,
-                let firmwareURL = Bundle.main.url(forResource: "firmware", withExtension: "bin")
-            else {
-                self.alertType = .deployFailed
-                return
-            }
-            let firmware = try Data(contentsOf: firmwareURL)
-            let pattern = "OFFLINEFINDINGPUBLICKEYHERE!".data(using: .ascii)!
-            let publicKey = try accessory.getAdvertisementKey()
-            let patchedFirmware = try MicrobitController.patchFirmware(firmware, pattern: pattern, with: publicKey)
-
-            try MicrobitController.deployToMicrobit(microBitURL, firmwareFile: patchedFirmware)
-
+            try MicrobitController.deploy(accessory: accessory)
         } catch {
             os_log("Error occurred %@", String(describing: error))
             self.alertType = .deployFailed
@@ -322,6 +319,26 @@ struct OpenHaystackMainView: View {
         }
 
         self.alertType = .deployedSuccessfully
+
+        self.accessoryToDeploy = nil
+    }
+
+    func deployAccessoryToESP32(accessory: Accessory) {
+        do {
+            try ESP32Controller.flashToESP32(accessory: accessory, completion: { result in
+                switch result {
+                case .success(_):
+                    self.alertType = .deployedSuccessfully
+                case .failure(let error):
+                    os_log(.error, "Flashing to ESP32 failed %@", String(describing: error))
+                    self.alertType = .deployFailed
+                }
+            })
+        } catch {
+            self.alertType = .deployFailed
+        }
+
+        self.accessoryToDeploy = nil
     }
 
     func onAppear() {
@@ -329,8 +346,7 @@ struct OpenHaystackMainView: View {
         /// Checks if the search party token can be fetched without the Mail Plugin. If true the plugin is not needed for this environment. (e.g.  when SIP is disabled)
         let reportsFetcher = ReportsFetcher()
         if let token = reportsFetcher.fetchSearchpartyToken(),
-            let tokenString = String(data: token, encoding: .ascii)
-        {
+            let tokenString = String(data: token, encoding: .ascii) {
             self.searchPartyToken = tokenString
             return
         }
@@ -402,6 +418,7 @@ struct OpenHaystackMainView: View {
 
     // MARK: - Alerts
 
+    // swiftlint:disable function_body_length
     /// Create an alert for the given alert type.
     ///
     /// - Parameter alertType: current alert type
@@ -465,6 +482,17 @@ struct OpenHaystackMainView: View {
                     action: {
                         self.downloadPlugin()
                     }), secondaryButton: .cancel())
+        case .selectDepoyTarget:
+            let microbitButton = Alert.Button.default(Text("Microbit"), action: {self.deployAccessoryToMicrobit(accessory: self.accessoryToDeploy!)})
+
+            let esp32Button = Alert.Button.default(Text("ESP32"), action: {
+                self.deployAccessoryToESP32(accessory: self.accessoryToDeploy!)
+            })
+
+            return Alert(title: Text("Select target"),
+                         message: Text("Please select to which device you want to deploy"),
+                         primaryButton: microbitButton,
+                         secondaryButton: esp32Button)
         }
     }
 
@@ -481,6 +509,7 @@ struct OpenHaystackMainView: View {
         case noReportsFound
         case activatePlugin
         case pluginInstallFailed
+        case selectDepoyTarget
     }
 
 }

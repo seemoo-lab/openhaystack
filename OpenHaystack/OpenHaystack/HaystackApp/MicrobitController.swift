@@ -72,6 +72,22 @@ struct MicrobitController {
         return patchedFirmware
     }
 
+    static func deploy(accessory: Accessory) throws {
+        let microbits = try MicrobitController.findMicrobits()
+        guard let microBitURL = microbits.first,
+            let firmwareURL = Bundle.main.url(forResource: "firmware", withExtension: "bin")
+        else {
+            throw FirmwareFlashError.notFound
+        }
+
+        let firmware = try Data(contentsOf: firmwareURL)
+        let pattern = "OFFLINEFINDINGPUBLICKEYHERE!".data(using: .ascii)!
+        let publicKey = try accessory.getAdvertisementKey()
+        let patchedFirmware = try MicrobitController.patchFirmware(firmware, pattern: pattern, with: publicKey)
+
+        try MicrobitController.deployToMicrobit(microBitURL, firmwareFile: patchedFirmware)
+    }
+
 }
 
 enum PatchingError: Error {

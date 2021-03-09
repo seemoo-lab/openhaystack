@@ -97,7 +97,7 @@ public class AnisetteDataManager: NSObject {
                         "X-Apple-I-MD": data.oneTimePassword,
                         "X-Apple-I-TimeZone": String(data.timeZone.abbreviation() ?? "UTC"),
                         "X-Apple-I-Client-Time": ISO8601DateFormatter().string(from: data.date),
-                        "X-Apple-I-MD-RINFO": String(data.routingInfo),
+                        "X-Apple-I-MD-RINFO": String(data.routingInfo)
                     ] as [AnyHashable: Any])
             }
         }
@@ -110,8 +110,7 @@ extension AnisetteDataManager {
         guard let userInfo = notification.userInfo, let requestUUID = userInfo["requestUUID"] as? String else { return }
 
         if let archivedAnisetteData = userInfo["anisetteData"] as? Data,
-            let appleAccountData = try? NSKeyedUnarchiver.unarchivedObject(ofClass: AppleAccountData.self, from: archivedAnisetteData)
-        {
+            let appleAccountData = try? NSKeyedUnarchiver.unarchivedObject(ofClass: AppleAccountData.self, from: archivedAnisetteData) {
             if let range = appleAccountData.deviceDescription.lowercased().range(of: "(com.apple.mail") {
                 var adjustedDescription = appleAccountData.deviceDescription[..<range.lowerBound]
                 adjustedDescription += "(com.apple.dt.Xcode/3594.4.19)>"
@@ -129,8 +128,7 @@ extension AnisetteDataManager {
         guard let userInfo = notification.userInfo, let requestUUID = userInfo["requestUUID"] as? String else { return }
 
         if let archivedAnisetteData = userInfo["anisetteData"] as? Data,
-            let anisetteData = try? NSKeyedUnarchiver.unarchivedObject(ofClass: ALTAnisetteData.self, from: archivedAnisetteData)
-        {
+            let anisetteData = try? NSKeyedUnarchiver.unarchivedObject(ofClass: ALTAnisetteData.self, from: archivedAnisetteData) {
             if let range = anisetteData.deviceDescription.lowercased().range(of: "(com.apple.mail") {
                 var adjustedDescription = anisetteData.deviceDescription[..<range.lowerBound]
                 adjustedDescription += "(com.apple.dt.Xcode/3594.4.19)>"

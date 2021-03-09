@@ -41,8 +41,7 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable {
 
         if var colorComponents = try? container.decode([CGFloat].self, forKey: .colorComponents),
             let spaceName = try? container.decode(String.self, forKey: .colorSpaceName),
-            let cgColor = CGColor(colorSpace: CGColorSpace(name: spaceName as CFString)!, components: &colorComponents)
-        {
+            let cgColor = CGColor(colorSpace: CGColorSpace(name: spaceName as CFString)!, components: &colorComponents) {
             self.color = Color(cgColor)
         } else {
             self.color = Color.white
@@ -58,8 +57,7 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable {
         try container.encode(self.icon, forKey: .icon)
 
         if let colorComponents = self.color.cgColor?.components,
-            let colorSpace = self.color.cgColor?.colorSpace?.name
-        {
+            let colorSpace = self.color.cgColor?.colorSpace?.name {
             try container.encode(colorComponents, forKey: .colorComponents)
             try container.encode(colorSpace as String, forKey: .colorSpaceName)
         }
