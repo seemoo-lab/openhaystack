@@ -17,7 +17,7 @@ struct KeychainController {
             kSecAttrLabel: "FindMyAccessories",
             kSecAttrService: "SEEMOO-FINDMY",
             kSecMatchLimit: kSecMatchLimitOne,
-            kSecReturnData: true,
+            kSecReturnData: true
         ]
 
         if test {
@@ -49,7 +49,7 @@ struct KeychainController {
             kSecClass: kSecClassGenericPassword,
             kSecAttrLabel: "FindMyAccessories",
             kSecAttrService: "SEEMOO-FINDMY",
-            kSecValueData: try PropertyListEncoder().encode(accessories),
+            kSecValueData: try PropertyListEncoder().encode(accessories)
         ]
 
         if test {
@@ -63,7 +63,7 @@ struct KeychainController {
             var query: [CFString: Any] = [
                 kSecClass: kSecClassGenericPassword,
                 kSecAttrLabel: "FindMyAccessories",
-                kSecAttrService: "SEEMOO-FINDMY",
+                kSecAttrService: "SEEMOO-FINDMY"
             ]
 
             if test {

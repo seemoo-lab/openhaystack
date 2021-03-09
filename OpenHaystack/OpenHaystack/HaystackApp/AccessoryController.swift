@@ -6,14 +6,22 @@
 //  SPDX-License-Identifier: AGPL-3.0-only
 
 import Foundation
+import SwiftUI
+import Combine
 
 class AccessoryController: ObservableObject {
     static let shared = AccessoryController()
 
     @Published var accessories: [Accessory]
 
+    var accessoryObserver: AnyCancellable?
+
     init() {
         self.accessories = KeychainController.loadAccessoriesFromKeychain()
+        self.accessoryObserver = self.accessories.publisher
+            .sink { _ in
+                try? self.save()
+            }
     }
 
     init(accessories: [Accessory]) {
@@ -45,5 +53,31 @@ class AccessoryController: ObservableObject {
                 self.accessories[idx] = accessory
             }
         }
+    }
+
+    func delete(accessory: Accessory) throws {
+        var accessories = self.accessories
+        guard let idx = accessories.firstIndex(of: accessory) else { return }
+
+        accessories.remove(at: idx)
+
+        withAnimation {
+            self.accessories = accessories
+        }
+        try self.save()
+    }
+
+    func addAccessory(with name: String, color: Color, icon: String) throws -> Accessory {
+        let accessory = try Accessory(name: name, color: color, iconName: icon)
+
+        let accessories = self.accessories + [accessory]
+
+        withAnimation {
+            self.accessories = accessories
+        }
+
+        try self.save()
+
+        return accessory
     }
 }

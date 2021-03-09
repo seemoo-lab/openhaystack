@@ -8,6 +8,7 @@
 import Combine
 import Foundation
 import SwiftUI
+import OSLog
 
 class FindMyController: ObservableObject {
     static let shared = FindMyController()
@@ -79,6 +80,34 @@ class FindMyController: ObservableObject {
         // Decrypt reports again with additional information
         self.decryptReports {
 
+        }
+    }
+
+    func fetchReports(for accessories: [Accessory], with token: Data, completion: @escaping (Result<[FindMyDevice], Error>) -> Void) {
+        let findMyDevices = accessories.compactMap({ acc -> FindMyDevice? in
+            do {
+                return try acc.toFindMyDevice()
+            } catch {
+                os_log("Failed getting id for key %@", String(describing: error))
+                return nil
+            }
+        })
+
+        self.devices = findMyDevices
+
+        self.fetchReports(with: token) { error in
+
+            let reports = FindMyController.shared.devices.compactMap({ $0.reports }).flatMap({ $0 })
+            if reports.isEmpty == false {
+                AccessoryController.shared.updateWithDecryptedReports(devices: FindMyController.shared.devices)
+            }
+
+            if let error = error {
+                completion(.failure(error))
+                os_log("Error: %@", String(describing: error))
+            } else {
+                completion(.success(self.devices))
+            }
         }
     }
 

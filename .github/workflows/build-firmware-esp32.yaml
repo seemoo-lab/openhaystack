@@ -1,0 +1,28 @@
+name: "Build firmware (ESP32)"
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - Firmware/ESP32/**
+  pull_request:
+    branches: [ main ]
+    paths:
+      - Firmware/ESP32/**
+
+jobs:
+  build-firmware-esp32:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v2
+      - name: "Copy static files"
+        run: |
+          mkdir -p archive/build
+          cp Firmware/ESP32/flash_esp32.sh archive/
+      - name: "Build ESP32 firmware"
+        uses: ./.github/actions/build-esp-idf
+        with:
+          src-dir: Firmware/ESP32
+          out-dir: archive/build
+          app-name: openhaystack

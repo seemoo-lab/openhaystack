@@ -10,6 +10,9 @@
 		78014A2925DC08580089F6D9 /* MicrobitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78014A2725DC01220089F6D9 /* MicrobitController.swift */; };
 		78014A2B25DC22120089F6D9 /* sample.bin in Resources */ = {isa = PBXBuildFile; fileRef = 78014A2A25DC22110089F6D9 /* sample.bin */; };
 		78014A2F25DC2F100089F6D9 /* pattern_sample.bin in Resources */ = {isa = PBXBuildFile; fileRef = 78014A2E25DC2F100089F6D9 /* pattern_sample.bin */; };
+		78023CAB25F7767000B083EF /* ESP32Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78023CAA25F7767000B083EF /* ESP32Controller.swift */; };
+		78023CAF25F7797400B083EF /* ESP32 in Resources */ = {isa = PBXBuildFile; fileRef = 78023CAE25F7797400B083EF /* ESP32 */; };
+		78023CB125F7841F00B083EF /* MicrocontrollerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78023CB025F7841F00B083EF /* MicrocontrollerTests.swift */; };
 		781EB3EA25DAD7EA00FEAA19 /* ReportsFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 78108B84248E8FDD0007E9C4 /* ReportsFetcher.m */; };
 		781EB3EB25DAD7EA00FEAA19 /* SavePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 116B4EEC24A913AA007BA636 /* SavePanel.swift */; };
 		781EB3EC25DAD7EA00FEAA19 /* DecryptReports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025DFEDB248FED250039C718 /* DecryptReports.swift */; };
@@ -25,6 +28,8 @@
 		781EB40025DAD7EA00FEAA19 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78108B76248E8FB80007E9C4 /* Preview Assets.xcassets */; };
 		781EB40225DAD7EA00FEAA19 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78108B73248E8FB80007E9C4 /* Assets.xcassets */; };
 		781EB43125DADF2B00FEAA19 /* AnisetteDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781EB40F25DADB0600FEAA19 /* AnisetteDataManager.swift */; };
+		7821DAD125F7B2C10054DC33 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7821DAD025F7B2C10054DC33 /* FileManager.swift */; };
+		7821DAD325F7C39A0054DC33 /* ESP32InstallSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7821DAD225F7C39A0054DC33 /* ESP32InstallSheet.swift */; };
 		78286CB225E3ACE700F65511 /* OpenHaystackPluginService.m in Sources */ = {isa = PBXBuildFile; fileRef = 78286CAF25E3ACE700F65511 /* OpenHaystackPluginService.m */; };
 		78286D1F25E3D8B800F65511 /* ALTAnisetteData.m in Sources */ = {isa = PBXBuildFile; fileRef = 78286CB025E3ACE700F65511 /* ALTAnisetteData.m */; };
 		78286D2A25E3EC3200F65511 /* AppleAccountData.m in Sources */ = {isa = PBXBuildFile; fileRef = 78286D2925E3EC3200F65511 /* AppleAccountData.m */; };
@@ -42,6 +47,7 @@
 		7899D1D625DE74EE00115740 /* firmware.bin in Resources */ = {isa = PBXBuildFile; fileRef = 7899D1D525DE74EE00115740 /* firmware.bin */; };
 		7899D1E125DE97E200115740 /* IconSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7899D1E025DE97E200115740 /* IconSelectionView.swift */; };
 		7899D1E925DEBF4900115740 /* AccessoryMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7899D1E825DEBF4800115740 /* AccessoryMapAnnotation.swift */; };
+		78D9B80625F7CF60009B9CE8 /* ManageAccessoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D9B80525F7CF60009B9CE8 /* ManageAccessoriesView.swift */; };
 		78EC226425DAE0BE0042B775 /* OpenHaystackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC226325DAE0BE0042B775 /* OpenHaystackTests.swift */; };
 		78EC226C25DBC2E40042B775 /* OpenHaystackMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC226B25DBC2E40042B775 /* OpenHaystackMainView.swift */; };
 		78EC227225DBC8CE0042B775 /* Accessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC227125DBC8CE0042B775 /* Accessory.swift */; };
@@ -101,6 +107,9 @@
 		78014A2725DC01220089F6D9 /* MicrobitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrobitController.swift; sourceTree = "<group>"; };
 		78014A2A25DC22110089F6D9 /* sample.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = sample.bin; sourceTree = "<group>"; };
 		78014A2E25DC2F100089F6D9 /* pattern_sample.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = pattern_sample.bin; sourceTree = "<group>"; };
+		78023CAA25F7767000B083EF /* ESP32Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ESP32Controller.swift; sourceTree = "<group>"; };
+		78023CAE25F7797400B083EF /* ESP32 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ESP32; sourceTree = "<group>"; };
+		78023CB025F7841F00B083EF /* MicrocontrollerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrocontrollerTests.swift; sourceTree = "<group>"; };
 		78108B6F248E8FB50007E9C4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		78108B73248E8FB80007E9C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		78108B76248E8FB80007E9C4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -113,6 +122,8 @@
 		78108B90248F72AF0007E9C4 /* FindMyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindMyController.swift; sourceTree = "<group>"; };
 		781EB40825DAD7EA00FEAA19 /* OpenHaystack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenHaystack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		781EB40F25DADB0600FEAA19 /* AnisetteDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnisetteDataManager.swift; sourceTree = "<group>"; };
+		7821DAD025F7B2C10054DC33 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
+		7821DAD225F7C39A0054DC33 /* ESP32InstallSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ESP32InstallSheet.swift; sourceTree = "<group>"; };
 		78286C8E25E3AC0400F65511 /* OpenHaystackMail.mailbundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenHaystackMail.mailbundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		78286C9025E3AC0400F65511 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78286CAE25E3ACE700F65511 /* OpenHaystackPluginService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenHaystackPluginService.h; sourceTree = "<group>"; };
@@ -135,6 +146,7 @@
 		7899D1D525DE74EE00115740 /* firmware.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = firmware.bin; sourceTree = "<group>"; };
 		7899D1E025DE97E200115740 /* IconSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconSelectionView.swift; sourceTree = "<group>"; };
 		7899D1E825DEBF4800115740 /* AccessoryMapAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessoryMapAnnotation.swift; sourceTree = "<group>"; };
+		78D9B80525F7CF60009B9CE8 /* ManageAccessoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageAccessoriesView.swift; sourceTree = "<group>"; };
 		78EC226125DAE0BE0042B775 /* OpenHaystackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenHaystackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		78EC226325DAE0BE0042B775 /* OpenHaystackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenHaystackTests.swift; sourceTree = "<group>"; };
 		78EC226525DAE0BE0042B775 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -178,6 +190,23 @@
 				024D98482490CE320063EBB6 /* BoringSSL.m */,
 			);
 			path = BoringSSL;
+			sourceTree = "<group>";
+		};
+		78023CAC25F7775300B083EF /* Firmwares */ = {
+			isa = PBXGroup;
+			children = (
+				78023CAE25F7797400B083EF /* ESP32 */,
+				78023CAD25F7775A00B083EF /* Microbit */,
+			);
+			path = Firmwares;
+			sourceTree = "<group>";
+		};
+		78023CAD25F7775A00B083EF /* Microbit */ = {
+			isa = PBXGroup;
+			children = (
+				7899D1D525DE74EE00115740 /* firmware.bin */,
+			);
+			path = Microbit;
 			sourceTree = "<group>";
 		};
 		78108B63248E8FB50007E9C4 = {
@@ -291,6 +320,7 @@
 				78014A2A25DC22110089F6D9 /* sample.bin */,
 				78EC226325DAE0BE0042B775 /* OpenHaystackTests.swift */,
 				78EC226525DAE0BE0042B775 /* Info.plist */,
+				78023CB025F7841F00B083EF /* MicrocontrollerTests.swift */,
 			);
 			path = OpenHaystackTests;
 			sourceTree = "<group>";
@@ -298,13 +328,15 @@
 		78EC226E25DBC2FC0042B775 /* HaystackApp */ = {
 			isa = PBXGroup;
 			children = (
-				7899D1D525DE74EE00115740 /* firmware.bin */,
+				78023CAC25F7775300B083EF /* Firmwares */,
 				78286D3A25E4017400F65511 /* Mail Plugin */,
 				78EC227025DBC8BB0042B775 /* Views */,
 				78EC226F25DBC8B60042B775 /* Model */,
 				78EC227625DBDB7E0042B775 /* KeychainController.swift */,
 				78014A2725DC01220089F6D9 /* MicrobitController.swift */,
 				787D8AC025DECD3C00148766 /* AccessoryController.swift */,
+				78023CAA25F7767000B083EF /* ESP32Controller.swift */,
+				7821DAD025F7B2C10054DC33 /* FileManager.swift */,
 			);
 			path = HaystackApp;
 			sourceTree = "<group>";
@@ -328,6 +360,8 @@
 				7899D1E825DEBF4800115740 /* AccessoryMapAnnotation.swift */,
 				78286E0125E66F9400F65511 /* AccessoryListEntry.swift */,
 				7851F1DC25EE90FA0049480D /* AccessoryMapView.swift */,
+				7821DAD225F7C39A0054DC33 /* ESP32InstallSheet.swift */,
+				78D9B80525F7CF60009B9CE8 /* ManageAccessoriesView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -447,6 +481,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78023CAF25F7797400B083EF /* ESP32 in Resources */,
 				781EB3FD25DAD7EA00FEAA19 /* Main.storyboard in Resources */,
 				7899D1D625DE74EE00115740 /* firmware.bin in Resources */,
 				781EB3FE25DAD7EA00FEAA19 /* MapViewController.xib in Resources */,
@@ -583,18 +618,22 @@
 				781EB3EB25DAD7EA00FEAA19 /* SavePanel.swift in Sources */,
 				7899D1E125DE97E200115740 /* IconSelectionView.swift in Sources */,
 				78EC227725DBDB7E0042B775 /* KeychainController.swift in Sources */,
+				78D9B80625F7CF60009B9CE8 /* ManageAccessoriesView.swift in Sources */,
 				78486BEF25DD711E0007ED87 /* PopUpAlertView.swift in Sources */,
 				78014A2925DC08580089F6D9 /* MicrobitController.swift in Sources */,
 				78286D1F25E3D8B800F65511 /* ALTAnisetteData.m in Sources */,
 				781EB3EC25DAD7EA00FEAA19 /* DecryptReports.swift in Sources */,
 				78EC226C25DBC2E40042B775 /* OpenHaystackMainView.swift in Sources */,
 				78EC227225DBC8CE0042B775 /* Accessory.swift in Sources */,
+				7821DAD125F7B2C10054DC33 /* FileManager.swift in Sources */,
 				78286E0225E66F9400F65511 /* AccessoryListEntry.swift in Sources */,
 				781EB3EF25DAD7EA00FEAA19 /* MapViewController.swift in Sources */,
 				78286D7725E5114600F65511 /* ActivityIndicator.swift in Sources */,
+				7821DAD325F7C39A0054DC33 /* ESP32InstallSheet.swift in Sources */,
 				781EB3F125DAD7EA00FEAA19 /* FindMyKeyDecoder.swift in Sources */,
 				787D8AC125DECD3C00148766 /* AccessoryController.swift in Sources */,
 				781EB3F225DAD7EA00FEAA19 /* AppDelegate.swift in Sources */,
+				78023CAB25F7767000B083EF /* ESP32Controller.swift in Sources */,
 				781EB3F325DAD7EA00FEAA19 /* Models.swift in Sources */,
 				781EB3F425DAD7EA00FEAA19 /* FindMyController.swift in Sources */,
 				781EB3F525DAD7EA00FEAA19 /* BoringSSL.m in Sources */,
@@ -615,6 +654,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78023CB125F7841F00B083EF /* MicrocontrollerTests.swift in Sources */,
 				78EC226425DAE0BE0042B775 /* OpenHaystackTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

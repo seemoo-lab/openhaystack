@@ -4,15 +4,15 @@ on:
   push:
     branches: [ main ]
     paths:
-      - Firmware/**
+      - Firmware/Microbit_v1/**
   pull_request:
     branches: [ main ]
     paths:
-      - Firmware/**
+      - Firmware/Microbit_v1/**
 
 defaults:
   run:
-    working-directory: Firmware
+    working-directory: Firmware/Microbit_v1
 
 jobs:
   build-firmware:

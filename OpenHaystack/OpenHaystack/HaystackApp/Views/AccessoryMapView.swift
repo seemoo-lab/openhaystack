@@ -26,6 +26,5 @@ struct AccessoryMapView: NSViewControllerRepresentable {
         nsViewController.addLastLocations(from: accessories)
 
         nsViewController.changeMapType(mapType)
-
     }
 }

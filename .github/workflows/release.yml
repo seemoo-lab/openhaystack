@@ -6,6 +6,28 @@ on:
       - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
+  build-firmware-esp32:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v2
+      - name: "Copy static files"
+        run: |
+          mkdir -p archive/build
+          cp Firmware/ESP32/flash_esp32.sh archive/
+      - name: "Build ESP32 firmware"
+        uses: ./.github/actions/build-esp-idf
+        with:
+          src-dir: Firmware/ESP32
+          out-dir: archive/build
+          app-name: openhaystack
+      - name: "Create archive"
+        uses: actions/upload-artifact@v2
+        with:
+          name: firmware-esp32
+          path: archive/*
+          retention-days: 1
+
   build-and-release:
     name: "Create release on GitHub"
     runs-on: macos-latest
@@ -15,6 +37,8 @@ jobs:
     defaults:
       run:
         working-directory: ${{ env.PROJECT_DIR }}
+    needs:
+      - build-firmware-esp32
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -22,6 +46,11 @@ jobs:
         uses: devbotsxyz/xcode-select@v1
         with:
           version: "12"
+      - name: "Add ESP32 firmware"
+        uses: actions/download-artifact@v2
+        with:
+          name: firmware-esp32
+          path: "${{ env.PROJECT_DIR }}/OpenHaystack/HaystackApp/Firmwares/ESP32"
       - name: "Archive project"
         run: xcodebuild archive -scheme ${APP} -configuration release -archivePath ${APP}.xcarchive
       - name: "Create ZIP"
