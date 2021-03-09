@@ -14,66 +14,69 @@ struct AccessoryListEntry: View {
     var delete: (Accessory) -> Void
     var deployAccessoryToMicrobit: (Accessory) -> Void
     var zoomOn: (Accessory) -> Void
+    let formatter = DateFormatter()
+
+    func timestampView() -> some View {
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return Group {
+            if let timestamp = accessory.locationTimestamp {
+                Text(formatter.string(from: timestamp))
+            } else {
+                Text("No location found")
+            }
+        }
+        .font(.footnote)
+    }
 
     var body: some View {
-        VStack {
-            HStack {
-                Button(
-                    action: {
-                        self.zoomOn(self.accessory)
-                    },
-                    label: {
-                        HStack {
-                            Text(accessory.name)
-                            Spacer()
-                        }
-                        .contentShape(Rectangle())
+        HStack {
+            Circle()
+                .strokeBorder(accessory.color, lineWidth: 2.0)
+                .background(
+                    ZStack {
+                        Circle().fill(Color("PinColor"))
+                        Image(systemName: accessory.icon)
+                            .padding(3)
                     }
                 )
-                .buttonStyle(PlainButtonStyle())
+                .frame(width: 40, height: 40)
 
-                HStack(alignment: .center) {
+            Button(
+                action: {
+                    self.zoomOn(self.accessory)
+                },
+                label: {
+                    VStack(alignment: .leading) {
+                        Text(accessory.name)
+                            .font(.headline)
+                        self.timestampView()
 
-                    Button(
-                        action: { self.zoomOn(self.accessory) },
-                        label: {
-                            Circle()
-                                .strokeBorder(accessory.color, lineWidth: 2.0)
-                                .background(
-                                    ZStack {
-                                        Circle().fill(Color("PinColor"))
-                                        Image(systemName: accessory.icon)
-                                            .padding(3)
-                                    }
-                                )
-
-                                .frame(width: 30, height: 30)
-                        }
-                    )
-                    .buttonStyle(PlainButtonStyle())
-
-                    Button(
-                        action: {
-                            self.deployAccessoryToMicrobit(accessory)
-                        },
-                        label: {
-                            Text("Deploy")
-                        })
-
+                    }
+                    .contentShape(Rectangle())
                 }
-                .padding(.trailing)
-            }
+            )
+            .buttonStyle(PlainButtonStyle())
 
-            Divider()
+            Spacer()
+
+            Button(
+                action: {
+                    self.deployAccessoryToMicrobit(accessory)
+                },
+                label: {
+                    Text("Deploy")
+                }
+            )
         }
         .contentShape(Rectangle())
+        .padding(EdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5))
         .contextMenu {
             Button("Delete", action: { self.delete(accessory) })
             Divider()
             Button("Copy advertisment key (Base64)", action: { self.copyPublicKey(of: accessory) })
             Button("Copy key id (Base64)", action: { self.copyPublicKeyHash(of: accessory) })
         }
-
     }
 
     func copyPublicKey(of accessory: Accessory) {
@@ -100,9 +103,3 @@ struct AccessoryListEntry: View {
         }
     }
 }
-
-// struct AccessoryListEntry_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AccessoryListEntry()
-//    }
-// }
