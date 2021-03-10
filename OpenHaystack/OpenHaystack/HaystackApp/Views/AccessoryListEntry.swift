@@ -59,15 +59,11 @@ struct AccessoryListEntry: View {
             }
 
             Spacer()
-
-            Button(
-                action: {
-                    self.deployAccessoryToMicrobit(accessory)
-                },
-                label: {
+            if !accessory.isDeployed {
+                Button(action: { self.deployAccessoryToMicrobit(accessory) }) {
                     Text("Deploy")
                 }
-            )
+            }
         }
         .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0))
         .contextMenu {
@@ -78,6 +74,8 @@ struct AccessoryListEntry: View {
             Divider()
             Button("Copy advertisment key (Base64)", action: { self.copyPublicKey(of: accessory) })
             Button("Copy key ID (Base64)", action: { self.copyPublicKeyHash(of: accessory) })
+            Divider()
+            Button("Mark as \(accessory.isDeployed ? "deployable" : "deployed")", action: { accessory.isDeployed.toggle() })
         }
         .onChange(of: self.accessoryColor) { _ in
             self.editingColor = false
@@ -105,6 +103,39 @@ struct AccessoryListEntry: View {
         } catch {
             os_log("Failed extracing public key %@", String(describing: error))
             assert(false)
+        }
+    }
+
+    struct AccessoryListEntry_Previews: PreviewProvider {
+        static var previews: some View {
+            PreviewWrapper()
+                .frame(width: 300)
+        }
+
+        struct PreviewWrapper: View {
+            @StateObject var accessory = PreviewData.accessories.first!
+            @State var alertType: OpenHaystackMainView.AlertType?
+
+            var body: some View {
+                AccessoryListEntry(
+                    accessory: accessory,
+                    accessoryIcon: Binding(
+                        get: { accessory.icon },
+                        set: { accessory.icon = $0 }
+                    ),
+                    accessoryColor: Binding(
+                        get: { accessory.color },
+                        set: { accessory.color = $0 }
+                    ),
+                    accessoryName: Binding(
+                        get: { accessory.name },
+                        set: { accessory.name = $0 }
+                    ),
+                    alertType: self.$alertType,
+                    delete: { _ in () },
+                    deployAccessoryToMicrobit: { _ in () },
+                    zoomOn: { _ in () })
+            }
         }
     }
 }

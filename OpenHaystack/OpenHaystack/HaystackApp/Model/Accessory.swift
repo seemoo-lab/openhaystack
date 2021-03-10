@@ -28,6 +28,7 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
     @Published var icon: String
     @Published var lastLocation: CLLocation?
     @Published var locationTimestamp: Date?
+    @Published var isDeployed: Bool
 
     init(name: String = "New accessory", color: Color = randomColor(), iconName: String = randomIcon()) throws {
         self.name = name
@@ -38,6 +39,7 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
         self.privateKey = key
         self.color = color
         self.icon = iconName
+        self.isDeployed = false
     }
 
     required init(from decoder: Decoder) throws {
@@ -46,6 +48,7 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
         self.id = try container.decode(Int.self, forKey: .id)
         self.privateKey = try container.decode(Data.self, forKey: .privateKey)
         self.icon = (try? container.decode(String.self, forKey: .icon)) ?? ""
+        self.isDeployed = (try? container.decode(Bool.self, forKey: .isDeployed)) ?? false
 
         if var colorComponents = try? container.decode([CGFloat].self, forKey: .colorComponents),
             let spaceName = try? container.decode(String.self, forKey: .colorSpaceName),
@@ -64,6 +67,7 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
         try container.encode(self.id, forKey: .id)
         try container.encode(self.privateKey, forKey: .privateKey)
         try container.encode(self.icon, forKey: .icon)
+        try container.encode(self.isDeployed, forKey: .isDeployed)
 
         if let colorComponents = self.color.cgColor?.components,
             let colorSpace = self.color.cgColor?.colorSpace?.name
@@ -142,10 +146,11 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
         case colorComponents
         case colorSpaceName
         case icon
+        case isDeployed
     }
 
     static func == (lhs: Accessory, rhs: Accessory) -> Bool {
-        return lhs.id == rhs.id && lhs.name == rhs.name && lhs.privateKey == rhs.privateKey && lhs.icon == rhs.icon
+        return lhs.id == rhs.id && lhs.name == rhs.name && lhs.privateKey == rhs.privateKey && lhs.icon == rhs.icon && lhs.isDeployed == rhs.isDeployed
     }
 }
 
