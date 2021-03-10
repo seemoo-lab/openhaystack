@@ -41,7 +41,6 @@ struct OpenHaystackMainView: View {
                 accessoryToDeploy: self.$accessoryToDeploy,
                 showESP32DeploySheet: self.$showESP32DeploySheet
             )
-            .navigationTitle(self.focusedAccessory?.name ?? "OpenHaystack")
 
             ZStack {
                 AccessoryMapView(accessoryController: self.accessoryController, mapType: self.$mapType, focusedAccessory: self.focusedAccessory)
@@ -90,6 +89,8 @@ struct OpenHaystackMainView: View {
                 self.onAppear()
             }
         }
+        .navigationTitle(self.focusedAccessory?.name ?? "Your accessories")
+
     }
 
     // MARK: Subviews
