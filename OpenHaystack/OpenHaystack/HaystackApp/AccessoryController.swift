@@ -10,16 +10,18 @@ import Foundation
 import SwiftUI
 
 class AccessoryController: ObservableObject {
-    static let shared = AccessoryController()
-
     @Published var accessories: [Accessory]
     var selfObserver: AnyCancellable?
     var listElementsObserver = [AnyCancellable]()
 
-    init() {
-        self.accessories = KeychainController.loadAccessoriesFromKeychain()
+    init(accessories: [Accessory]) {
+        self.accessories = accessories
         initAccessoryObserver()
         initObserver()
+    }
+
+    convenience init() {
+        self.init(accessories: KeychainController.loadAccessoriesFromKeychain())
     }
 
     func initAccessoryObserver() {
@@ -45,19 +47,13 @@ class AccessoryController: ObservableObject {
         })
     }
 
-    init(accessories: [Accessory]) {
-        self.accessories = accessories
-        initAccessoryObserver()
-        initObserver()
-    }
-
     func save() throws {
         try KeychainController.storeInKeychain(accessories: self.accessories)
     }
 
     func updateWithDecryptedReports(devices: [FindMyDevice]) {
         // Assign last locations
-        for device in FindMyController.shared.devices {
+        for device in devices {
             if let idx = self.accessories.firstIndex(where: { $0.id == Int(device.deviceId) }) {
                 self.objectWillChange.send()
                 let accessory = self.accessories[idx]
@@ -89,5 +85,11 @@ class AccessoryController: ObservableObject {
             self.accessories.append(accessory)
         }
         return accessory
+    }
+}
+
+class AccessoryControllerPreview: AccessoryController {
+    override func save() {
+        // don't allow saving dummy data to keychain
     }
 }

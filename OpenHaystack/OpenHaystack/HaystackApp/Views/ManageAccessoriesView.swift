@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ManageAccessoriesView: View {
 
-    @ObservedObject var accessoryController = AccessoryController.shared
+    @EnvironmentObject var accessoryController: AccessoryController
     var accessories: [Accessory] {
         return self.accessoryController.accessories
     }

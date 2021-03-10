@@ -12,7 +12,8 @@ import SwiftUI
 struct OpenHaystackMainView: View {
 
     @State var loading = false
-    @ObservedObject var accessoryController = AccessoryController.shared
+    @EnvironmentObject var accessoryController: AccessoryController
+    @EnvironmentObject var findMyController: FindMyController
     var accessories: [Accessory] {
         return self.accessoryController.accessories
     }
@@ -169,7 +170,7 @@ struct OpenHaystackMainView: View {
                 self.isLoading = true
             }
 
-            FindMyController.shared.fetchReports(for: accessories, with: tokenData) { result in
+            findMyController.fetchReports(for: accessories, with: tokenData) { result in
                 switch result {
                 case .failure(let error):
                     os_log(.error, "Downloading reports failed %@", error.localizedDescription)
@@ -365,12 +366,11 @@ struct OpenHaystackMainView: View {
 }
 
 struct OpenHaystackMainView_Previews: PreviewProvider {
-
-    static var accessories: [Accessory] = PreviewData.accessories
-
+    static var accessoryController = AccessoryControllerPreview(accessories: PreviewData.accessories) as AccessoryController
+    
     static var previews: some View {
-        OpenHaystackMainView(accessoryController: AccessoryController(accessories: accessories))
-            .frame(width: 800, height: 600, alignment: .center)
+        OpenHaystackMainView()
+            .environmentObject(accessoryController)
     }
 }
 
