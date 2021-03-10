@@ -65,7 +65,14 @@ Our plugin does not access any other private data such as emails (see [source co
 
 **Adding a new tag.**
 To create a new tag, you just need to enter a name for it and optionally select a suitable icon and a color. The app then generates a new key pair that is used to encrypt and decrypt the location reports. The private key is stored in your Mac's keychain.
+
+**BBC Microbit**
 Upon deploying, the app will try to flash our firmware image with the new public key to a USB-connected [BBC micro:bit v1](https://microbit.org/).
+
+**ESP32**
+Since version 0.3.1 we also ship a simple ESP32 firmware that supports the same features as our firmware for the BBC micro:bit. To flash an ESP32 connect it via USB and select the correct serial port when deploying. It can take up to 3 minuites, a Python 3 version is required. 
+
+**Manual**
 However, you may also copy the public key used for advertising and deploy it via some other mechanism.
 
 **Display devices' locations.**
