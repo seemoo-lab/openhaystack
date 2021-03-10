@@ -68,26 +68,24 @@ struct ImageSelectionList: View {
     let dismiss: () -> Void
 
     var body: some View {
-        VStack {
-            List(self.selectableIcons, id: \.self) { iconName in
-                Button(
-                    action: {
-                        self.selectedImageName = iconName
-                        self.dismiss()
-                    },
-                    label: {
-                        HStack {
-                            Spacer()
-                            Image(systemName: iconName)
-                            Spacer()
-                        }
+        List(self.selectableIcons, id: \.self) { iconName in
+            Button(
+                action: {
+                    self.selectedImageName = iconName
+                    self.dismiss()
+                },
+                label: {
+                    HStack {
+                        Spacer()
+                        Image(systemName: iconName)
+                        Spacer()
                     }
-                )
-                .buttonStyle(PlainButtonStyle())
-                .contentShape(Rectangle())
-            }
-            .frame(width: 100)
+                }
+            )
+            .buttonStyle(PlainButtonStyle())
+            .contentShape(Rectangle())
         }
+        .frame(width: 100)
     }
 
 }
