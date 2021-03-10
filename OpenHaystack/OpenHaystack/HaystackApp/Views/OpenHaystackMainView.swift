@@ -25,7 +25,7 @@ struct OpenHaystackMainView: View {
     @State var searchPartyTokenLoaded = false
     @State var mapType: MKMapType = .standard
     @State var isLoading = false
-    @State var focusedAccessory: Accessory? = nil
+    @State var focusedAccessory: Accessory?
     @State var accessoryToDeploy: Accessory?
 
     @State var showESP32DeploySheet = false
@@ -38,13 +38,8 @@ struct OpenHaystackMainView: View {
                 alertType: self.$alertType,
                 focusedAccessory: self.$focusedAccessory,
                 accessoryToDeploy: self.$accessoryToDeploy,
-                showESP32DeploySheet: self.$showESP32DeploySheet)
-            .toolbar(content: {
-                Spacer()
-                Button(action: self.addAccessory) {
-                    Label("Add accessory", systemImage: "plus")
-                }
-            })
+                showESP32DeploySheet: self.$showESP32DeploySheet
+            )
             .navigationTitle(self.focusedAccessory?.name ?? "OpenHaystack")
 
             ZStack {
@@ -137,7 +132,8 @@ struct OpenHaystackMainView: View {
         /// Checks if the search party token can be fetched without the Mail Plugin. If true the plugin is not needed for this environment. (e.g.  when SIP is disabled)
         let reportsFetcher = ReportsFetcher()
         if let token = reportsFetcher.fetchSearchpartyToken(),
-            let tokenString = String(data: token, encoding: .ascii) {
+            let tokenString = String(data: token, encoding: .ascii)
+        {
             self.searchPartyToken = tokenString
             return
         }
@@ -334,16 +330,19 @@ struct OpenHaystackMainView: View {
                         self.downloadPlugin()
                     }), secondaryButton: .cancel())
         case .selectDepoyTarget:
-            let microbitButton = Alert.Button.default(Text("Microbit"), action: {self.deployAccessoryToMicrobit(accessory: self.accessoryToDeploy!)})
+            let microbitButton = Alert.Button.default(Text("Microbit"), action: { self.deployAccessoryToMicrobit(accessory: self.accessoryToDeploy!) })
 
-            let esp32Button = Alert.Button.default(Text("ESP32"), action: {
-                self.showESP32DeploySheet = true
-            })
+            let esp32Button = Alert.Button.default(
+                Text("ESP32"),
+                action: {
+                    self.showESP32DeploySheet = true
+                })
 
-            return Alert(title: Text("Select target"),
-                         message: Text("Please select to which device you want to deploy"),
-                         primaryButton: microbitButton,
-                         secondaryButton: esp32Button)
+            return Alert(
+                title: Text("Select target"),
+                message: Text("Please select to which device you want to deploy"),
+                primaryButton: microbitButton,
+                secondaryButton: esp32Button)
         }
     }
 

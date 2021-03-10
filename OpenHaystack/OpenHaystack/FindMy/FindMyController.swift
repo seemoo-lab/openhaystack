@@ -7,8 +7,8 @@
 
 import Combine
 import Foundation
-import SwiftUI
 import OSLog
+import SwiftUI
 
 class FindMyController: ObservableObject {
     static let shared = FindMyController()
