@@ -20,6 +20,7 @@ struct AccessoryListEntry: View {
     let formatter = DateFormatter()
 
     @State var editingName: Bool = false
+    @State var editingColor: Bool = false
 
     func timestampView() -> some View {
         formatter.dateStyle = .short
@@ -39,6 +40,12 @@ struct AccessoryListEntry: View {
         HStack {
             IconSelectionView(selectedImageName: $accessoryIcon, selectedColor: $accessoryColor)
 
+            if self.editingColor {
+                ColorPicker(selection: $accessoryColor, supportsOpacity: false) {
+                    EmptyView()
+                }
+            }
+
             VStack(alignment: .leading) {
                 if self.editingName {
                     TextField("Enter accessory name", text: $accessoryName, onCommit: { self.editingName = false })
@@ -49,7 +56,6 @@ struct AccessoryListEntry: View {
                         .font(.headline)
                 }
                 self.timestampView()
-
             }
 
             Spacer()
@@ -65,11 +71,16 @@ struct AccessoryListEntry: View {
         }
         .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0))
         .contextMenu {
-            Button("Rename", action: { self.editingName = true })
             Button("Delete", action: { self.delete(accessory) })
             Divider()
+            Button("Rename", action: { self.editingName = true })
+            Button("Change color", action: { self.editingColor = true })
+            Divider()
             Button("Copy advertisment key (Base64)", action: { self.copyPublicKey(of: accessory) })
-            Button("Copy key id (Base64)", action: { self.copyPublicKeyHash(of: accessory) })
+            Button("Copy key ID (Base64)", action: { self.copyPublicKeyHash(of: accessory) })
+        }
+        .onChange(of: self.accessoryColor) { _ in
+            self.editingColor = false
         }
     }
 
