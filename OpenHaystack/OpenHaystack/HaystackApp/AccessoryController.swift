@@ -13,41 +13,46 @@ class AccessoryController: ObservableObject {
     static let shared = AccessoryController()
 
     @Published var accessories: [Accessory]
-    var cancellables = [AnyCancellable]()
-    var saveCancellable: AnyCancellable?
-
-    var accessoryObserver: AnyCancellable?
+    var selfObserver: AnyCancellable?
+    var listElementsObserver = [AnyCancellable]()
 
     init() {
         self.accessories = KeychainController.loadAccessoriesFromKeychain()
+        initAccessoryObserver()
         initObserver()
     }
 
+    func initAccessoryObserver() {
+        self.selfObserver = self.objectWillChange.sink { _ in
+            // objectWillChange is called before the values are actually changed,
+            // so we dispatch the call to save()
+            DispatchQueue.main.async {
+                self.initObserver()
+                try? self.save()
+            }
+        }
+    }
+
     func initObserver() {
+        self.listElementsObserver.forEach({
+            $0.cancel()
+        })
         self.accessories.forEach({
             let c = $0.objectWillChange.sink(receiveValue: { self.objectWillChange.send() })
-
             // Important: You have to keep the returned value allocated,
             // otherwise the sink subscription gets cancelled
-            self.cancellables.append(c)
+            self.listElementsObserver.append(c)
         })
-        self.saveCancellable = self.$accessories.sink { _ in
-            // FIXME: accessories actually don't change
-            try? self.save()
-        }
     }
 
     init(accessories: [Accessory]) {
         self.accessories = accessories
+        initAccessoryObserver()
         initObserver()
     }
 
     func save() throws {
         try KeychainController.storeInKeychain(accessories: self.accessories)
-    }
-
-    func load() {
-        self.accessories = KeychainController.loadAccessoriesFromKeychain()
     }
 
     func updateWithDecryptedReports(devices: [FindMyDevice]) {
@@ -76,20 +81,13 @@ class AccessoryController: ObservableObject {
         withAnimation {
             self.accessories = accessories
         }
-        try self.save()
     }
 
     func addAccessory(with name: String, color: Color, icon: String) throws -> Accessory {
         let accessory = try Accessory(name: name, color: color, iconName: icon)
-
-        let accessories = self.accessories + [accessory]
-
         withAnimation {
-            self.accessories = accessories
+            self.accessories.append(accessory)
         }
-
-        try self.save()
-
         return accessory
     }
 }
