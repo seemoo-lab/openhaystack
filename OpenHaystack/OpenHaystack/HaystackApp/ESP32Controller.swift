@@ -16,9 +16,9 @@ struct ESP32Controller {
     /// Tries to find the port / path at which the ESP32 module is attached
     static func findPort() -> [URL] {
         // List all ports
-        let ports = try? FileManager.default.contentsOfDirectory(atPath: "/dev").filter({$0.contains("cu.")})
+        let ports = try? FileManager.default.contentsOfDirectory(atPath: "/dev").filter({ $0.contains("cu.") })
 
-        let portURLs = ports?.map({URL(fileURLWithPath: "/dev/\($0)")})
+        let portURLs = ports?.map({ URL(fileURLWithPath: "/dev/\($0)") })
 
         return portURLs ?? []
     }
@@ -33,7 +33,7 @@ struct ESP32Controller {
 
         try? FileManager.default.createDirectory(atPath: temp, withIntermediateDirectories: false, attributes: nil)
 
-        guard let espDirectory = espFirmwareDirectory else {return}
+        guard let espDirectory = espFirmwareDirectory else { return }
 
         try FileManager.default.copyFolder(from: espDirectory, to: urlTemp)
         let scriptPath = urlTemp.appendingPathComponent("flash_esp32.sh")
@@ -61,6 +61,6 @@ struct ESP32Controller {
 enum FirmwareFlashError: Error {
     /// Missing files for flashing
     case notFound
-    /// Flashing / writing failed 
+    /// Flashing / writing failed
     case flashFailed
 }

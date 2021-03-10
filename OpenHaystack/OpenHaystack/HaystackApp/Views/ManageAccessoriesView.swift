@@ -41,9 +41,17 @@ struct ManageAccessoriesView: View {
                 self.accessoryList
             }
         }
-        .sheet(isPresented: self.$showESP32DeploySheet, content: {
-            ESP32InstallSheet(accessory: self.$accessoryToDeploy, alertType: self.$alertType)
+        .toolbar(content: {
+            Spacer()
+            Button(action: self.addAccessory) {
+                Label("Add accessory", systemImage: "plus")
+            }
         })
+        .sheet(
+            isPresented: self.$showESP32DeploySheet,
+            content: {
+                ESP32InstallSheet(accessory: self.$accessoryToDeploy, alertType: self.$alertType)
+            })
     }
 
     /// Accessory List view.
@@ -65,10 +73,11 @@ struct ManageAccessoriesView: View {
                 ),
                 alertType: self.$alertType,
                 delete: self.delete(accessory:),
-                deployAccessoryToMicrobit: self.deployAccessoryToMicrobit(accessory:),
+                deployAccessoryToMicrobit: self.deploy(accessory:),
                 zoomOn: { self.focusedAccessory = $0 })
         }
         .listStyle(SidebarListStyle())
+
     }
 
     /// Delete an accessory from the list of accessories.
@@ -91,9 +100,7 @@ struct ManageAccessoriesView: View {
         self.keyName = ""
 
         do {
-            let accessory = try self.accessoryController.addAccessory(with: keyName, color: self.accessoryColor, icon: self.selectedIcon)
-            self.deploy(accessory: accessory)
-
+            _ = try self.accessoryController.addAccessory(with: keyName, color: self.accessoryColor, icon: self.selectedIcon)
         } catch {
             self.alertType = .keyError
         }

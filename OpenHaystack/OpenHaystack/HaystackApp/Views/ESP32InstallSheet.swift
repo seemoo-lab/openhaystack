@@ -6,8 +6,8 @@
 //  Copyright © 2021 SEEMOO - TU Darmstadt. All rights reserved.
 //
 
-import SwiftUI
 import OSLog
+import SwiftUI
 
 struct ESP32InstallSheet: View {
     @Binding var accessory: Accessory?
@@ -44,13 +44,17 @@ struct ESP32InstallSheet: View {
             HStack {
                 Spacer()
 
-                Button("Reload ports", action: {
-                    self.detectedPorts = ESP32Controller.findPort()
-                })
+                Button(
+                    "Reload ports",
+                    action: {
+                        self.detectedPorts = ESP32Controller.findPort()
+                    })
 
-                Button("Cancel", action: {
-                    self.presentationMode.wrappedValue.dismiss()
-                })
+                Button(
+                    "Cancel",
+                    action: {
+                        self.presentationMode.wrappedValue.dismiss()
+                    })
             }
         }
     }
@@ -59,20 +63,23 @@ struct ESP32InstallSheet: View {
         ScrollView {
             VStack(spacing: 4) {
                 ForEach(0..<self.detectedPorts.count, id: \.self) { portIdx in
-                    Button(action: {
-                        if let accessory = self.accessory {
-                            // Flash selected module
-                            self.deployAccessoryToESP32(accessory: accessory, to: self.detectedPorts[portIdx])
-                        }
-                    }, label: {
-                        HStack {
-                            Text(self.detectedPorts[portIdx].path)
-                                .padding(4)
-                            Spacer()
-                        }
-                        .contentShape(Rectangle())
+                    Button(
+                        action: {
+                            if let accessory = self.accessory {
+                                // Flash selected module
+                                self.deployAccessoryToESP32(accessory: accessory, to: self.detectedPorts[portIdx])
+                            }
+                        },
+                        label: {
+                            HStack {
+                                Text(self.detectedPorts[portIdx].path)
+                                    .padding(4)
+                                Spacer()
+                            }
+                            .contentShape(Rectangle())
 
-                    })
+                        }
+                    )
                     .buttonStyle(PlainButtonStyle())
                 }
             }
@@ -98,19 +105,21 @@ struct ESP32InstallSheet: View {
     func deployAccessoryToESP32(accessory: Accessory, to port: URL) {
         do {
             self.isFlashing = true
-            try ESP32Controller.flashToESP32(accessory: accessory, port: port, completion: { result in
-                presentationMode.wrappedValue.dismiss()
+            try ESP32Controller.flashToESP32(
+                accessory: accessory, port: port,
+                completion: { result in
+                    presentationMode.wrappedValue.dismiss()
 
-                self.isFlashing = false
-                switch result {
-                case .success(_):
-                    self.alertType = .deployedSuccessfully
-                case .failure(let error):
-                    os_log(.error, "Flashing to ESP32 failed %@", String(describing: error))
-                    self.presentationMode.wrappedValue.dismiss()
-                    self.alertType = .deployFailed
-                }
-            })
+                    self.isFlashing = false
+                    switch result {
+                    case .success:
+                        self.alertType = .deployedSuccessfully
+                    case .failure(let error):
+                        os_log(.error, "Flashing to ESP32 failed %@", String(describing: error))
+                        self.presentationMode.wrappedValue.dismiss()
+                        self.alertType = .deployFailed
+                    }
+                })
         } catch {
             os_log(.error, "Execution of script failed %@", String(describing: error))
             self.presentationMode.wrappedValue.dismiss()

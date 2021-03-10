@@ -8,7 +8,6 @@
 import Combine
 import Foundation
 import SwiftUI
-import Combine
 
 class AccessoryController: ObservableObject {
     static let shared = AccessoryController()

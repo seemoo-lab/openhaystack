@@ -7,6 +7,7 @@
 //
 
 import XCTest
+
 @testable import OpenHaystack
 
 class MicrocontrollerTests: XCTestCase {
@@ -88,11 +89,11 @@ class MicrocontrollerTests: XCTestCase {
     func testESP32Deploy() throws {
         let accessory = try Accessory(name: "Sample")
         let expect = expectation(description: "ESP32 Flash")
-        let port = ESP32Controller.findPort().first(where: {$0.absoluteString.contains("usb")})!
+        let port = ESP32Controller.findPort().first(where: { $0.absoluteString.contains("usb") })!
         try ESP32Controller.flashToESP32(accessory: accessory, port: port) { result in
             expect.fulfill()
             switch result {
-            case .success(_):
+            case .success:
                 break
             case .failure(let error):
                 XCTFail(error.localizedDescription)
