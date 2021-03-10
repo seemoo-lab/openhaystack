@@ -12,19 +12,24 @@ import Security
 import SwiftUI
 
 class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
+
+    static let icons = ["briefcase.fill", "case.fill", "latch.2.case.fill", "key.fill", "mappin", "crown.fill", "gift.fill", "car.fill"]
+    static func randomIcon() -> String {
+        return icons.randomElement() ?? ""
+    }
+    static func randomColor() -> Color {
+        return Color(hue: Double.random(in: 0..<1), saturation: 0.75, brightness: 1)
+    }
+
     @Published var name: String
     let id: Int
     let privateKey: Data
     @Published var color: Color
-    @Published var icon: String {
-        didSet {
-            print("Setting icon")
-        }
-    }
+    @Published var icon: String
     @Published var lastLocation: CLLocation?
     @Published var locationTimestamp: Date?
 
-    init(name: String, color: Color = Color.white, iconName: String = "briefcase.fill") throws {
+    init(name: String = "New accessory", color: Color = randomColor(), iconName: String = randomIcon()) throws {
         self.name = name
         guard let key = BoringSSL.generateNewPrivateKey() else {
             throw KeyError.keyGenerationFailed
@@ -40,7 +45,7 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
         self.name = try container.decode(String.self, forKey: .name)
         self.id = try container.decode(Int.self, forKey: .id)
         self.privateKey = try container.decode(Data.self, forKey: .privateKey)
-        self.icon = (try? container.decode(String.self, forKey: .icon)) ?? "briefcase.fill"
+        self.icon = (try? container.decode(String.self, forKey: .icon)) ?? ""
 
         if var colorComponents = try? container.decode([CGFloat].self, forKey: .colorComponents),
             let spaceName = try? container.decode(String.self, forKey: .colorSpaceName),

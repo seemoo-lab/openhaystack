@@ -61,14 +61,12 @@ struct ColorSelectionView_Previews: PreviewProvider {
 }
 
 struct ImageSelectionList: View {
-    let selectableIcons = ["briefcase.fill", "case.fill", "latch.2.case.fill", "key.fill", "mappin", "crown.fill", "gift.fill", "car.fill"]
-
     @Binding var selectedImageName: String
 
     let dismiss: () -> Void
 
     var body: some View {
-        List(self.selectableIcons, id: \.self) { iconName in
+        List(Accessory.icons, id: \.self) { iconName in
             Button(
                 action: {
                     self.selectedImageName = iconName
