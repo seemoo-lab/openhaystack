@@ -44,7 +44,8 @@ struct OpenHaystackMainView: View {
             .navigationTitle(self.focusedAccessory?.name ?? "OpenHaystack")
 
             ZStack {
-                self.mapView
+                AccessoryMapView(accessoryController: self.accessoryController, mapType: self.$mapType, focusedAccessory: self.focusedAccessory)
+                    .overlay(self.mapOverlay)
                 if self.popUpAlertType != nil {
                     VStack {
                         Spacer()
@@ -55,6 +56,17 @@ struct OpenHaystackMainView: View {
                 }
             }
             .ignoresSafeArea(.all)
+            .toolbar(content: {
+                Picker("", selection: self.$mapType) {
+                    Text("Satellite").tag(MKMapType.hybrid)
+                    Text("Standard").tag(MKMapType.standard)
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                Button(action: self.downloadLocationReports) {
+                    Label("Reload", systemImage: "arrow.clockwise")
+                }
+                .disabled(self.accessories.isEmpty)
+            })
             .alert(
                 item: self.$alertType,
                 content: { alertType in
@@ -91,39 +103,6 @@ struct OpenHaystackMainView: View {
                     .opacity(0.5)
 
                 ActivityIndicator(size: .large)
-            }
-        }
-    }
-
-    /// Right side of the view showing a map with all items presented.
-    var mapView: some View {
-        ZStack {
-
-            AccessoryMapView(accessoryController: self.accessoryController, mapType: self.$mapType, focusedAccessory: self.focusedAccessory)
-                .overlay(self.mapOverlay)
-
-            VStack {
-                Spacer()
-                HStack {
-
-                    Picker("", selection: self.$mapType) {
-                        Text("Satellite").tag(MKMapType.hybrid)
-                        Text("Standard").tag(MKMapType.standard)
-                    }
-                    .pickerStyle(SegmentedPickerStyle())
-                    .frame(width: 150, alignment: .center)
-
-                    Button(
-                        action: self.downloadLocationReports,
-                        label: {
-                            Image(systemName: "arrow.clockwise")
-                            Text("Reload")
-                        }
-                    )
-                    .opacity(1.0)
-                    .disabled(self.accessories.isEmpty)
-                }
-                .padding(.bottom, 25)
             }
         }
     }

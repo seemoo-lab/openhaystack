@@ -19,34 +19,6 @@ final class MapViewController: NSViewController, MKMapViewDelegate {
         self.mapView.register(AccessoryAnnotationView.self, forAnnotationViewWithReuseIdentifier: "Accessory")
     }
 
-    func addLocationsReports(from devices: [FindMyDevice]) {
-        if !self.mapView.annotations.isEmpty {
-            self.mapView.removeAnnotations(self.mapView.annotations)
-        }
-
-        // Zoom to first location
-        if let location = devices.first?.decryptedReports?.first {
-            let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-            let span = MKCoordinateSpan(latitudeDelta: 5.0, longitudeDelta: 5.0)
-            let region = MKCoordinateRegion(center: coordinate, span: span)
-
-            self.mapView.setRegion(region, animated: true)
-        }
-
-        // Add pins
-        for device in devices {
-
-            guard let reports = device.decryptedReports else { continue }
-            for report in reports {
-                let pin = MKPointAnnotation()
-                pin.title = device.deviceId
-                pin.coordinate = CLLocationCoordinate2D(latitude: report.latitude, longitude: report.longitude)
-                self.mapView.addAnnotation(pin)
-            }
-        }
-
-    }
-
     func zoom(on accessory: Accessory?) {
         self.focusedAccessory = accessory
         guard let location = accessory?.lastLocation else { return }
@@ -58,8 +30,12 @@ final class MapViewController: NSViewController, MKMapViewDelegate {
     }
 
     func addLastLocations(from accessories: [Accessory]) {
-        if !self.mapView.annotations.isEmpty {
-            self.mapView.removeAnnotations(self.mapView.annotations)
+        // Add pins
+        self.mapView.removeAnnotations(self.mapView.annotations)
+        for accessory in accessories {
+            guard accessory.lastLocation != nil else { continue }
+            let annotation = AccessoryAnnotation(accessory: accessory)
+            self.mapView.addAnnotation(annotation)
         }
 
         // Zoom to first location
@@ -69,15 +45,6 @@ final class MapViewController: NSViewController, MKMapViewDelegate {
             DispatchQueue.main.async {
                 self.mapView.setRegion(region, animated: true)
             }
-        }
-
-        // Add pins
-        for accessory in accessories {
-            guard accessory.lastLocation != nil else { continue }
-
-            let annotation = AccessoryAnnotation(accessory: accessory)
-            self.mapView.addAnnotation(annotation)
-
         }
     }
 
