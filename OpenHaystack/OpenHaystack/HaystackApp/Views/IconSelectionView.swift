@@ -25,14 +25,13 @@ struct IconSelectionView: View {
                 label: {
                     Circle()
                         .strokeBorder(self.selectedColor, lineWidth: 2)
-
                         .background(
                             ZStack {
                                 Circle().fill(Color("PinColor"))
                                 Image(systemName: self.selectedImageName)
                             }
                         )
-                        .frame(width: 40, height: 40)
+                        .frame(width: 32, height: 32)
                 }
             )
             .buttonStyle(PlainButtonStyle())
