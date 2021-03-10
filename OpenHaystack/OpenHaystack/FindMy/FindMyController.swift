@@ -11,10 +11,13 @@ import OSLog
 import SwiftUI
 
 class FindMyController: ObservableObject {
-    static let shared = FindMyController()
-
     @Published var error: Error?
     @Published var devices = [FindMyDevice]()
+    var accessories: AccessoryController
+
+    init(accessories: AccessoryController) {
+        self.accessories = accessories
+    }
 
     func loadPrivateKeys(from data: Data, with searchPartyToken: Data, completion: @escaping (Error?) -> Void) {
         do {
@@ -97,9 +100,9 @@ class FindMyController: ObservableObject {
 
         self.fetchReports(with: token) { error in
 
-            let reports = FindMyController.shared.devices.compactMap({ $0.reports }).flatMap({ $0 })
+            let reports = self.devices.compactMap({ $0.reports }).flatMap({ $0 })
             if reports.isEmpty == false {
-                AccessoryController.shared.updateWithDecryptedReports(devices: FindMyController.shared.devices)
+                self.accessories.updateWithDecryptedReports(devices: self.devices)
             }
 
             if let error = error {
@@ -229,17 +232,6 @@ class FindMyController: ObservableObject {
         }
     }
 
-}
-
-struct FindMyControllerKey: EnvironmentKey {
-    static var defaultValue: FindMyController = .shared
-}
-
-extension EnvironmentValues {
-    var findMyController: FindMyController {
-        get { self[FindMyControllerKey.self] }
-        set { self[FindMyControllerKey.self] = newValue }
-    }
 }
 
 enum FindMyErrors: Error {

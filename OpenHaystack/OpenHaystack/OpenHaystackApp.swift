@@ -9,14 +9,25 @@ import SwiftUI
 
 @main
 struct OpenHaystackApp: App {
+    @StateObject var accessoryController: AccessoryController
+    @StateObject var findMyController: FindMyController
+
+    init() {
+        var accessoryController: AccessoryController
+        if ProcessInfo().arguments.contains("-preview") {
+            accessoryController = AccessoryControllerPreview(accessories: PreviewData.accessories)
+        } else {
+            accessoryController = AccessoryController()
+        }
+        self._accessoryController = StateObject(wrappedValue: accessoryController)
+        self._findMyController = StateObject(wrappedValue: FindMyController(accessories: accessoryController))
+    }
 
     var body: some Scene {
         WindowGroup {
-            if ProcessInfo().arguments.contains("-preview") {
-                OpenHaystackMainView(accessoryController: AccessoryController(accessories: PreviewData.accessories))
-            } else {
-                OpenHaystackMainView()
-            }
+            OpenHaystackMainView()
+                .environmentObject(accessoryController)
+                .environmentObject(findMyController)
         }
         .commands {
             SidebarCommands()
