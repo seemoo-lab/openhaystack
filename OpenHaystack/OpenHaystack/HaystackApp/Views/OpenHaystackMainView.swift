@@ -41,6 +41,7 @@ struct OpenHaystackMainView: View {
                 accessoryToDeploy: self.$accessoryToDeploy,
                 showESP32DeploySheet: self.$showESP32DeploySheet
             )
+            .frame(minWidth: 300, idealWidth: 300, maxWidth: .infinity, minHeight: 300, idealHeight: 900, maxHeight: .infinity, alignment: .center)
 
             ZStack {
                 AccessoryMapView(accessoryController: self.accessoryController, mapType: self.$mapType, focusedAccessory: self.focusedAccessory)
@@ -54,7 +55,7 @@ struct OpenHaystackMainView: View {
                     }
                 }
             }
-            .ignoresSafeArea(.all)
+            .frame(minWidth: 500, idealWidth: 900, maxWidth: .infinity, minHeight: 300, idealHeight: 900, maxHeight: .infinity, alignment: .center)
             .toolbar(content: {
                 Picker("", selection: self.$mapType) {
                     Text("Satellite").tag(MKMapType.hybrid)
