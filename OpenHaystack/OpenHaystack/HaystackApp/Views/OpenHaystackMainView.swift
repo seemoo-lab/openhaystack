@@ -367,7 +367,7 @@ struct OpenHaystackMainView: View {
 
 struct OpenHaystackMainView_Previews: PreviewProvider {
     static var accessoryController = AccessoryControllerPreview(accessories: PreviewData.accessories) as AccessoryController
-    
+
     static var previews: some View {
         OpenHaystackMainView()
             .environmentObject(accessoryController)

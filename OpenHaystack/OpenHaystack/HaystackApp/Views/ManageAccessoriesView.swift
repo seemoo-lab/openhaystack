@@ -21,11 +21,6 @@ struct ManageAccessoriesView: View {
     @Binding var accessoryToDeploy: Accessory?
     @Binding var showESP32DeploySheet: Bool
 
-    // MARK: View State
-    @State var keyName: String = ""
-    @State var accessoryColor: Color = Color.white
-    @State var selectedIcon: String = "briefcase.fill"
-
     var body: some View {
         VStack {
             Text("Your accessories")
@@ -96,11 +91,8 @@ struct ManageAccessoriesView: View {
 
     /// Add an accessory with the provided details.
     func addAccessory() {
-        let keyName = self.keyName
-        self.keyName = ""
-
         do {
-            _ = try self.accessoryController.addAccessory(with: keyName, color: self.accessoryColor, icon: self.selectedIcon)
+            _ = try self.accessoryController.addAccessory()
         } catch {
             self.alertType = .keyError
         }

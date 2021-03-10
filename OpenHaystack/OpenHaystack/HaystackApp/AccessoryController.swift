@@ -79,8 +79,8 @@ class AccessoryController: ObservableObject {
         }
     }
 
-    func addAccessory(with name: String, color: Color, icon: String) throws -> Accessory {
-        let accessory = try Accessory(name: name, color: color, iconName: icon)
+    func addAccessory() throws -> Accessory {
+        let accessory = try Accessory()
         withAnimation {
             self.accessories.append(accessory)
         }
