@@ -13,7 +13,12 @@ import SwiftUI
 
 class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
 
-    static let icons = ["briefcase.fill", "case.fill", "latch.2.case.fill", "key.fill", "mappin", "crown.fill", "gift.fill", "car.fill"]
+    static let icons = [
+        "creditcard.fill", "briefcase.fill", "case.fill", "latch.2.case.fill",
+        "key.fill", "mappin", "globe", "crown.fill",
+        "gift.fill", "car.fill", "bicycle", "figure.walk",
+        "heart.fill", "hare.fill", "tortoise.fill", "eye.fill",
+    ]
     static func randomIcon() -> String {
         return icons.randomElement() ?? ""
     }
