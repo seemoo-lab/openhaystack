@@ -14,26 +14,35 @@ struct PreviewData {
         return accessoryList()
     }()
 
+    static let latitude: Double = 49.878046
+    static let longitude: Double = 8.656993
+
+    static func randomLocation() -> CLLocation {
+        return CLLocation(
+            latitude: latitude + Double.random(in: 0..<0.005) * (Bool.random() ? -1 : 1),
+            longitude: longitude + Double.random(in: 0..<0.005) * (Bool.random() ? -1 : 1)
+        )
+    }
+
+    static func randomTimestamp() -> Date {
+        return Date.init().addingTimeInterval(TimeInterval(-Double.random(in: 0..<24 * 60 * 60)))
+    }
+
+    static func previewAccessory(name: String, color: Color, icon: String) -> Accessory {
+        let accessory = try! Accessory(name: name, color: color, iconName: icon)
+        accessory.lastLocation = randomLocation()
+        accessory.locationTimestamp = randomTimestamp()
+        accessory.isDeployed = true
+        return accessory
+    }
+
     static func accessoryList() -> [Accessory] {
-
-        let latitude: Double = 52.5219814
-        let longitude: Double = 13.413306
-
-        let backpack = try! Accessory(name: "Backpack", color: Color.green, iconName: "briefcase.fill")
-        backpack.lastLocation = CLLocation(latitude: latitude + (Double(arc4random() % 1000)) / 100000, longitude: longitude + (Double(arc4random() % 1000)) / 100000)
-
-        let bag = try! Accessory(name: "Bag", color: Color.blue, iconName: "latch.2.case.fill")
-        bag.lastLocation = CLLocation(latitude: latitude + (Double(arc4random() % 1000)) / 100000, longitude: longitude + (Double(arc4random() % 1000)) / 100000)
-
-        let car = try! Accessory(name: "Car", color: Color.red, iconName: "car.fill")
-        car.lastLocation = CLLocation(latitude: latitude + (Double(arc4random() % 1000)) / 100000, longitude: longitude + (Double(arc4random() % 1000)) / 100000)
-
-        let keys = try! Accessory(name: "Keys", color: Color.orange, iconName: "key.fill")
-        keys.lastLocation = CLLocation(latitude: latitude + (Double(arc4random() % 1000)) / 100000, longitude: longitude + (Double(arc4random() % 1000)) / 100000)
-
-        let items = try! Accessory(name: "Items", color: Color.gray, iconName: "mappin")
-        items.lastLocation = CLLocation(latitude: latitude + (Double(arc4random() % 1000)) / 100000, longitude: longitude + (Double(arc4random() % 1000)) / 100000)
-
-        return [backpack, bag, car, keys, items]
+        return [
+            previewAccessory(name: "Backpack", color: Color.green, icon: "briefcase.fill"),
+            previewAccessory(name: "Bag", color: Color.blue, icon: "latch.2.case.fill"),
+            previewAccessory(name: "Car", color: Color.red, icon: "car.fill"),
+            previewAccessory(name: "Keys", color: Color.orange, icon: "key.fill"),
+            previewAccessory(name: "Items", color: Color.gray, icon: "mappin"),
+        ]
     }
 }
