@@ -14,6 +14,7 @@ struct AccessoryListEntry: View {
     @Binding var accessoryColor: Color
     @Binding var accessoryName: String
     @Binding var alertType: OpenHaystackMainView.AlertType?
+    var isSelected: Bool
     var delete: (Accessory) -> Void
     var deployAccessoryToMicrobit: (Accessory) -> Void
     var zoomOn: (Accessory) -> Void
@@ -37,7 +38,7 @@ struct AccessoryListEntry: View {
     var body: some View {
 
         HStack {
-            IconSelectionView(selectedImageName: $accessoryIcon, selectedColor: $accessoryColor)
+            IconSelectionView(selectedImageName: $accessoryIcon, selectedColor: $accessoryColor, isSelected: self.isSelected)
 
             VStack(alignment: .leading) {
                 if self.editingName {
@@ -97,16 +98,11 @@ struct AccessoryListEntry: View {
     }
 
     struct AccessoryListEntry_Previews: PreviewProvider {
+        @StateObject static var accessory = PreviewData.accessories.first!
+        @State static var alertType: OpenHaystackMainView.AlertType?
+
         static var previews: some View {
-            PreviewWrapper()
-                .frame(width: 300)
-        }
-
-        struct PreviewWrapper: View {
-            @StateObject var accessory = PreviewData.accessories.first!
-            @State var alertType: OpenHaystackMainView.AlertType?
-
-            var body: some View {
+            Group {
                 AccessoryListEntry(
                     accessory: accessory,
                     accessoryIcon: Binding(
@@ -122,10 +118,12 @@ struct AccessoryListEntry: View {
                         set: { accessory.name = $0 }
                     ),
                     alertType: self.$alertType,
+                    isSelected: false,
                     delete: { _ in () },
                     deployAccessoryToMicrobit: { _ in () },
                     zoomOn: { _ in () })
             }
+            .frame(width: 300)
         }
     }
 }

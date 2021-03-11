@@ -12,6 +12,7 @@ struct IconSelectionView: View {
     @State var showImagePicker = false
     @Binding var selectedImageName: String
     @Binding var selectedColor: Color
+    var isSelected: Bool
 
     var body: some View {
 
@@ -29,6 +30,7 @@ struct IconSelectionView: View {
                             ZStack {
                                 Circle().fill(Color("PinColor"))
                                 Image(systemName: self.selectedImageName)
+                                    .foregroundColor(self.isSelected ? Color.accentColor : nil)
                             }
                         )
                         .frame(width: 32, height: 32)
@@ -52,7 +54,7 @@ struct ColorSelectionView_Previews: PreviewProvider {
 
     static var previews: some View {
         Group {
-            IconSelectionView(selectedImageName: self.$selectedImageName, selectedColor: self.$selectedColor)
+            IconSelectionView(selectedImageName: self.$selectedImageName, selectedColor: self.$selectedColor, isSelected: false)
             ImageSelectionList(selectedImageName: self.$selectedImageName, selectedColor: self.$selectedColor, dismiss: { () })
         }
 
