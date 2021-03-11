@@ -21,12 +21,7 @@ final class MapViewController: NSViewController, MKMapViewDelegate {
 
     func zoom(on accessory: Accessory?) {
         self.focusedAccessory = accessory
-        guard let location = accessory?.lastLocation else { return }
-        let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
-        let region = MKCoordinateRegion(center: location.coordinate, span: span)
-        DispatchQueue.main.async {
-            self.mapView.setRegion(region, animated: true)
-        }
+        self.zoomInOnSelection()
     }
 
     func addLastLocations(from accessories: [Accessory]) {
@@ -37,14 +32,27 @@ final class MapViewController: NSViewController, MKMapViewDelegate {
             let annotation = AccessoryAnnotation(accessory: accessory)
             self.mapView.addAnnotation(annotation)
         }
+        self.zoomInOnSelection()
+    }
 
-        // Zoom to first location
-        if focusedAccessory == nil, let location = accessories.first(where: { $0.lastLocation != nil })?.lastLocation {
-            let span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
-            let region = MKCoordinateRegion(center: location.coordinate, span: span)
-            DispatchQueue.main.async {
-                self.mapView.setRegion(region, animated: true)
+    func zoomInOnSelection() {
+        var annotations = [MKAnnotation]()
+
+        if focusedAccessory == nil {
+            // Show all locations
+            annotations = self.mapView.annotations
+        } else {
+            // Show focused accessory
+            let focusedAnnotation: MKAnnotation? = self.mapView.annotations.first(where: { annotation in
+                let accessoryAnnotation = annotation as! AccessoryAnnotation
+                return accessoryAnnotation.accessory == self.focusedAccessory
+            })
+            if let annotation = focusedAnnotation {
+                annotations = [annotation]
             }
+        }
+        DispatchQueue.main.async {
+            self.mapView.showAnnotations(annotations, animated: true)
         }
     }
 
