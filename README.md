@@ -2,7 +2,7 @@
 
 OpenHaystack is a framework for tracking personal Bluetooth devices via Apple's massive Find My network. Use it to create your own tracking _tags_ that you can append to physical objects (keyrings, backpacks, ...) or integrate it into other Bluetooth-capable devices such as notebooks.
 
-<img src="Resources/OpenHaystack-Screenshot.png" alt="Screenshot of the app" width="701" height="404" />
+<img src="Resources/OpenHaystack-Screenshot.png" alt="Screenshot of the app" width="701" />
 
 ## Table of contents
 
