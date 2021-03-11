@@ -17,14 +17,6 @@ defaults:
     working-directory: OpenHaystack
 
 jobs:
-  lint-swift:
-    runs-on: macos-latest
-    steps:
-      - name: "Checkout code"
-        uses: actions/checkout@v2
-      - name: "Run SwiftLint"
-        run: swiftlint --reporter github-actions-logging
-
   format-swift:
     runs-on: macos-latest
     steps:
@@ -48,7 +40,6 @@ jobs:
   build-app:
     runs-on: macos-latest
     needs:
-      - lint-swift
       - format-swift
       - format-objc
     steps:
