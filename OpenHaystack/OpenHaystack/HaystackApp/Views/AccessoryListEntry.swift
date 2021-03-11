@@ -16,7 +16,6 @@ struct AccessoryListEntry: View {
     @Binding var accessoryColor: Color
     @Binding var accessoryName: String
     @Binding var alertType: OpenHaystackMainView.AlertType?
-    var isSelected: Bool
     var delete: (Accessory) -> Void
     var deployAccessoryToMicrobit: (Accessory) -> Void
     var zoomOn: (Accessory) -> Void
@@ -40,7 +39,7 @@ struct AccessoryListEntry: View {
     var body: some View {
 
         HStack {
-            IconSelectionView(selectedImageName: $accessoryIcon, selectedColor: $accessoryColor, isSelected: self.isSelected)
+            IconSelectionView(selectedImageName: $accessoryIcon, selectedColor: $accessoryColor)
 
             VStack(alignment: .leading) {
                 if self.editingName {
@@ -120,7 +119,6 @@ struct AccessoryListEntry: View {
                         set: { accessory.name = $0 }
                     ),
                     alertType: self.$alertType,
-                    isSelected: false,
                     delete: { _ in () },
                     deployAccessoryToMicrobit: { _ in () },
                     zoomOn: { _ in () })

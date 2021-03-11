@@ -14,7 +14,6 @@ struct IconSelectionView: View {
     @State var showImagePicker = false
     @Binding var selectedImageName: String
     @Binding var selectedColor: Color
-    var isSelected: Bool
 
     var body: some View {
 
@@ -32,7 +31,7 @@ struct IconSelectionView: View {
                             ZStack {
                                 Circle().fill(Color("PinColor"))
                                 Image(systemName: self.selectedImageName)
-                                    .foregroundColor(self.isSelected ? Color.accentColor : nil)
+                                    .colorMultiply(Color("PinImageColor"))
                             }
                         )
                         .frame(width: 32, height: 32)
@@ -56,7 +55,7 @@ struct ColorSelectionView_Previews: PreviewProvider {
 
     static var previews: some View {
         Group {
-            IconSelectionView(selectedImageName: self.$selectedImageName, selectedColor: self.$selectedColor, isSelected: false)
+            IconSelectionView(selectedImageName: self.$selectedImageName, selectedColor: self.$selectedColor)
             ImageSelectionList(selectedImageName: self.$selectedImageName, selectedColor: self.$selectedColor, dismiss: { () })
         }
 
@@ -79,7 +78,10 @@ struct ImageSelectionList: View {
 
     var body: some View {
         VStack {
-            ColorPicker("Pick color", selection: $selectedColor)
+            ColorPicker(selection: $selectedColor, supportsOpacity: false) {
+                Text("Pick a color")
+                    .colorMultiply(Color("PinImageColor"))
+            }
             ScrollView {
                 LazyVGrid(columns: columns, alignment: .center, spacing: nil, pinnedViews: []) {
                     Section {
@@ -91,6 +93,7 @@ struct ImageSelectionList: View {
                                 },
                                 label: {
                                     Image(systemName: iconName)
+                                        .colorMultiply(Color("PinImageColor"))
                                 }
                             )
                             .frame(width: ImageSelectionList.boxSize, height: ImageSelectionList.boxSize, alignment: .center)
@@ -102,7 +105,5 @@ struct ImageSelectionList: View {
             }
         }
         .padding(ImageSelectionList.boxSize / 2)
-
     }
-
 }

@@ -25,7 +25,6 @@ struct AccessoryMapView: NSViewControllerRepresentable {
 
         nsViewController.zoom(on: focusedAccessory)
         nsViewController.addLastLocations(from: accessories)
-
         nsViewController.changeMapType(mapType)
     }
 }

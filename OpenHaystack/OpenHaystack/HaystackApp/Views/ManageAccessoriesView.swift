@@ -68,7 +68,6 @@ struct ManageAccessoriesView: View {
                     set: { accessory.name = $0 }
                 ),
                 alertType: self.$alertType,
-                isSelected: self.focusedAccessory == accessory,
                 delete: self.delete(accessory:),
                 deployAccessoryToMicrobit: self.deploy(accessory:),
                 zoomOn: { self.focusedAccessory = $0 })
