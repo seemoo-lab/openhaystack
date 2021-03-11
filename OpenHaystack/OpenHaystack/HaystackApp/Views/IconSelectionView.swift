@@ -38,7 +38,7 @@ struct IconSelectionView: View {
             .popover(
                 isPresented: self.$showImagePicker,
                 content: {
-                    ImageSelectionList(selectedImageName: self.$selectedImageName) {
+                    ImageSelectionList(selectedImageName: $selectedImageName, selectedColor: $selectedColor) {
                         self.showImagePicker = false
                     }
                 })
@@ -53,7 +53,7 @@ struct ColorSelectionView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             IconSelectionView(selectedImageName: self.$selectedImageName, selectedColor: self.$selectedColor)
-            ImageSelectionList(selectedImageName: self.$selectedImageName, dismiss: { () })
+            ImageSelectionList(selectedImageName: self.$selectedImageName, selectedColor: self.$selectedColor, dismiss: { () })
         }
 
     }
@@ -61,28 +61,44 @@ struct ColorSelectionView_Previews: PreviewProvider {
 
 struct ImageSelectionList: View {
     @Binding var selectedImageName: String
+    @Binding var selectedColor: Color
+    static let boxSize: CGFloat = 30.0
 
     let dismiss: () -> Void
 
+    let columns: [GridItem] = [
+        GridItem(.fixed(boxSize), spacing: nil),
+        GridItem(.fixed(boxSize), spacing: nil),
+        GridItem(.fixed(boxSize), spacing: nil),
+        GridItem(.fixed(boxSize), spacing: nil),
+    ]
+
     var body: some View {
-        List(Accessory.icons, id: \.self) { iconName in
-            Button(
-                action: {
-                    self.selectedImageName = iconName
-                    self.dismiss()
-                },
-                label: {
-                    HStack {
-                        Spacer()
-                        Image(systemName: iconName)
-                        Spacer()
+        VStack {
+            ColorPicker("Pick color", selection: $selectedColor)
+            ScrollView {
+                LazyVGrid(columns: columns, alignment: .center, spacing: nil, pinnedViews: []) {
+                    Section {
+                        ForEach(Accessory.icons, id: \.self) { iconName in
+                            Button(
+                                action: {
+                                    self.selectedImageName = iconName
+                                    self.dismiss()
+                                },
+                                label: {
+                                    Image(systemName: iconName)
+                                }
+                            )
+                            .frame(width: ImageSelectionList.boxSize, height: ImageSelectionList.boxSize, alignment: .center)
+                            .buttonStyle(PlainButtonStyle())
+                            .contentShape(Rectangle())
+                        }
                     }
                 }
-            )
-            .buttonStyle(PlainButtonStyle())
-            .contentShape(Rectangle())
+            }
         }
-        .frame(width: 100)
+        .padding(ImageSelectionList.boxSize / 2)
+
     }
 
 }

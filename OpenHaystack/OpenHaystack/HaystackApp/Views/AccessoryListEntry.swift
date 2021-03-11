@@ -20,7 +20,6 @@ struct AccessoryListEntry: View {
     let formatter = DateFormatter()
 
     @State var editingName: Bool = false
-    @State var editingColor: Bool = false
 
     func timestampView() -> some View {
         formatter.dateStyle = .short
@@ -40,12 +39,6 @@ struct AccessoryListEntry: View {
         HStack {
             IconSelectionView(selectedImageName: $accessoryIcon, selectedColor: $accessoryColor)
 
-            if self.editingColor {
-                ColorPicker(selection: $accessoryColor, supportsOpacity: false) {
-                    EmptyView()
-                }
-            }
-
             VStack(alignment: .leading) {
                 if self.editingName {
                     TextField("Enter accessory name", text: $accessoryName, onCommit: { self.editingName = false })
@@ -60,9 +53,10 @@ struct AccessoryListEntry: View {
 
             Spacer()
             if !accessory.isDeployed {
-                Button(action: { self.deployAccessoryToMicrobit(accessory) }) {
-                    Text("Deploy")
-                }
+                Button(
+                    action: { self.deployAccessoryToMicrobit(accessory) },
+                    label: { Text("Deploy") }
+                )
             }
         }
         .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0))
@@ -70,15 +64,11 @@ struct AccessoryListEntry: View {
             Button("Delete", action: { self.delete(accessory) })
             Divider()
             Button("Rename", action: { self.editingName = true })
-            Button("Change color", action: { self.editingColor = true })
             Divider()
             Button("Copy advertisment key (Base64)", action: { self.copyPublicKey(of: accessory) })
             Button("Copy key ID (Base64)", action: { self.copyPublicKeyHash(of: accessory) })
             Divider()
             Button("Mark as \(accessory.isDeployed ? "deployable" : "deployed")", action: { accessory.isDeployed.toggle() })
-        }
-        .onChange(of: self.accessoryColor) { _ in
-            self.editingColor = false
         }
     }
 
