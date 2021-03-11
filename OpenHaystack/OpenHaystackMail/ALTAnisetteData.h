@@ -1,3 +1,4 @@
+//
 //  ALTAnisetteData.h
 //  AltSign
 //
@@ -10,6 +11,7 @@
 //  Copyright © 2021 The Open Wireless Link Project
 //
 //  SPDX-License-Identifier: AGPL-3.0-only
+//
 
 #import <Foundation/Foundation.h>
 

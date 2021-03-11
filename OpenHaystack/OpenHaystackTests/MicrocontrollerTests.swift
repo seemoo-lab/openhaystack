@@ -1,9 +1,10 @@
 //
-//  MicrocontrollerTests.swift
-//  OpenHaystackTests
+//  OpenHaystack – Tracking personal Bluetooth devices via Apple's Find My network
 //
-//  Created by Alex - SEEMOO on 09.03.21.
-//  Copyright © 2021 SEEMOO - TU Darmstadt. All rights reserved.
+//  Copyright © 2021 Secure Mobile Networking Lab (SEEMOO)
+//  Copyright © 2021 The Open Wireless Link Project
+//
+//  SPDX-License-Identifier: AGPL-3.0-only
 //
 
 import XCTest

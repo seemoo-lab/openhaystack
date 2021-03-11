@@ -1,13 +1,15 @@
-//
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>FILEHEADER</key>
+    <string>
 //  OpenHaystack – Tracking personal Bluetooth devices via Apple's Find My network
 //
 //  Copyright © 2021 Secure Mobile Networking Lab (SEEMOO)
 //  Copyright © 2021 The Open Wireless Link Project
 //
 //  SPDX-License-Identifier: AGPL-3.0-only
-//
-
-#import "ALTAnisetteData.h"
-#import "AppleAccountData.h"
-#import "BoringSSL.h"
-#import "ReportsFetcher.h"
+//</string>
+</dict>
+</plist>
