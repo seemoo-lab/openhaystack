@@ -16,16 +16,17 @@ class AccessoryController: ObservableObject {
     @Published var accessories: [Accessory]
     var selfObserver: AnyCancellable?
     var listElementsObserver = [AnyCancellable]()
-    @Environment(\.findMyController) var findMyController: FindMyController
-
-    init(accessories: [Accessory]) {
+    let findMyController: FindMyController
+    
+    init(accessories: [Accessory], findMyController: FindMyController) {
         self.accessories = accessories
+        self.findMyController = findMyController
         initAccessoryObserver()
         initObserver()
     }
 
     convenience init() {
-        self.init(accessories: KeychainController.loadAccessoriesFromKeychain())
+        self.init(accessories: KeychainController.loadAccessoriesFromKeychain(), findMyController: FindMyController())
     }
 
     func initAccessoryObserver() {
@@ -163,8 +164,9 @@ class AccessoryController: ObservableObject {
             case .failure(_):
                 completion(.failure(.activatePlugin))
             case .success(let accountData):
-                let token = accountData.searchPartyToken
-                guard token.isEmpty == false else {
+                
+                guard let token = accountData.searchPartyToken,
+                      token.isEmpty == false else {
                     completion(.failure(.searchPartyToken))
                     return
                 }
@@ -179,6 +181,7 @@ class AccessoryController: ObservableObject {
                         if reports.isEmpty {
                             completion(.failure(.noReportsFound))
                         }else {
+                            self.updateWithDecryptedReports(devices: devices)
                             completion(.success(()))
                         }
                     }

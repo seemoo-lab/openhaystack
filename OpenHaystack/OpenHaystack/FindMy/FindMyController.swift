@@ -15,7 +15,6 @@ import SwiftUI
 class FindMyController: ObservableObject {
     @Published var error: Error?
     @Published var devices = [FindMyDevice]()
-    @Environment(\.accessoryController) var accessories: AccessoryController
 
     func loadPrivateKeys(from data: Data, with searchPartyToken: Data, completion: @escaping (Error?) -> Void) {
         do {
@@ -97,11 +96,6 @@ class FindMyController: ObservableObject {
         self.devices = findMyDevices
 
         self.fetchReports(with: token) { error in
-
-            let reports = self.devices.compactMap({ $0.reports }).flatMap({ $0 })
-            if reports.isEmpty == false {
-                self.accessories.updateWithDecryptedReports(devices: self.devices)
-            }
 
             if let error = error {
                 completion(.failure(error))

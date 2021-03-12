@@ -11,14 +11,22 @@ import SwiftUI
 
 @main
 struct OpenHaystackApp: App {
-    @Environment(\.accessoryController) var accessoryController: AccessoryController
-    @Environment(\.findMyController) var findMyController: FindMyController
+    @StateObject var accessoryController: AccessoryController
 
-    init() {}
+    init() {
+        let accessoryController: AccessoryController
+        if ProcessInfo().arguments.contains("-preview") {
+            accessoryController = AccessoryControllerPreview(accessories: PreviewData.accessories, findMyController: FindMyController())
+        } else {
+            accessoryController = AccessoryController()
+        }
+        self._accessoryController = StateObject(wrappedValue: accessoryController)
+    }
 
     var body: some Scene {
         WindowGroup {
             OpenHaystackMainView()
+                .environmentObject(self.accessoryController)
         }
         .commands {
             SidebarCommands()
@@ -36,20 +44,9 @@ private struct FindMyControllerEnvironmentKey: EnvironmentKey {
 private struct AccessoryControllerEnvironmentKey: EnvironmentKey {
     static let defaultValue: AccessoryController = {
         if ProcessInfo().arguments.contains("-preview") {
-            return AccessoryControllerPreview(accessories: PreviewData.accessories)
+            return AccessoryControllerPreview(accessories: PreviewData.accessories, findMyController: FindMyController())
         } else {
             return AccessoryController()
         }
     }()
-}
-
-extension EnvironmentValues {
-    var findMyController: FindMyController {
-        get {self[FindMyControllerEnvironmentKey]}
-    }
-    
-    var accessoryController: AccessoryController {
-        get{self[AccessoryControllerEnvironmentKey]}
-        set{self[AccessoryControllerEnvironmentKey] = newValue}
-    }
 }
