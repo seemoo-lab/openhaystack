@@ -14,13 +14,12 @@ import SwiftUI
 struct OpenHaystackMainView: View {
 
     @State var loading = false
-    @Environment(\.accessoryController) var accessoryController: AccessoryController
-    @Environment(\.findMyController) var findMyController: FindMyController
+    @EnvironmentObject var accessoryController: AccessoryController
+ 
     var accessories: [Accessory] {
         return self.accessoryController.accessories
     }
 
-    @State var showKeyError = false
     @State var alertType: AlertType?
     @State var popUpAlertType: PopUpAlertType?
     @State var errorDescription: String?
@@ -30,7 +29,9 @@ struct OpenHaystackMainView: View {
     @State var isLoading = false
     @State var focusedAccessory: Accessory?
     @State var accessoryToDeploy: Accessory?
-
+    
+    @State var mailPluginIsActive = false
+    
     @State var showESP32DeploySheet = false
 
     var body: some View {
@@ -41,9 +42,10 @@ struct OpenHaystackMainView: View {
                 alertType: self.$alertType,
                 focusedAccessory: self.$focusedAccessory,
                 accessoryToDeploy: self.$accessoryToDeploy,
-                showESP32DeploySheet: self.$showESP32DeploySheet
+                showESP32DeploySheet: self.$showESP32DeploySheet,
+                mailPluginIsActive: self.mailPluginIsActive
             )
-            .frame(minWidth: 240, idealWidth: 250, maxWidth: .infinity, minHeight: 300, idealHeight: 400, maxHeight: .infinity, alignment: .center)
+            .frame(minWidth: 280, idealWidth: 280, maxWidth: .infinity, minHeight: 300, idealHeight: 400, maxHeight: .infinity, alignment: .center)
 
             ZStack {
                 AccessoryMapView(accessoryController: self.accessoryController, mapType: self.$mapType, focusedAccessory: self.focusedAccessory)
@@ -186,7 +188,7 @@ struct OpenHaystackMainView: View {
         }
     }
 
-    func checkPluginIsRunning(_ completion: ((Bool) -> Void)?) {
+    func checkPluginIsRunning(silent: Bool=false, _ completion: ((Bool) -> Void)?) {
         // Check if Mail plugin is active
         AnisetteDataManager.shared.requestAnisetteData { (result) in
             DispatchQueue.main.async {
@@ -194,14 +196,17 @@ struct OpenHaystackMainView: View {
                 case .success(let accountData):
 
                     withAnimation {
-                        self.searchPartyToken = String(data: accountData.searchPartyToken, encoding: .ascii) ?? ""
-                        if self.searchPartyToken.isEmpty == false {
-                            self.searchPartyTokenLoaded = true
+                        if let token  = accountData.searchPartyToken {
+                            self.searchPartyToken = String(data: token, encoding: .ascii) ?? ""
+                            if self.searchPartyToken.isEmpty == false {
+                                self.searchPartyTokenLoaded = true
+                            }
                         }
                     }
+                    self.mailPluginIsActive = true
                     completion?(true)
                 case .failure(let error):
-                    if let error = error as? AnisetteDataError {
+                    if let error = error as? AnisetteDataError, silent == false {
                         switch error {
                         case .pluginNotFound:
                             self.alertType = .activatePlugin
@@ -209,7 +214,13 @@ struct OpenHaystackMainView: View {
                             self.alertType = .activatePlugin
                         }
                     }
+                    self.mailPluginIsActive = false
                     completion?(false)
+                    
+                    //Check again in 5s
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+                        self.checkPluginIsRunning(silent: true, nil)
+                    })
                 }
             }
         }
@@ -330,11 +341,11 @@ struct OpenHaystackMainView: View {
 }
 
 struct OpenHaystackMainView_Previews: PreviewProvider {
-    static var accessoryController = AccessoryControllerPreview(accessories: PreviewData.accessories) as AccessoryController
+    static var accessoryController = AccessoryControllerPreview(accessories: PreviewData.accessories, findMyController: FindMyController()) as AccessoryController
 
     static var previews: some View {
         OpenHaystackMainView()
-            .environment(\.accessoryController, accessoryController)
+            .environmentObject(self.accessoryController)
     }
 }
 

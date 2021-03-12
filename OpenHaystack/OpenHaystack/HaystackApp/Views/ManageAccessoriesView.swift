@@ -11,7 +11,7 @@ import SwiftUI
 
 struct ManageAccessoriesView: View {
 
-    @Environment(\.accessoryController) var accessoryController: AccessoryController
+    @EnvironmentObject var accessoryController: AccessoryController
     var accessories: [Accessory] {
         return self.accessoryController.accessories
     }
@@ -21,6 +21,9 @@ struct ManageAccessoriesView: View {
     @Binding var focusedAccessory: Accessory?
     @Binding var accessoryToDeploy: Accessory?
     @Binding var showESP32DeploySheet: Bool
+    var mailPluginIsActive: Bool
+    
+    @State var showMailPopup = false
 
     var body: some View {
         VStack {
@@ -40,17 +43,29 @@ struct ManageAccessoriesView: View {
         .toolbar(content: {
             Spacer()
             
-            Button(action: self.importAccessories, label: {
-                Label("Export accessories", systemImage: "square.and.arrow.down")
+            Button(action: {self.showMailPopup.toggle()}, label: {
+                Label("Plugin state", systemImage: "envelope")
+                    .foregroundColor(self.mailPluginIsActive ? nil : .red)
             })
+            .help(self.mailPluginIsActive ? "Mail plug-in is active" : "Cannot connect to Mail plug-in")
+            .popover(isPresented: self.$showMailPopup) {
+                self.mailStatePopup
+            }
+            
+            Button(action: self.importAccessories, label: {
+                Label("Import accessories", systemImage: "square.and.arrow.down")
+            })
+            .help("Import accessories from a file")
             
             Button(action: self.exportAccessories, label: {
                 Label("Export accessories", systemImage: "square.and.arrow.up")
             })
+            .help("Export all accessories to a file")
             
             Button(action: self.addAccessory) {
                 Label("Add accessory", systemImage: "plus")
             }
+            .help("Add a new accessory")
         })
         .sheet(
             isPresented: self.$showESP32DeploySheet,
@@ -83,6 +98,23 @@ struct ManageAccessoriesView: View {
         }
         .listStyle(SidebarListStyle())
 
+    }
+    
+    var mailStatePopup: some View {
+        HStack {
+            Image(systemName: "envelope")
+                .foregroundColor(self.mailPluginIsActive ? .green : .red)
+            
+            if self.mailPluginIsActive {
+                Text("The mail plug-in is up and running")
+            }else {
+                Text("Cannot connect to the mail plug-in. Open Apple Mail and make sure the plug-in is enabled")
+                    .lineLimit(10)
+                    .multilineTextAlignment(.leading)
+            }
+        }
+        .frame(maxWidth: 250)
+        .padding()
     }
 
     /// Delete an accessory from the list of accessories.
@@ -135,6 +167,6 @@ struct ManageAccessoriesView_Previews: PreviewProvider {
     @State static var showESPSheet: Bool = true
 
     static var previews: some View {
-        ManageAccessoriesView(alertType: self.$alertType, focusedAccessory: self.$focussed, accessoryToDeploy: self.$deploy, showESP32DeploySheet: self.$showESPSheet)
+        ManageAccessoriesView(alertType: self.$alertType, focusedAccessory: self.$focussed, accessoryToDeploy: self.$deploy, showESP32DeploySheet: self.$showESPSheet, mailPluginIsActive: true)
     }
 }
