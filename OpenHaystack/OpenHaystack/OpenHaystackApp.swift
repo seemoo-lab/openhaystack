@@ -11,29 +11,45 @@ import SwiftUI
 
 @main
 struct OpenHaystackApp: App {
-    @StateObject var accessoryController: AccessoryController
-    @StateObject var findMyController: FindMyController
+    @Environment(\.accessoryController) var accessoryController: AccessoryController
+    @Environment(\.findMyController) var findMyController: FindMyController
 
-    init() {
-        var accessoryController: AccessoryController
-        if ProcessInfo().arguments.contains("-preview") {
-            accessoryController = AccessoryControllerPreview(accessories: PreviewData.accessories)
-        } else {
-            accessoryController = AccessoryController()
-        }
-        self._accessoryController = StateObject(wrappedValue: accessoryController)
-        self._findMyController = StateObject(wrappedValue: FindMyController(accessories: accessoryController))
-    }
+    init() {}
 
     var body: some Scene {
         WindowGroup {
             OpenHaystackMainView()
-                .environmentObject(accessoryController)
-                .environmentObject(findMyController)
         }
         .commands {
             SidebarCommands()
         }
+        
     }
 
+}
+
+//MARK: Environment objects 
+private struct FindMyControllerEnvironmentKey: EnvironmentKey {
+    static let defaultValue: FindMyController = FindMyController()
+}
+
+private struct AccessoryControllerEnvironmentKey: EnvironmentKey {
+    static let defaultValue: AccessoryController = {
+        if ProcessInfo().arguments.contains("-preview") {
+            return AccessoryControllerPreview(accessories: PreviewData.accessories)
+        } else {
+            return AccessoryController()
+        }
+    }()
+}
+
+extension EnvironmentValues {
+    var findMyController: FindMyController {
+        get {self[FindMyControllerEnvironmentKey]}
+    }
+    
+    var accessoryController: AccessoryController {
+        get{self[AccessoryControllerEnvironmentKey]}
+        set{self[AccessoryControllerEnvironmentKey] = newValue}
+    }
 }

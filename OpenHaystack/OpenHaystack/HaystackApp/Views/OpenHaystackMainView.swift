@@ -14,8 +14,8 @@ import SwiftUI
 struct OpenHaystackMainView: View {
 
     @State var loading = false
-    @EnvironmentObject var accessoryController: AccessoryController
-    @EnvironmentObject var findMyController: FindMyController
+    @Environment(\.accessoryController) var accessoryController: AccessoryController
+    @Environment(\.findMyController) var findMyController: FindMyController
     var accessories: [Accessory] {
         return self.accessoryController.accessories
     }
@@ -43,7 +43,7 @@ struct OpenHaystackMainView: View {
                 accessoryToDeploy: self.$accessoryToDeploy,
                 showESP32DeploySheet: self.$showESP32DeploySheet
             )
-            .frame(minWidth: 200, idealWidth: 200, maxWidth: .infinity, minHeight: 300, idealHeight: 400, maxHeight: .infinity, alignment: .center)
+            .frame(minWidth: 240, idealWidth: 250, maxWidth: .infinity, minHeight: 300, idealHeight: 400, maxHeight: .infinity, alignment: .center)
 
             ZStack {
                 AccessoryMapView(accessoryController: self.accessoryController, mapType: self.$mapType, focusedAccessory: self.focusedAccessory)
@@ -135,42 +135,18 @@ struct OpenHaystackMainView: View {
 
     /// Download the location reports for all current accessories. Shows an error if something fails, like plug-in is missing
     func downloadLocationReports() {
-
-        self.checkPluginIsRunning { (running) in
-            guard running else {
-                self.alertType = .activatePlugin
-                return
-            }
-
-            guard !self.searchPartyToken.isEmpty,
-                let tokenData = self.searchPartyToken.data(using: .utf8)
-            else {
-                self.alertType = .searchPartyToken
-                return
-            }
-
-            withAnimation {
-                self.isLoading = true
-            }
-
-            findMyController.fetchReports(for: accessories, with: tokenData) { result in
-                switch result {
-                case .failure(let error):
-                    os_log(.error, "Downloading reports failed %@", error.localizedDescription)
-                case .success(let devices):
-                    let reports = devices.compactMap({ $0.reports }).flatMap({ $0 })
-                    if reports.isEmpty {
-                        withAnimation {
-                            self.popUpAlertType = .noReportsFound
-                        }
-                    }
+        self.accessoryController.downloadLocationReports { result in
+            switch result {
+            case .failure(let alert):
+                if alert == .noReportsFound {
+                    self.popUpAlertType = .noReportsFound
+                }else {
+                    self.alertType = alert
                 }
-                withAnimation {
-                    self.isLoading = false
-                }
+            case .success(_):
+                break
             }
         }
-
     }
 
     func deploy(accessory: Accessory) {
@@ -327,10 +303,14 @@ struct OpenHaystackMainView: View {
                 message: Text("Please select to which device you want to deploy"),
                 primaryButton: microbitButton,
                 secondaryButton: esp32Button)
+        case .downloadingReportsFailed:
+            return Alert(title: Text("Downloading locations failed"),
+                         message: Text("We could not download any locations from Apple. Please try again later"),
+                         dismissButton: Alert.Button.okay())
         }
     }
 
-    enum AlertType: Int, Identifiable {
+    enum AlertType: Int, Identifiable, Error {
         var id: Int {
             return self.rawValue
         }
@@ -341,6 +321,7 @@ struct OpenHaystackMainView: View {
         case deployedSuccessfully
         case deletionFailed
         case noReportsFound
+        case downloadingReportsFailed
         case activatePlugin
         case pluginInstallFailed
         case selectDepoyTarget
@@ -353,7 +334,7 @@ struct OpenHaystackMainView_Previews: PreviewProvider {
 
     static var previews: some View {
         OpenHaystackMainView()
-            .environmentObject(accessoryController)
+            .environment(\.accessoryController, accessoryController)
     }
 }
 

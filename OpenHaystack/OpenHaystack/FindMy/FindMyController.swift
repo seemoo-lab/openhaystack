@@ -15,11 +15,7 @@ import SwiftUI
 class FindMyController: ObservableObject {
     @Published var error: Error?
     @Published var devices = [FindMyDevice]()
-    var accessories: AccessoryController
-
-    init(accessories: AccessoryController) {
-        self.accessories = accessories
-    }
+    @Environment(\.accessoryController) var accessories: AccessoryController
 
     func loadPrivateKeys(from data: Data, with searchPartyToken: Data, completion: @escaping (Error?) -> Void) {
         do {

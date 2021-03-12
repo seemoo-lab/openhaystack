@@ -10,11 +10,13 @@
 import Combine
 import Foundation
 import SwiftUI
+import OSLog
 
 class AccessoryController: ObservableObject {
     @Published var accessories: [Accessory]
     var selfObserver: AnyCancellable?
     var listElementsObserver = [AnyCancellable]()
+    @Environment(\.findMyController) var findMyController: FindMyController
 
     init(accessories: [Accessory]) {
         self.accessories = accessories
@@ -88,6 +90,104 @@ class AccessoryController: ObservableObject {
         }
         return accessory
     }
+    
+    /// Export the accessories property list so it can be imported at another location
+    func export(accessories: [Accessory]) throws -> URL {
+        let propertyList = try PropertyListEncoder().encode(accessories)
+
+        let savePanel = NSSavePanel()
+        savePanel.allowedFileTypes = ["plist"]
+        savePanel.canCreateDirectories = true
+        savePanel.directoryURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+        savePanel.message = "This export contains all private keys! Keep the file save to protect your location data"
+        savePanel.nameFieldLabel = "Filename"
+        savePanel.nameFieldStringValue = "openhaystack_accessories.plist"
+        savePanel.prompt = "Export"
+        savePanel.title = "Export accessories & keys"
+
+        let result = savePanel.runModal()
+
+        if result == .OK,
+           let url = savePanel.url {
+            // Store the accessory file
+            try propertyList.write(to: url)
+
+            return url
+        }
+        throw ImportError.cancelled
+    }
+
+    /// Let the user select a file to import the accessories exported by another OpenHaystack instance
+    func importAccessories() throws {
+        let openPanel = NSOpenPanel()
+        openPanel.allowedFileTypes = ["plist"]
+        openPanel.canCreateDirectories = true
+        openPanel.directoryURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+        openPanel.message = "Import an accessories file that includes the private keys"
+        openPanel.prompt = "Import"
+        openPanel.title = "Import accessories & keys"
+
+        let result = openPanel.runModal()
+        if result == .OK,
+           let url = openPanel.url {
+            let propertyList = try Data(contentsOf: url)
+            var importedAccessories = try PropertyListDecoder().decode([Accessory].self, from: propertyList)
+
+            var updatedAccessories = self.accessories
+            // Filter out accessories with the same id (no duplicates)
+            importedAccessories = importedAccessories.filter({acc in !self.accessories.contains(where: {acc.id == $0.id})})
+            updatedAccessories.append(contentsOf: importedAccessories)
+            updatedAccessories.sort(by: {$0.name < $1.name})
+            
+            
+            self.accessories = updatedAccessories
+            
+            //Update reports automatically. Do not report errors from here
+            self.downloadLocationReports { result in}
+        }
+    }
+    
+    enum ImportError: Error {
+        case cancelled
+    }
+    
+    
+    //MARK: Location reports
+    
+    
+    /// Download the location reports from 
+    /// - Parameter completion: called when the reports have been succesfully downloaded or the request has failed 
+    func downloadLocationReports(completion: @escaping (Result<Void,OpenHaystackMainView.AlertType>) -> Void) {
+        AnisetteDataManager.shared.requestAnisetteData { result in
+            switch result {
+            case .failure(_):
+                completion(.failure(.activatePlugin))
+            case .success(let accountData):
+                let token = accountData.searchPartyToken
+                guard token.isEmpty == false else {
+                    completion(.failure(.searchPartyToken))
+                    return
+                }
+                
+                self.findMyController.fetchReports(for: self.accessories, with: token) { result in
+                    switch result {
+                    case .failure(let error):
+                        os_log(.error, "Downloading reports failed %@", error.localizedDescription)
+                        completion(.failure(.downloadingReportsFailed))
+                    case .success(let devices):
+                        let reports = devices.compactMap({ $0.reports }).flatMap({ $0 })
+                        if reports.isEmpty {
+                            completion(.failure(.noReportsFound))
+                        }else {
+                            completion(.success(()))
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+    
 }
 
 class AccessoryControllerPreview: AccessoryController {
