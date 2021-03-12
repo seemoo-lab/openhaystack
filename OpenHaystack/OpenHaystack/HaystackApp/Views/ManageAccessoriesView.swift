@@ -1,4 +1,4 @@
-//
+    //
 //  OpenHaystack – Tracking personal Bluetooth devices via Apple's Find My network
 //
 //  Copyright © 2021 Secure Mobile Networking Lab (SEEMOO)
@@ -11,7 +11,7 @@ import SwiftUI
 
 struct ManageAccessoriesView: View {
 
-    @EnvironmentObject var accessoryController: AccessoryController
+    @Environment(\.accessoryController) var accessoryController: AccessoryController
     var accessories: [Accessory] {
         return self.accessoryController.accessories
     }
@@ -39,6 +39,15 @@ struct ManageAccessoriesView: View {
         }
         .toolbar(content: {
             Spacer()
+            
+            Button(action: self.importAccessories, label: {
+                Label("Export accessories", systemImage: "square.and.arrow.down")
+            })
+            
+            Button(action: self.exportAccessories, label: {
+                Label("Export accessories", systemImage: "square.and.arrow.up")
+            })
+            
             Button(action: self.addAccessory) {
                 Label("Add accessory", systemImage: "plus")
             }
@@ -96,6 +105,22 @@ struct ManageAccessoriesView: View {
             _ = try self.accessoryController.addAccessory()
         } catch {
             self.alertType = .keyError
+        }
+    }
+    
+    func exportAccessories() {
+        do {
+            _ = try self.accessoryController.export(accessories: self.accessories)
+        }catch {
+            //TODO: Show alert
+        }
+    }
+    
+    func importAccessories() {
+        do {
+            try self.accessoryController.importAccessories()
+        }catch {
+            //TODO: Show alert
         }
     }
 
