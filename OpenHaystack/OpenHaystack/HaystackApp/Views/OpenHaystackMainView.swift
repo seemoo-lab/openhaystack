@@ -29,6 +29,7 @@ struct OpenHaystackMainView: View {
     @State var isLoading = false
     @State var focusedAccessory: Accessory?
     @State var accessoryToDeploy: Accessory?
+    @State var showMailPlugInPopover = false
     
     @State var mailPluginIsActive = false
     
@@ -42,10 +43,9 @@ struct OpenHaystackMainView: View {
                 alertType: self.$alertType,
                 focusedAccessory: self.$focusedAccessory,
                 accessoryToDeploy: self.$accessoryToDeploy,
-                showESP32DeploySheet: self.$showESP32DeploySheet,
-                mailPluginIsActive: self.mailPluginIsActive
+                showESP32DeploySheet: self.$showESP32DeploySheet
             )
-            .frame(minWidth: 280, idealWidth: 280, maxWidth: .infinity, minHeight: 300, idealHeight: 400, maxHeight: .infinity, alignment: .center)
+            .frame(minWidth: 250, idealWidth: 280, maxWidth: .infinity, minHeight: 300, idealHeight: 400, maxHeight: .infinity, alignment: .center)
 
             ZStack {
                 AccessoryMapView(accessoryController: self.accessoryController, mapType: self.$mapType, focusedAccessory: self.focusedAccessory)
@@ -61,15 +61,7 @@ struct OpenHaystackMainView: View {
             }
             .frame(minWidth: 500, idealWidth: 500, maxWidth: .infinity, minHeight: 300, idealHeight: 400, maxHeight: .infinity, alignment: .center)
             .toolbar(content: {
-                Picker("", selection: self.$mapType) {
-                    Text("Satellite").tag(MKMapType.hybrid)
-                    Text("Standard").tag(MKMapType.standard)
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                Button(action: self.downloadLocationReports) {
-                    Label("Reload", systemImage: "arrow.clockwise")
-                }
-                .disabled(self.accessories.isEmpty)
+                self.toolbarView
             })
             .alert(
                 item: self.$alertType,
@@ -112,6 +104,41 @@ struct OpenHaystackMainView: View {
             }
         }
     }
+    
+    /// All toolbar items shown
+    var toolbarView: some View {
+        Group {
+            
+            Picker("", selection: self.$mapType) {
+                Text("Satellite").tag(MKMapType.hybrid)
+                Text("Standard").tag(MKMapType.standard)
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            
+            
+            Button(action: {
+                if !self.mailPluginIsActive {
+                    self.showMailPlugInPopover.toggle()
+                }else {
+                    self.downloadLocationReports()
+                }
+                
+            },label: {
+                HStack {
+                    Circle()
+                        .fill(self.mailPluginIsActive ? Color.green : Color.orange)
+                        .frame(width: 8, height: 8)
+                    Label("Reload", systemImage: "arrow.clockwise")
+                        .disabled(!self.mailPluginIsActive)
+                }
+                
+            })
+            .disabled(self.accessories.isEmpty)
+            .popover(isPresented: $showMailPlugInPopover, content: {
+                self.mailStatePopover
+            })
+        }
+    }
 
     func onAppear() {
 
@@ -137,7 +164,9 @@ struct OpenHaystackMainView: View {
 
     /// Download the location reports for all current accessories. Shows an error if something fails, like plug-in is missing
     func downloadLocationReports() {
+        self.isLoading = true
         self.accessoryController.downloadLocationReports { result in
+            self.isLoading = false
             switch result {
             case .failure(let alert):
                 if alert == .noReportsFound {
@@ -149,6 +178,23 @@ struct OpenHaystackMainView: View {
                 break
             }
         }
+    }
+    
+    var mailStatePopover: some View {
+        HStack {
+            Image(systemName: "envelope")
+                .foregroundColor(self.mailPluginIsActive ? .green : .red)
+            
+            if self.mailPluginIsActive {
+                Text("The mail plug-in is up and running")
+            }else {
+                Text("Cannot connect to the mail plug-in. Open Apple Mail and make sure the plug-in is enabled")
+                    .lineLimit(10)
+                    .multilineTextAlignment(.leading)
+            }
+        }
+        .frame(maxWidth: 250)
+        .padding()
     }
 
     func deploy(accessory: Accessory) {
@@ -204,6 +250,7 @@ struct OpenHaystackMainView: View {
                         }
                     }
                     self.mailPluginIsActive = true
+                    self.showMailPlugInPopover = false
                     completion?(true)
                 case .failure(let error):
                     if let error = error as? AnisetteDataError, silent == false {
