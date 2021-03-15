@@ -213,7 +213,7 @@ struct OpenHaystackMainView: View {
         }
 
         self.alertType = .deployedSuccessfully
-
+        accessory.isDeployed = true
         self.accessoryToDeploy = nil
     }
 
