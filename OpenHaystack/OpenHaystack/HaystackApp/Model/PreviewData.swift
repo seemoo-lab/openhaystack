@@ -35,6 +35,8 @@ struct PreviewData {
         accessory.lastLocation = randomLocation()
         accessory.locationTimestamp = randomTimestamp()
         accessory.isDeployed = true
+        accessory.isActive = true
+        accessory.isNearby = Bool.random()
         return accessory
     }
 
