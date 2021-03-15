@@ -54,15 +54,15 @@ struct AccessoryListEntry: View {
             }
 
             Spacer()
-            Circle()
-                .fill(accessory.isNearby ? Color.green : accessory.isActive ? Color.orange : Color.red)
-                .frame(width: 8, height: 8)
             if !accessory.isDeployed {
                 Button(
                     action: { self.deployAccessoryToMicrobit(accessory) },
                     label: { Text("Deploy") }
                 )
             }
+            Circle()
+                .fill(accessory.isNearby ? Color.green : accessory.isActive ? Color.orange : Color.red)
+                .frame(width: 8, height: 8)
         }
         .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0))
         .contextMenu {
