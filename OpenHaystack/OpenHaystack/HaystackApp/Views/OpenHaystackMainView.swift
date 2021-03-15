@@ -365,6 +365,16 @@ struct OpenHaystackMainView: View {
             return Alert(title: Text("Downloading locations failed"),
                          message: Text("We could not download any locations from Apple. Please try again later"),
                          dismissButton: Alert.Button.okay())
+        case .exportFailed:
+            return Alert(
+                title: Text("Export failed"),
+                message: Text("Please check that no the folder is writable and that you have the most current version of the app"),
+                dismissButton: .okay())
+        case .importFailed:
+            return Alert(
+                title: Text("Import failed"),
+                message: Text("Could not import the selected file. Please make sure it has not been modified and that you have the current version of the app."),
+                dismissButton: .okay())
         }
     }
 
@@ -383,6 +393,8 @@ struct OpenHaystackMainView: View {
         case activatePlugin
         case pluginInstallFailed
         case selectDepoyTarget
+        case exportFailed
+        case importFailed
     }
 
 }
