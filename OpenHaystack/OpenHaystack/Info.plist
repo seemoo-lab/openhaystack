@@ -28,5 +28,7 @@
 	<true/>
 	<key>NSSupportsSuddenTermination</key>
 	<true/>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>OpenHaystack uses Bluetooth to detect the presence of nearby accessories.</string>
 </dict>
 </plist>

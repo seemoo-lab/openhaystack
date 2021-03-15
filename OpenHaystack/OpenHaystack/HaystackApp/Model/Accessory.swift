@@ -36,6 +36,7 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
     @Published var lastLocation: CLLocation?
     @Published var locationTimestamp: Date?
     @Published var isDeployed: Bool
+    @Published var isOnline: Bool = false
 
     init(name: String = "New accessory", color: Color = randomColor(), iconName: String = randomIcon()) throws {
         self.name = name

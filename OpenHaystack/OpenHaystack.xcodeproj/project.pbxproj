@@ -51,6 +51,10 @@
 		78EC226C25DBC2E40042B775 /* OpenHaystackMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC226B25DBC2E40042B775 /* OpenHaystackMainView.swift */; };
 		78EC227225DBC8CE0042B775 /* Accessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC227125DBC8CE0042B775 /* Accessory.swift */; };
 		78EC227725DBDB7E0042B775 /* KeychainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC227625DBDB7E0042B775 /* KeychainController.swift */; };
+		F12D5A5A25FA4F3500CBBA09 /* BluetoothAccessoryScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12D5A5925FA4F3500CBBA09 /* BluetoothAccessoryScanner.swift */; };
+		F12D5A6025FA79FA00CBBA09 /* Advertisement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12D5A5F25FA79FA00CBBA09 /* Advertisement.swift */; };
+		F1647C1625FF6C61004144D6 /* BluetoothTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1647C1525FF6C61004144D6 /* BluetoothTests.swift */; };
+		F1647C1B25FF7954004144D6 /* AccessoryNearbyMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1647C1A25FF7954004144D6 /* AccessoryNearbyMonitor.swift */; };
 		F16BA9E925E7DB2D00238183 /* NIOSSL in Frameworks */ = {isa = PBXBuildFile; productRef = F16BA9E825E7DB2D00238183 /* NIOSSL */; };
 /* End PBXBuildFile section */
 
@@ -150,6 +154,10 @@
 		78EC226B25DBC2E40042B775 /* OpenHaystackMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenHaystackMainView.swift; sourceTree = "<group>"; };
 		78EC227125DBC8CE0042B775 /* Accessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessory.swift; sourceTree = "<group>"; };
 		78EC227625DBDB7E0042B775 /* KeychainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainController.swift; sourceTree = "<group>"; };
+		F12D5A5925FA4F3500CBBA09 /* BluetoothAccessoryScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothAccessoryScanner.swift; sourceTree = "<group>"; };
+		F12D5A5F25FA79FA00CBBA09 /* Advertisement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Advertisement.swift; sourceTree = "<group>"; };
+		F1647C1525FF6C61004144D6 /* BluetoothTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothTests.swift; sourceTree = "<group>"; };
+		F1647C1A25FF7954004144D6 /* AccessoryNearbyMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessoryNearbyMonitor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -315,6 +323,7 @@
 				78EC226325DAE0BE0042B775 /* OpenHaystackTests.swift */,
 				78EC226525DAE0BE0042B775 /* Info.plist */,
 				78023CB025F7841F00B083EF /* MicrocontrollerTests.swift */,
+				F1647C1525FF6C61004144D6 /* BluetoothTests.swift */,
 			);
 			path = OpenHaystackTests;
 			sourceTree = "<group>";
@@ -322,6 +331,7 @@
 		78EC226E25DBC2FC0042B775 /* HaystackApp */ = {
 			isa = PBXGroup;
 			children = (
+				F12D5A5E25FA79D600CBBA09 /* Bluetooth */,
 				78023CAC25F7775300B083EF /* Firmwares */,
 				78286D3A25E4017400F65511 /* Mail Plugin */,
 				78EC227025DBC8BB0042B775 /* Views */,
@@ -331,6 +341,7 @@
 				787D8AC025DECD3C00148766 /* AccessoryController.swift */,
 				78023CAA25F7767000B083EF /* ESP32Controller.swift */,
 				7821DAD025F7B2C10054DC33 /* FileManager.swift */,
+				F1647C1A25FF7954004144D6 /* AccessoryNearbyMonitor.swift */,
 			);
 			path = HaystackApp;
 			sourceTree = "<group>";
@@ -358,6 +369,15 @@
 				78D9B80525F7CF60009B9CE8 /* ManageAccessoriesView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		F12D5A5E25FA79D600CBBA09 /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				F12D5A5925FA4F3500CBBA09 /* BluetoothAccessoryScanner.swift */,
+				F12D5A5F25FA79FA00CBBA09 /* Advertisement.swift */,
+			);
+			path = Bluetooth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -575,6 +595,7 @@
 				78D9B80625F7CF60009B9CE8 /* ManageAccessoriesView.swift in Sources */,
 				78486BEF25DD711E0007ED87 /* PopUpAlertView.swift in Sources */,
 				78014A2925DC08580089F6D9 /* MicrobitController.swift in Sources */,
+				F1647C1B25FF7954004144D6 /* AccessoryNearbyMonitor.swift in Sources */,
 				78286D1F25E3D8B800F65511 /* ALTAnisetteData.m in Sources */,
 				781EB3EC25DAD7EA00FEAA19 /* DecryptReports.swift in Sources */,
 				78EC226C25DBC2E40042B775 /* OpenHaystackMainView.swift in Sources */,
@@ -587,10 +608,12 @@
 				781EB3F125DAD7EA00FEAA19 /* FindMyKeyDecoder.swift in Sources */,
 				787D8AC125DECD3C00148766 /* AccessoryController.swift in Sources */,
 				78023CAB25F7767000B083EF /* ESP32Controller.swift in Sources */,
+				F12D5A6025FA79FA00CBBA09 /* Advertisement.swift in Sources */,
 				781EB3F225DAD7EA00FEAA19 /* OpenHaystackApp.swift in Sources */,
 				781EB3F325DAD7EA00FEAA19 /* Models.swift in Sources */,
 				781EB3F425DAD7EA00FEAA19 /* FindMyController.swift in Sources */,
 				781EB3F525DAD7EA00FEAA19 /* BoringSSL.m in Sources */,
+				F12D5A5A25FA4F3500CBBA09 /* BluetoothAccessoryScanner.swift in Sources */,
 				78286D5625E401F000F65511 /* MailPluginManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -609,6 +632,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				78023CB125F7841F00B083EF /* MicrocontrollerTests.swift in Sources */,
+				F1647C1625FF6C61004144D6 /* BluetoothTests.swift in Sources */,
 				78EC226425DAE0BE0042B775 /* OpenHaystackTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

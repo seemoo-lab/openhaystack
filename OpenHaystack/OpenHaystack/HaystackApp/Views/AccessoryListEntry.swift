@@ -54,6 +54,9 @@ struct AccessoryListEntry: View {
             }
 
             Spacer()
+            Circle()
+                .fill(accessory.isOnline ? Color.green : Color.red)
+                .frame(width: 8, height: 8)
             if !accessory.isDeployed {
                 Button(
                     action: { self.deployAccessoryToMicrobit(accessory) },
