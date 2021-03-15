@@ -39,6 +39,15 @@
             </BuildableReference>
             <SkippedTests>
                <Test
+                  Identifier = "MicrocontrollerTests/testESP32Deploy()">
+               </Test>
+               <Test
+                  Identifier = "MicrocontrollerTests/testFindESP32Port()">
+               </Test>
+               <Test
+                  Identifier = "MicrocontrollerTests/testMicrobitDeploy()">
+               </Test>
+               <Test
                   Identifier = "OpenHaystackTests/testPluginInstallation()">
                </Test>
             </SkippedTests>
