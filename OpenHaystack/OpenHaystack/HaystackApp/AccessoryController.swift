@@ -9,15 +9,15 @@
 
 import Combine
 import Foundation
-import SwiftUI
 import OSLog
+import SwiftUI
 
 class AccessoryController: ObservableObject {
     @Published var accessories: [Accessory]
     var selfObserver: AnyCancellable?
     var listElementsObserver = [AnyCancellable]()
     let findMyController: FindMyController
-    
+
     init(accessories: [Accessory], findMyController: FindMyController) {
         self.accessories = accessories
         self.findMyController = findMyController
@@ -91,7 +91,7 @@ class AccessoryController: ObservableObject {
         }
         return accessory
     }
-    
+
     /// Export the accessories property list so it can be imported at another location
     func export(accessories: [Accessory]) throws -> URL {
         let propertyList = try PropertyListEncoder().encode(accessories)
@@ -109,7 +109,8 @@ class AccessoryController: ObservableObject {
         let result = savePanel.runModal()
 
         if result == .OK,
-           let url = savePanel.url {
+            let url = savePanel.url
+        {
             // Store the accessory file
             try propertyList.write(to: url)
 
@@ -130,47 +131,46 @@ class AccessoryController: ObservableObject {
 
         let result = openPanel.runModal()
         if result == .OK,
-           let url = openPanel.url {
+            let url = openPanel.url
+        {
             let propertyList = try Data(contentsOf: url)
             var importedAccessories = try PropertyListDecoder().decode([Accessory].self, from: propertyList)
 
             var updatedAccessories = self.accessories
             // Filter out accessories with the same id (no duplicates)
-            importedAccessories = importedAccessories.filter({acc in !self.accessories.contains(where: {acc.id == $0.id})})
+            importedAccessories = importedAccessories.filter({ acc in !self.accessories.contains(where: { acc.id == $0.id }) })
             updatedAccessories.append(contentsOf: importedAccessories)
-            updatedAccessories.sort(by: {$0.name < $1.name})
-            
-            
+            updatedAccessories.sort(by: { $0.name < $1.name })
+
             self.accessories = updatedAccessories
-            
+
             //Update reports automatically. Do not report errors from here
-            self.downloadLocationReports { result in}
+            self.downloadLocationReports { result in }
         }
     }
-    
+
     enum ImportError: Error {
         case cancelled
     }
-    
-    
+
     //MARK: Location reports
-    
-    
-    /// Download the location reports from 
-    /// - Parameter completion: called when the reports have been succesfully downloaded or the request has failed 
-    func downloadLocationReports(completion: @escaping (Result<Void,OpenHaystackMainView.AlertType>) -> Void) {
+
+    /// Download the location reports from
+    /// - Parameter completion: called when the reports have been succesfully downloaded or the request has failed
+    func downloadLocationReports(completion: @escaping (Result<Void, OpenHaystackMainView.AlertType>) -> Void) {
         AnisetteDataManager.shared.requestAnisetteData { result in
             switch result {
             case .failure(_):
                 completion(.failure(.activatePlugin))
             case .success(let accountData):
-                
+
                 guard let token = accountData.searchPartyToken,
-                      token.isEmpty == false else {
+                    token.isEmpty == false
+                else {
                     completion(.failure(.searchPartyToken))
                     return
                 }
-                
+
                 self.findMyController.fetchReports(for: self.accessories, with: token) { result in
                     switch result {
                     case .failure(let error):
@@ -180,17 +180,17 @@ class AccessoryController: ObservableObject {
                         let reports = devices.compactMap({ $0.reports }).flatMap({ $0 })
                         if reports.isEmpty {
                             completion(.failure(.noReportsFound))
-                        }else {
+                        } else {
                             self.updateWithDecryptedReports(devices: devices)
                             completion(.success(()))
                         }
                     }
                 }
-                
+
             }
         }
     }
-    
+
 }
 
 class AccessoryControllerPreview: AccessoryController {

@@ -1,4 +1,4 @@
-    //
+//
 //  OpenHaystack – Tracking personal Bluetooth devices via Apple's Find My network
 //
 //  Copyright © 2021 Secure Mobile Networking Lab (SEEMOO)
@@ -21,7 +21,7 @@ struct ManageAccessoriesView: View {
     @Binding var focusedAccessory: Accessory?
     @Binding var accessoryToDeploy: Accessory?
     @Binding var showESP32DeploySheet: Bool
-    
+
     @State var showMailPopup = false
 
     var body: some View {
@@ -74,23 +74,28 @@ struct ManageAccessoriesView: View {
         .listStyle(SidebarListStyle())
 
     }
-    
-    
-    /// All toolbar buttons shown 
+
+    /// All toolbar buttons shown
     var toolbarView: some View {
         Group {
             Spacer()
-            
-            Button(action: self.importAccessories, label: {
-                Label("Import accessories", systemImage: "square.and.arrow.down")
-            })
+
+            Button(
+                action: self.importAccessories,
+                label: {
+                    Label("Import accessories", systemImage: "square.and.arrow.down")
+                }
+            )
             .help("Import accessories from a file")
-            
-            Button(action: self.exportAccessories, label: {
-                Label("Export accessories", systemImage: "square.and.arrow.up")
-            })
+
+            Button(
+                action: self.exportAccessories,
+                label: {
+                    Label("Export accessories", systemImage: "square.and.arrow.up")
+                }
+            )
             .help("Export all accessories to a file")
-            
+
             Button(action: self.addAccessory) {
                 Label("Add accessory", systemImage: "plus")
             }
@@ -120,25 +125,26 @@ struct ManageAccessoriesView: View {
             self.alertType = .keyError
         }
     }
-    
+
     func exportAccessories() {
         do {
             _ = try self.accessoryController.export(accessories: self.accessories)
-        }catch {
+        } catch {
             self.alertType = .exportFailed
         }
     }
-    
+
     func importAccessories() {
         do {
             try self.accessoryController.importAccessories()
-        }catch {
+        } catch {
             if let importError = error as? AccessoryController.ImportError,
-               importError == .cancelled {
+                importError == .cancelled
+            {
                 //User cancelled the import. No error
                 return
             }
-            
+
             self.alertType = .importFailed
         }
     }

@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSLocale *locale;
 @property(nonatomic, copy) NSTimeZone *timeZone;
 
-@property(nonatomic, copy) NSData * _Nullable searchPartyToken;
+@property(nonatomic, copy) NSData *_Nullable searchPartyToken;
 
 - (instancetype)initWithMachineID:(NSString *)machineID
                   oneTimePassword:(NSString *)oneTimePassword

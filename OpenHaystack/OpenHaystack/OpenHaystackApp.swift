@@ -31,22 +31,5 @@ struct OpenHaystackApp: App {
         .commands {
             SidebarCommands()
         }
-        
     }
-
-}
-
-//MARK: Environment objects 
-private struct FindMyControllerEnvironmentKey: EnvironmentKey {
-    static let defaultValue: FindMyController = FindMyController()
-}
-
-private struct AccessoryControllerEnvironmentKey: EnvironmentKey {
-    static let defaultValue: AccessoryController = {
-        if ProcessInfo().arguments.contains("-preview") {
-            return AccessoryControllerPreview(accessories: PreviewData.accessories, findMyController: FindMyController())
-        } else {
-            return AccessoryController()
-        }
-    }()
 }

@@ -15,7 +15,7 @@ struct OpenHaystackMainView: View {
 
     @State var loading = false
     @EnvironmentObject var accessoryController: AccessoryController
- 
+
     var accessories: [Accessory] {
         return self.accessoryController.accessories
     }
@@ -30,9 +30,9 @@ struct OpenHaystackMainView: View {
     @State var focusedAccessory: Accessory?
     @State var accessoryToDeploy: Accessory?
     @State var showMailPlugInPopover = false
-    
+
     @State var mailPluginIsActive = false
-    
+
     @State var showESP32DeploySheet = false
 
     var body: some View {
@@ -104,39 +104,43 @@ struct OpenHaystackMainView: View {
             }
         }
     }
-    
+
     /// All toolbar items shown
     var toolbarView: some View {
         Group {
-            
+
             Picker("", selection: self.$mapType) {
                 Text("Satellite").tag(MKMapType.hybrid)
                 Text("Standard").tag(MKMapType.standard)
             }
             .pickerStyle(SegmentedPickerStyle())
-            
-            
-            Button(action: {
-                if !self.mailPluginIsActive {
-                    self.showMailPlugInPopover.toggle()
-                }else {
-                    self.downloadLocationReports()
+
+            Button(
+                action: {
+                    if !self.mailPluginIsActive {
+                        self.showMailPlugInPopover.toggle()
+                    } else {
+                        self.downloadLocationReports()
+                    }
+
+                },
+                label: {
+                    HStack {
+                        Circle()
+                            .fill(self.mailPluginIsActive ? Color.green : Color.orange)
+                            .frame(width: 8, height: 8)
+                        Label("Reload", systemImage: "arrow.clockwise")
+                            .disabled(!self.mailPluginIsActive)
+                    }
+
                 }
-                
-            },label: {
-                HStack {
-                    Circle()
-                        .fill(self.mailPluginIsActive ? Color.green : Color.orange)
-                        .frame(width: 8, height: 8)
-                    Label("Reload", systemImage: "arrow.clockwise")
-                        .disabled(!self.mailPluginIsActive)
-                }
-                
-            })
+            )
             .disabled(self.accessories.isEmpty)
-            .popover(isPresented: $showMailPlugInPopover, content: {
-                self.mailStatePopover
-            })
+            .popover(
+                isPresented: $showMailPlugInPopover,
+                content: {
+                    self.mailStatePopover
+                })
         }
     }
 
@@ -171,7 +175,7 @@ struct OpenHaystackMainView: View {
             case .failure(let alert):
                 if alert == .noReportsFound {
                     self.popUpAlertType = .noReportsFound
-                }else {
+                } else {
                     self.alertType = alert
                 }
             case .success(_):
@@ -179,15 +183,15 @@ struct OpenHaystackMainView: View {
             }
         }
     }
-    
+
     var mailStatePopover: some View {
         HStack {
             Image(systemName: "envelope")
                 .foregroundColor(self.mailPluginIsActive ? .green : .red)
-            
+
             if self.mailPluginIsActive {
                 Text("The mail plug-in is up and running")
-            }else {
+            } else {
                 Text("Cannot connect to the mail plug-in. Open Apple Mail and make sure the plug-in is enabled")
                     .lineLimit(10)
                     .multilineTextAlignment(.leading)
@@ -234,7 +238,7 @@ struct OpenHaystackMainView: View {
         }
     }
 
-    func checkPluginIsRunning(silent: Bool=false, _ completion: ((Bool) -> Void)?) {
+    func checkPluginIsRunning(silent: Bool = false, _ completion: ((Bool) -> Void)?) {
         // Check if Mail plugin is active
         AnisetteDataManager.shared.requestAnisetteData { (result) in
             DispatchQueue.main.async {
@@ -242,7 +246,7 @@ struct OpenHaystackMainView: View {
                 case .success(let accountData):
 
                     withAnimation {
-                        if let token  = accountData.searchPartyToken {
+                        if let token = accountData.searchPartyToken {
                             self.searchPartyToken = String(data: token, encoding: .ascii) ?? ""
                             if self.searchPartyToken.isEmpty == false {
                                 self.searchPartyTokenLoaded = true
@@ -263,11 +267,13 @@ struct OpenHaystackMainView: View {
                     }
                     self.mailPluginIsActive = false
                     completion?(false)
-                    
+
                     //Check again in 5s
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
-                        self.checkPluginIsRunning(silent: true, nil)
-                    })
+                    DispatchQueue.main.asyncAfter(
+                        deadline: .now() + 5,
+                        execute: {
+                            self.checkPluginIsRunning(silent: true, nil)
+                        })
                 }
             }
         }
@@ -362,9 +368,10 @@ struct OpenHaystackMainView: View {
                 primaryButton: microbitButton,
                 secondaryButton: esp32Button)
         case .downloadingReportsFailed:
-            return Alert(title: Text("Downloading locations failed"),
-                         message: Text("We could not download any locations from Apple. Please try again later"),
-                         dismissButton: Alert.Button.okay())
+            return Alert(
+                title: Text("Downloading locations failed"),
+                message: Text("We could not download any locations from Apple. Please try again later"),
+                dismissButton: Alert.Button.okay())
         case .exportFailed:
             return Alert(
                 title: Text("Export failed"),
