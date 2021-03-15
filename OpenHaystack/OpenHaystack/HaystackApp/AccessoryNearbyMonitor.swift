@@ -28,7 +28,10 @@ class AccessoryNearbyMonitor: BluetoothAccessoryDelegate {
         guard let accessory = getAccessoryForAdvertisement(advertisement) else {
             return
         }
-        accessory.isOnline = true
+        if !accessory.isNearby {
+            // Only set on state change
+            accessory.isNearby = true
+        }
     }
 
     func getAccessoryForAdvertisement(_ advertisement: Advertisement) -> Accessory? {
