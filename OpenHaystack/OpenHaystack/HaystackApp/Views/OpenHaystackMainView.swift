@@ -29,6 +29,7 @@ struct OpenHaystackMainView: View {
     @State var isLoading = false
     @State var focusedAccessory: Accessory?
     @State var historyMapView = false
+    @State var historySeconds: TimeInterval = 2 * TimeInterval.Units.day.rawValue
     @State var accessoryToDeploy: Accessory?
     @State var showMailPlugInPopover = false
 
@@ -49,8 +50,11 @@ struct OpenHaystackMainView: View {
             .frame(minWidth: 250, idealWidth: 280, maxWidth: .infinity, minHeight: 300, idealHeight: 400, maxHeight: .infinity, alignment: .center)
 
             ZStack {
-                AccessoryMapView(accessoryController: self.accessoryController, mapType: self.$mapType, focusedAccessory: self.$focusedAccessory, showHistory: self.$historyMapView)
-                    .overlay(self.mapOverlay)
+                AccessoryMapView(
+                    accessoryController: self.accessoryController, mapType: self.$mapType, focusedAccessory: self.$focusedAccessory, showHistory: self.$historyMapView,
+                    showPastHistory: self.$historySeconds
+                )
+                .overlay(self.mapOverlay)
                 if self.popUpAlertType != nil {
                     VStack {
                         Spacer()
@@ -106,9 +110,16 @@ struct OpenHaystackMainView: View {
         }
     }
 
-    /// All toolbar items shown
+    /// All toolbar items shown.
     var toolbarView: some View {
         Group {
+            if self.historyMapView {
+                Text("\(TimeInterval(self.historySeconds).description)")
+                Slider(value: $historySeconds, in: 30 * TimeInterval.Units.minute.rawValue...TimeInterval.Units.week.rawValue) {
+                    Text("Past time to show")
+                }
+                .frame(width: 80)
+            }
             Toggle(isOn: $historyMapView) {
                 Label("Show location history", systemImage: "clock")
             }
@@ -423,5 +434,37 @@ struct OpenHaystackMainView_Previews: PreviewProvider {
 extension Alert.Button {
     static func okay() -> Alert.Button {
         Alert.Button.default(Text("Okay"))
+    }
+}
+
+extension TimeInterval {
+    var description: String {
+        var value = 0
+        var unit = Units.second
+        Units.allCases.forEach { u in
+            if self >= u.rawValue {
+                value = Int(self / u.rawValue)
+                unit = u
+            }
+        }
+        return "\(value) \(unit.description)\(value > 1 ? "s" : "")"
+    }
+
+    enum Units: Double, CaseIterable {
+        case second = 1
+        case minute = 60
+        case hour = 3600
+        case day = 86400
+        case week = 604800
+
+        var description: String {
+            switch self {
+            case .second: return "Second"
+            case .minute: return "Minute"
+            case .hour: return "Hour"
+            case .day: return "Day"
+            case .week: return "Week"
+            }
+        }
     }
 }

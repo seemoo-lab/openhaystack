@@ -16,6 +16,7 @@ struct AccessoryMapView: NSViewControllerRepresentable {
     @Binding var mapType: MKMapType
     @Binding var focusedAccessory: Accessory?
     @Binding var showHistory: Bool
+    @Binding var showPastHistory: TimeInterval
 
     func makeNSViewController(context: Context) -> MapViewController {
         return MapViewController(nibName: NSNib.Name("MapViewController"), bundle: nil)
@@ -26,7 +27,7 @@ struct AccessoryMapView: NSViewControllerRepresentable {
 
         nsViewController.focusedAccessory = focusedAccessory
         if showHistory {
-            nsViewController.addAllLocations(from: focusedAccessory!)
+            nsViewController.addAllLocations(from: focusedAccessory!, past: showPastHistory)
             nsViewController.zoomInOnAll()
         } else {
             nsViewController.addLastLocations(from: accessories)

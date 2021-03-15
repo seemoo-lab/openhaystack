@@ -61,9 +61,17 @@ final class MapViewController: NSViewController, MKMapViewDelegate {
         self.mapView.mapType = mapType
     }
 
-    func addAllLocations(from accessory: Accessory) {
+    func addAllLocations(from accessory: Accessory, past: TimeInterval) {
+        let now = Date()
+        let pastLocations = accessory.locations?.filter { location in
+            guard let timestamp = location.timestamp else {
+                return false
+            }
+            return timestamp + past >= now
+        }
+
         self.mapView.removeAnnotations(self.mapView.annotations)
-        for location in accessory.locations ?? [] {
+        for location in pastLocations ?? [] {
             let coordinate = CLLocationCoordinate2DMake(location.latitude, location.longitude)
             let annotation = AccessoryHistoryAnnotation(coordinate: coordinate)
             self.mapView.addAnnotation(annotation)
