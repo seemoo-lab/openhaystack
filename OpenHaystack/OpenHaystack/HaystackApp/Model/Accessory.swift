@@ -53,6 +53,7 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
             }
         }
     }
+    var lastAdvertisement: Date?
 
     init(name: String = "New accessory", color: Color = randomColor(), iconName: String = randomIcon()) throws {
         self.name = name

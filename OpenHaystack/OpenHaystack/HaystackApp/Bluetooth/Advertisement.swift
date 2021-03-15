@@ -18,7 +18,7 @@ struct Advertisement {
         guard let manufacturerData = fromAdvertisementData[CBAdvertisementDataManufacturerDataKey] as? Data else {
             return nil
         }
-        try? self.init(fromManufacturerData: manufacturerData)
+        self.init(fromManufacturerData: manufacturerData)
     }
 
     init?(fromManufacturerData: Data) {
