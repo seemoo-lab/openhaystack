@@ -35,8 +35,24 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
     @Published var icon: String
     @Published var lastLocation: CLLocation?
     @Published var locationTimestamp: Date?
-    @Published var isDeployed: Bool
-    @Published var isOnline: Bool = false
+    @Published var isDeployed: Bool {
+        didSet(wasDeployed) {
+            // Reset active status if deployed
+            if !wasDeployed && isDeployed {
+                self.isActive = false
+            }
+        }
+    }
+    /// Whether the accessory is correctly advertising.
+    @Published var isActive: Bool = false
+    /// Whether this accessory is currently nearby.
+    @Published var isNearby: Bool = false {
+        didSet {
+            if isNearby {
+                self.isActive = true
+            }
+        }
+    }
 
     init(name: String = "New accessory", color: Color = randomColor(), iconName: String = randomIcon()) throws {
         self.name = name
@@ -57,6 +73,7 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
         self.privateKey = try container.decode(Data.self, forKey: .privateKey)
         self.icon = (try? container.decode(String.self, forKey: .icon)) ?? ""
         self.isDeployed = (try? container.decode(Bool.self, forKey: .isDeployed)) ?? false
+        self.isActive = (try? container.decode(Bool.self, forKey: .isActive)) ?? false
 
         if var colorComponents = try? container.decode([CGFloat].self, forKey: .colorComponents),
             let spaceName = try? container.decode(String.self, forKey: .colorSpaceName),
@@ -76,6 +93,7 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
         try container.encode(self.privateKey, forKey: .privateKey)
         try container.encode(self.icon, forKey: .icon)
         try container.encode(self.isDeployed, forKey: .isDeployed)
+        try container.encode(self.isActive, forKey: .isActive)
 
         if let colorComponents = self.color.cgColor?.components,
             let colorSpace = self.color.cgColor?.colorSpace?.name
@@ -155,6 +173,7 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
         case colorSpaceName
         case icon
         case isDeployed
+        case isActive
     }
 
     static func == (lhs: Accessory, rhs: Accessory) -> Bool {

@@ -55,7 +55,7 @@ struct AccessoryListEntry: View {
 
             Spacer()
             Circle()
-                .fill(accessory.isOnline ? Color.green : Color.red)
+                .fill(accessory.isNearby ? Color.green : accessory.isActive ? Color.orange : Color.red)
                 .frame(width: 8, height: 8)
             if !accessory.isDeployed {
                 Button(
