@@ -12,6 +12,7 @@ import SwiftUI
 @main
 struct OpenHaystackApp: App {
     @StateObject var accessoryController: AccessoryController
+    var accessoryNearbyMonitor: AccessoryNearbyMonitor
 
     init() {
         let accessoryController: AccessoryController
@@ -21,6 +22,7 @@ struct OpenHaystackApp: App {
             accessoryController = AccessoryController()
         }
         self._accessoryController = StateObject(wrappedValue: accessoryController)
+        self.accessoryNearbyMonitor = AccessoryNearbyMonitor(accessoryController: accessoryController)
     }
 
     var body: some Scene {

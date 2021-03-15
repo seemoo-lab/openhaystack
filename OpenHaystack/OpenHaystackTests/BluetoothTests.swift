@@ -7,7 +7,10 @@
 //  SPDX-License-Identifier: AGPL-3.0-only
 //
 
+import CoreBluetooth
 import XCTest
+
+@testable import OpenHaystack
 
 class BluetoothTests: XCTestCase {
 
@@ -19,16 +22,40 @@ class BluetoothTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testNoManufacturerData() throws {
+        let data: [String: Any] = [
+            "": Data()
+        ]
+        let adv = Advertisement(fromAdvertisementData: data)
+        XCTAssertNil(adv)
     }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testEmptyManufacturerData() throws {
+        let data: [String: Any] = [
+            CBAdvertisementDataManufacturerDataKey: Data()
+        ]
+        let adv = Advertisement(fromAdvertisementData: data)
+        XCTAssertNil(adv)
+    }
+
+    func testCorrectAdvertisement() throws {
+        let publicKey = "11111111111111111111111111111111111111111111".hexaData
+        let data = "4c00121900111111111111111111111111111111111111111111110100".hexaData
+        let adv = Advertisement(fromManufacturerData: data)
+        XCTAssertNotNil(adv)
+        XCTAssertEqual(adv?.publicKeyPayload, publicKey)
+    }
+}
+
+extension StringProtocol {
+    var hexaData: Data { .init(hexa) }
+    var hexaBytes: [UInt8] { .init(hexa) }
+    private var hexa: UnfoldSequence<UInt8, Index> {
+        sequence(state: startIndex) { startIndex in
+            guard startIndex < self.endIndex else { return nil }
+            let endIndex = self.index(startIndex, offsetBy: 2, limitedBy: self.endIndex) ?? self.endIndex
+            defer { startIndex = endIndex }
+            return UInt8(self[startIndex..<endIndex], radix: 16)
         }
     }
-
 }
