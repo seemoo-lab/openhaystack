@@ -19,11 +19,7 @@ final class MapViewController: NSViewController, MKMapViewDelegate {
         super.viewDidLoad()
         self.mapView.delegate = self
         self.mapView.register(AccessoryAnnotationView.self, forAnnotationViewWithReuseIdentifier: "Accessory")
-    }
-
-    func zoom(on accessory: Accessory?) {
-        self.focusedAccessory = accessory
-        self.zoomInOnSelection()
+        self.mapView.register(MKPinAnnotationView.self, forAnnotationViewWithReuseIdentifier: "AccessoryHistory")
     }
 
     func addLastLocations(from accessories: [Accessory]) {
@@ -34,15 +30,11 @@ final class MapViewController: NSViewController, MKMapViewDelegate {
             let annotation = AccessoryAnnotation(accessory: accessory)
             self.mapView.addAnnotation(annotation)
         }
-        self.zoomInOnSelection()
     }
 
     func zoomInOnSelection() {
-        var annotations = [MKAnnotation]()
-
         if focusedAccessory == nil {
-            // Show all locations
-            annotations = self.mapView.annotations
+            zoomInOnAll()
         } else {
             // Show focused accessory
             let focusedAnnotation: MKAnnotation? = self.mapView.annotations.first(where: { annotation in
@@ -50,9 +42,16 @@ final class MapViewController: NSViewController, MKMapViewDelegate {
                 return accessoryAnnotation.accessory == self.focusedAccessory
             })
             if let annotation = focusedAnnotation {
-                annotations = [annotation]
+                zoomInOn(annotations: [annotation])
             }
         }
+    }
+
+    func zoomInOnAll() {
+        zoomInOn(annotations: self.mapView.annotations)
+    }
+
+    func zoomInOn(annotations: [MKAnnotation]) {
         DispatchQueue.main.async {
             self.mapView.showAnnotations(annotations, animated: true)
         }
@@ -62,10 +61,23 @@ final class MapViewController: NSViewController, MKMapViewDelegate {
         self.mapView.mapType = mapType
     }
 
+    func addAllLocations(from accessory: Accessory) {
+        self.mapView.removeAnnotations(self.mapView.annotations)
+        for location in accessory.locations ?? [] {
+            let coordinate = CLLocationCoordinate2DMake(location.latitude, location.longitude)
+            let annotation = AccessoryHistoryAnnotation(coordinate: coordinate)
+            self.mapView.addAnnotation(annotation)
+        }
+    }
+
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         switch annotation {
         case is AccessoryAnnotation:
             let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "Accessory", for: annotation)
+            annotationView.annotation = annotation
+            return annotationView
+        case is AccessoryHistoryAnnotation:
+            let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "AccessoryHistory", for: annotation)
             annotationView.annotation = annotation
             return annotationView
         default:

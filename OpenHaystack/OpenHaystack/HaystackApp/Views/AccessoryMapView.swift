@@ -14,7 +14,8 @@ import SwiftUI
 struct AccessoryMapView: NSViewControllerRepresentable {
     @ObservedObject var accessoryController: AccessoryController
     @Binding var mapType: MKMapType
-    var focusedAccessory: Accessory?
+    @Binding var focusedAccessory: Accessory?
+    @Binding var showHistory: Bool
 
     func makeNSViewController(context: Context) -> MapViewController {
         return MapViewController(nibName: NSNib.Name("MapViewController"), bundle: nil)
@@ -23,8 +24,14 @@ struct AccessoryMapView: NSViewControllerRepresentable {
     func updateNSViewController(_ nsViewController: MapViewController, context: Context) {
         let accessories = self.accessoryController.accessories
 
-        nsViewController.zoom(on: focusedAccessory)
-        nsViewController.addLastLocations(from: accessories)
+        nsViewController.focusedAccessory = focusedAccessory
+        if showHistory {
+            nsViewController.addAllLocations(from: focusedAccessory!)
+            nsViewController.zoomInOnAll()
+        } else {
+            nsViewController.addLastLocations(from: accessories)
+            nsViewController.zoomInOnSelection()
+        }
         nsViewController.changeMapType(mapType)
     }
 }

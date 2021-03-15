@@ -28,6 +28,7 @@ struct OpenHaystackMainView: View {
     @State var mapType: MKMapType = .standard
     @State var isLoading = false
     @State var focusedAccessory: Accessory?
+    @State var historyMapView = false
     @State var accessoryToDeploy: Accessory?
     @State var showMailPlugInPopover = false
 
@@ -48,7 +49,7 @@ struct OpenHaystackMainView: View {
             .frame(minWidth: 250, idealWidth: 280, maxWidth: .infinity, minHeight: 300, idealHeight: 400, maxHeight: .infinity, alignment: .center)
 
             ZStack {
-                AccessoryMapView(accessoryController: self.accessoryController, mapType: self.$mapType, focusedAccessory: self.focusedAccessory)
+                AccessoryMapView(accessoryController: self.accessoryController, mapType: self.$mapType, focusedAccessory: self.$focusedAccessory, showHistory: self.$historyMapView)
                     .overlay(self.mapOverlay)
                 if self.popUpAlertType != nil {
                     VStack {
@@ -108,6 +109,10 @@ struct OpenHaystackMainView: View {
     /// All toolbar items shown
     var toolbarView: some View {
         Group {
+            Toggle(isOn: $historyMapView) {
+                Label("Show location history", systemImage: "clock")
+            }
+            .disabled(self.focusedAccessory == nil)
 
             Picker("", selection: self.$mapType) {
                 Text("Satellite").tag(MKMapType.hybrid)

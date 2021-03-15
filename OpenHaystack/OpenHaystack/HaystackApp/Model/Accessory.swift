@@ -31,6 +31,7 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
     @Published var name: String
     let id: Int
     let privateKey: Data
+    @Published var locations: [FindMyLocationReport]?
     @Published var color: Color
     @Published var icon: String
     @Published var lastLocation: CLLocation?

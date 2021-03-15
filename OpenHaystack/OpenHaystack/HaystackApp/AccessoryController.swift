@@ -69,6 +69,7 @@ class AccessoryController: ObservableObject {
 
                 accessory.lastLocation = report?.location
                 accessory.locationTimestamp = report?.timestamp
+                accessory.locations = device.decryptedReports
             }
         }
     }
