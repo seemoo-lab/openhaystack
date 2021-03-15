@@ -125,7 +125,7 @@ struct ManageAccessoriesView: View {
         do {
             _ = try self.accessoryController.export(accessories: self.accessories)
         }catch {
-            //TODO: Show alert
+            self.alertType = .exportFailed
         }
     }
     
@@ -133,7 +133,13 @@ struct ManageAccessoriesView: View {
         do {
             try self.accessoryController.importAccessories()
         }catch {
-            //TODO: Show alert
+            if let importError = error as? AccessoryController.ImportError,
+               importError == .cancelled {
+                //User cancelled the import. No error
+                return
+            }
+            
+            self.alertType = .importFailed
         }
     }
 
