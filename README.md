@@ -26,7 +26,7 @@ OpenHaystack is a framework for tracking personal Bluetooth devices via Apple's 
 ## What is _OpenHaystack_?
 
 OpenHaystack is an application that allows you to create your own tags that are tracked by Apple's [Find My network](#how-does-apples-find-my-network-work). All you need is a Mac and a [BBC micro:bit](https://microbit.org/) or any [other Bluetooth-capable device](#how-to-track-other-bluetooth-devices).
-By using the app, you can track your micro:bit tag anywhere on earth without cellular coverage. Nearby iPhones will discover your tag and upload their location to Apple's servers when they have a network connection.
+By using the app, you can track your tags anywhere on earth without cellular coverage. Nearby iPhones will discover your tag and upload their location to Apple's servers when they have a network connection.
 
 ### History
 
@@ -66,14 +66,9 @@ Our plugin does not access any other private data such as emails (see [source co
 **Adding a new tag.**
 To create a new tag, you just need to enter a name for it and optionally select a suitable icon and a color. The app then generates a new key pair that is used to encrypt and decrypt the location reports. The private key is stored in your Mac's keychain.
 
-**BBC Microbit**
-Upon deploying, the app will try to flash our firmware image with the new public key to a USB-connected [BBC micro:bit v1](https://microbit.org/).
-
-**ESP32**
-Since version 0.3.1 we also ship a simple ESP32 firmware that supports the same features as our firmware for the BBC micro:bit. To flash an ESP32 connect it via USB and select the correct serial port when deploying. It can take up to 3 minuites, a Python 3 version is required. 
-
-**Manual**
-However, you may also copy the public key used for advertising and deploy it via some other mechanism.
+**Deploy to device.**
+Connect a [supported device](#how-to-track-other-bluetooth-devices) via USB to your Mac and hit the _Deploy_ button next to the accessory's name and choose the corresponding.
+Instead of using OpenHaystack's integrated deployment, you may also copy the public key used for advertising (right click on accessory) and deploy it manually.
 
 **Display devices' locations.**
 It can take up to 30 minutes until you will see the first location report on the map on the right side. The map will always show all your items' most recent locations. You can click on every item to check when the last update was received.
@@ -108,14 +103,15 @@ We use our Apple Mail plugin, which runs with elevated privileges, to access the
 
 ## How to track other Bluetooth devices?
 
-Currently, we only provide a convenient deployment method of our OpenHaystack firmware for the BBC micro:bit.
-However, you should be able to implement the advertisements on other devices that support Bluetooth Low Energy based on the [source code of our firmware](Firmware) and the specification in [our paper](#references).
+In principle, any Bluetooth device can be turned into an OpenHaystack accessory that is trackable via Apple's Find My network.
+Currently, we provide a convenient deployment method of our OpenHaystack firmwares for a small number of embedded devices (see table below). We also support Linux devices via our generic HCI script.
+Feel free to port OpenHaystack to other devices that support Bluetooth Low Energy based on the [source code of our firmware](Firmware) and the specification in [our paper](#references). Please share your results with us!
 
-In addition, you can easily turn any Linux machine (including **Raspberry Pi**) into a _tag_ that can be tracked via the Find My network. Our Python script uses HCI calls to configure Bluetooth advertising. You can copy the required `ADVERTISMENT_KEY` from the app by right-clicking on your accessory. Then run the script:
-
-```bash
-sudo python3 HCI.py --key <ADVERTISMENT_KEY>
-```
+| Platform | Tested on | Deploy via app | Comment |
+|----------|-----------|:--------------:|---------|
+| [Nordic nRF51](Firmware/Microbit_v1) | BBC micro:bit v1 | ✓ | Only supports nRF51288 at this time (see issue #6). |
+| [Espressif ESP32](Firmware/ESP32) | SP32-WROOM, ESP32-WROVER | ✓ | Deployment can take up to 3 minutes. Requires Python 3. Thanks **@fhessel**. |
+| [Linux HCI](Firmware/Linux_HCI) | Raspberry Pi 4 w/ Raspbian | | Should support any Linux machine. |
 
 ![Setup](Resources/Setup.jpg)
 
