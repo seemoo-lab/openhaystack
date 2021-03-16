@@ -75,7 +75,7 @@ struct ManageAccessoriesView: View {
 
     }
 
-    /// All toolbar buttons shown
+    /// All toolbar buttons shown.
     var toolbarView: some View {
         Group {
             Spacer()

@@ -93,7 +93,7 @@ class AccessoryController: ObservableObject {
         return accessory
     }
 
-    /// Export the accessories property list so it can be imported at another location
+    /// Export the accessories property list so it can be imported at another location.
     func export(accessories: [Accessory]) throws -> URL {
         let propertyList = try PropertyListEncoder().encode(accessories)
 
@@ -120,7 +120,7 @@ class AccessoryController: ObservableObject {
         throw ImportError.cancelled
     }
 
-    /// Let the user select a file to import the accessories exported by another OpenHaystack instance
+    /// Let the user select a file to import the accessories exported by another OpenHaystack instance.
     func importAccessories() throws {
         let openPanel = NSOpenPanel()
         openPanel.allowedFileTypes = ["plist"]
@@ -156,7 +156,7 @@ class AccessoryController: ObservableObject {
 
     //MARK: Location reports
 
-    /// Download the location reports from
+    /// Download the location reports from.
     /// - Parameter completion: called when the reports have been succesfully downloaded or the request has failed
     func downloadLocationReports(completion: @escaping (Result<Void, OpenHaystackMainView.AlertType>) -> Void) {
         AnisetteDataManager.shared.requestAnisetteData { result in

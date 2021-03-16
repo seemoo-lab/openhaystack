@@ -14,7 +14,7 @@ struct ESP32Controller {
         Bundle.main.resourceURL?.appendingPathComponent("ESP32")
     }
 
-    /// Tries to find the port / path at which the ESP32 module is attached
+    /// Tries to find the port / path at which the ESP32 module is attached.
     static func findPort() -> [URL] {
         // List all ports
         let ports = try? FileManager.default.contentsOfDirectory(atPath: "/dev").filter({ $0.contains("cu.") })
@@ -24,7 +24,7 @@ struct ESP32Controller {
         return portURLs ?? []
     }
 
-    /// Runs the script to flash the firmware on an ESP32
+    /// Runs the script to flash the firmware on an ESP32.
     static func flashToESP32(accessory: Accessory, port: URL, completion: @escaping (Result<Void, Error>) -> Void) throws {
 
         // Copy firmware to a temporary directory
