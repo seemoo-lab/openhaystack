@@ -29,7 +29,7 @@ struct OpenHaystackMainView: View {
     @State var isLoading = false
     @State var focusedAccessory: Accessory?
     @State var historyMapView = false
-    @State var historySeconds: TimeInterval = 2 * TimeInterval.Units.day.rawValue
+    @State var historySeconds: TimeInterval = TimeInterval.Units.day.rawValue
     @State var accessoryToDeploy: Accessory?
     @State var showMailPlugInPopover = false
 
@@ -115,7 +115,7 @@ struct OpenHaystackMainView: View {
         Group {
             if self.historyMapView {
                 Text("\(TimeInterval(self.historySeconds).description)")
-                Slider(value: $historySeconds, in: 30 * TimeInterval.Units.minute.rawValue...TimeInterval.Units.week.rawValue) {
+                Slider<Text, EmptyView>.withLogScale(value: $historySeconds, in: 30 * TimeInterval.Units.minute.rawValue...TimeInterval.Units.week.rawValue) {
                     Text("Past time to show")
                 }
                 .frame(width: 80)
@@ -442,8 +442,8 @@ extension TimeInterval {
         var value = 0
         var unit = Units.second
         Units.allCases.forEach { u in
-            if self >= u.rawValue {
-                value = Int(self / u.rawValue)
+            if self.rounded() >= u.rawValue {
+                value = Int((self / u.rawValue).rounded())
                 unit = u
             }
         }

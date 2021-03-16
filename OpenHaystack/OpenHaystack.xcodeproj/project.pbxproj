@@ -51,6 +51,7 @@
 		78EC226C25DBC2E40042B775 /* OpenHaystackMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC226B25DBC2E40042B775 /* OpenHaystackMainView.swift */; };
 		78EC227225DBC8CE0042B775 /* Accessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC227125DBC8CE0042B775 /* Accessory.swift */; };
 		78EC227725DBDB7E0042B775 /* KeychainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC227625DBDB7E0042B775 /* KeychainController.swift */; };
+		F126102F2600D1D80066A859 /* Slider+LogScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = F126102E2600D1D80066A859 /* Slider+LogScale.swift */; };
 		F12D5A5A25FA4F3500CBBA09 /* BluetoothAccessoryScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12D5A5925FA4F3500CBBA09 /* BluetoothAccessoryScanner.swift */; };
 		F12D5A6025FA79FA00CBBA09 /* Advertisement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12D5A5F25FA79FA00CBBA09 /* Advertisement.swift */; };
 		F1647C1625FF6C61004144D6 /* BluetoothTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1647C1525FF6C61004144D6 /* BluetoothTests.swift */; };
@@ -154,6 +155,7 @@
 		78EC226B25DBC2E40042B775 /* OpenHaystackMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenHaystackMainView.swift; sourceTree = "<group>"; };
 		78EC227125DBC8CE0042B775 /* Accessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessory.swift; sourceTree = "<group>"; };
 		78EC227625DBDB7E0042B775 /* KeychainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainController.swift; sourceTree = "<group>"; };
+		F126102E2600D1D80066A859 /* Slider+LogScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Slider+LogScale.swift"; sourceTree = "<group>"; };
 		F12D5A5925FA4F3500CBBA09 /* BluetoothAccessoryScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothAccessoryScanner.swift; sourceTree = "<group>"; };
 		F12D5A5F25FA79FA00CBBA09 /* Advertisement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Advertisement.swift; sourceTree = "<group>"; };
 		F1647C1525FF6C61004144D6 /* BluetoothTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothTests.swift; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 				7851F1DC25EE90FA0049480D /* AccessoryMapView.swift */,
 				7821DAD225F7C39A0054DC33 /* ESP32InstallSheet.swift */,
 				78D9B80525F7CF60009B9CE8 /* ManageAccessoriesView.swift */,
+				F126102E2600D1D80066A859 /* Slider+LogScale.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -595,6 +598,7 @@
 				78D9B80625F7CF60009B9CE8 /* ManageAccessoriesView.swift in Sources */,
 				78486BEF25DD711E0007ED87 /* PopUpAlertView.swift in Sources */,
 				78014A2925DC08580089F6D9 /* MicrobitController.swift in Sources */,
+				F126102F2600D1D80066A859 /* Slider+LogScale.swift in Sources */,
 				F1647C1B25FF7954004144D6 /* AccessoryNearbyMonitor.swift in Sources */,
 				78286D1F25E3D8B800F65511 /* ALTAnisetteData.m in Sources */,
 				781EB3EC25DAD7EA00FEAA19 /* DecryptReports.swift in Sources */,
