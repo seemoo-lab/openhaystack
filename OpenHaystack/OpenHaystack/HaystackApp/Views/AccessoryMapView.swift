@@ -17,6 +17,7 @@ struct AccessoryMapView: NSViewControllerRepresentable {
     @Binding var focusedAccessory: Accessory?
     @Binding var showHistory: Bool
     @Binding var showPastHistory: TimeInterval
+    var delayer = UpdateDelayer()
 
     func makeNSViewController(context: Context) -> MapViewController {
         return MapViewController(nibName: NSNib.Name("MapViewController"), bundle: nil)
@@ -27,12 +28,28 @@ struct AccessoryMapView: NSViewControllerRepresentable {
 
         nsViewController.focusedAccessory = focusedAccessory
         if showHistory {
-            nsViewController.addAllLocations(from: focusedAccessory!, past: showPastHistory)
-            nsViewController.zoomInOnAll()
+            delayer.delayUpdate {
+                nsViewController.addAllLocations(from: focusedAccessory!, past: showPastHistory)
+                nsViewController.zoomInOnAll()
+            }
         } else {
             nsViewController.addLastLocations(from: accessories)
             nsViewController.zoomInOnSelection()
         }
         nsViewController.changeMapType(mapType)
+    }
+}
+
+class UpdateDelayer {
+    /// Some view updates need to be delayed to mitigate UI glitches.
+    var delayedWorkItem: DispatchWorkItem?
+
+    func delayUpdate(delay: Double = 0.3, closure: @escaping () -> Void) {
+        self.delayedWorkItem?.cancel()
+        let workItem = DispatchWorkItem {
+            closure()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: workItem)
+        self.delayedWorkItem = workItem
     }
 }
