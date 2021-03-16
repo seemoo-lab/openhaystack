@@ -25,8 +25,8 @@ OpenHaystack is a framework for tracking personal Bluetooth devices via Apple's 
 
 ## What is _OpenHaystack_?
 
-OpenHaystack is an application that allows you to create your own tags that are tracked by Apple's [Find My network](#how-does-apples-find-my-network-work). All you need is a Mac and a [BBC micro:bit](https://microbit.org/) or any [other Bluetooth-capable device](#how-to-track-other-bluetooth-devices).
-By using the app, you can track your tags anywhere on earth without cellular coverage. Nearby iPhones will discover your tag and upload their location to Apple's servers when they have a network connection.
+OpenHaystack is an application that allows you to create your own accessories that are tracked by Apple's [Find My network](#how-does-apples-find-my-network-work). All you need is a Mac and a [BBC micro:bit](https://microbit.org/) or any [other Bluetooth-capable device](#how-to-track-other-bluetooth-devices).
+By using the app, you can track your accessories anywhere on earth without cellular coverage. Nearby iPhones will discover your accessories and upload their location to Apple's servers when they have a network connection.
 
 ### History
 
@@ -37,7 +37,7 @@ Since its release, we received quite a bit of [press and media coverage](https:/
 
 ### Disclaimer
 
-OpenHaystack is experimental software. The code is untested and incomplete. For example, OpenHaystack tags using our [firmware](Firmware) broadcast a fixed public key and, therefore, are trackable by other devices in proximity (this might change in a future release). OpenHaystack is not affiliated with or endorsed by Apple Inc.
+OpenHaystack is experimental software. The code is untested and incomplete. For example, OpenHaystack accessories using our [firmware](Firmware) broadcast a fixed public key and, therefore, are trackable by other devices in proximity (this might change in a future release). OpenHaystack is not affiliated with or endorsed by Apple Inc.
 
 ## How to use _OpenHaystack_?
 
@@ -63,8 +63,8 @@ Our plugin does not access any other private data such as emails (see [source co
 
 ### Usage
 
-**Adding a new tag.**
-To create a new tag, you just need to enter a name for it and optionally select a suitable icon and a color. The app then generates a new key pair that is used to encrypt and decrypt the location reports. The private key is stored in your Mac's keychain.
+**Adding a new accessory.**
+To create a new accessory, you just need to enter a name for it and optionally select a suitable icon and a color. The app then generates a new key pair that is used to encrypt and decrypt the location reports. The private key is stored in your Mac's keychain.
 
 **Deploy to device.**
 Connect a [supported device](#how-to-track-other-bluetooth-devices) via USB to your Mac and hit the _Deploy_ button next to the accessory's name and choose the corresponding.
@@ -82,12 +82,12 @@ We briefly explain Apple's offline finding system (aka [_Find My network_](https
 
 ### Pairing (1)
 
-To use Apple's Find My network, we generate a public-private key pair on an elliptic curve (P-224). The private key remains on the Mac securely stored in the keychain, and the public key will be deployed on the tag, e.g., an attached micro:bit.
+To use Apple's Find My network, we generate a public-private key pair on an elliptic curve (P-224). The private key remains on the Mac securely stored in the keychain, and the public key is deployed on the accessory, e.g., an attached micro:bit.
 
 ### Losing (2)
 
-In short, the tags broadcast the public key as Bluetooth Low Energy (BLE) advertisements (see [firmware](Firmware)).
-Nearby iPhones will not be able to distinguish our tags from a genuine Apple device or certified accessory.
+In short, the accessories broadcast the public key as Bluetooth Low Energy (BLE) advertisements (see [firmware](Firmware)).
+Nearby iPhones will not be able to distinguish our accessories from a genuine Apple device or certified accessory.
 
 ### Finding (3)
 
@@ -96,7 +96,7 @@ All iPhones on iOS 13 or newer do this by default. OpenHaystack is not involved 
 
 ### Searching (4)
 
-Apple does not know which encrypted locations belong to which Apple account or device. Therefore, every Apple user can download any location report as long as they know the corresponding public key. This is not a security issue: all reports are end-to-end encrypted and cannot be decrypted unless one knows the corresponding private key (stored in the keychain). We leverage this feature to download the reports from Apple that have been created for our OpenHaystack tags. We use our private keys to decrypt the location reports and show the most recent one on the map.
+Apple does not know which encrypted locations belong to which Apple account or device. Therefore, every Apple user can download any location report as long as they know the corresponding public key. This is not a security issue: all reports are end-to-end encrypted and cannot be decrypted unless one knows the corresponding private key (stored in the keychain). We leverage this feature to download the reports from Apple that have been created for our OpenHaystack accessories. We use our private keys to decrypt the location reports and show the most recent one on the map.
 
 Apple protects their database against arbitrary access by requiring an authenticated Apple user to download location reports.
 We use our Apple Mail plugin, which runs with elevated privileges, to access the required authentication information. The OpenHaystack app communicates with the plugin while downloading reports. This is why you need to keep Mail open while using OpenHaystack.
