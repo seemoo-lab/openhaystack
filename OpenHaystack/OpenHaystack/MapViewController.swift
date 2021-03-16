@@ -14,6 +14,8 @@ final class MapViewController: NSViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     var pinsShown = false
     var focusedAccessory: Accessory?
+    /// Some view updates need to be delayed to mitigate ui glitches
+    var delayedWorkItem: DispatchWorkItem?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,20 +64,28 @@ final class MapViewController: NSViewController, MKMapViewDelegate {
     }
 
     func addAllLocations(from accessory: Accessory, past: TimeInterval) {
-        let now = Date()
-        let pastLocations = accessory.locations?.filter { location in
-            guard let timestamp = location.timestamp else {
-                return false
+        //We delay the updates here to make sure that we do not get any race conditions with SwiftUI and our map update cycle that could end up showing the wrong data
+        self.delayedWorkItem?.cancel()
+        
+        let workItem = DispatchWorkItem {
+            let now = Date()
+            let pastLocations = accessory.locations?.filter { location in
+                guard let timestamp = location.timestamp else {
+                    return false
+                }
+                return timestamp + past >= now
             }
-            return timestamp + past >= now
-        }
 
-        self.mapView.removeAnnotations(self.mapView.annotations)
-        for location in pastLocations ?? [] {
-            let coordinate = CLLocationCoordinate2DMake(location.latitude, location.longitude)
-            let annotation = AccessoryHistoryAnnotation(coordinate: coordinate)
-            self.mapView.addAnnotation(annotation)
+            self.mapView.removeAnnotations(self.mapView.annotations)
+            for location in pastLocations ?? [] {
+                let coordinate = CLLocationCoordinate2DMake(location.latitude, location.longitude)
+                let annotation = AccessoryHistoryAnnotation(coordinate: coordinate)
+                self.mapView.addAnnotation(annotation)
+            }
         }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: workItem)
+        self.delayedWorkItem = workItem
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
