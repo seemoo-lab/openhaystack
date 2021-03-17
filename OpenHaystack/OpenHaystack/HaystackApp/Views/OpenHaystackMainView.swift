@@ -192,6 +192,9 @@ struct OpenHaystackMainView: View {
                 if alert == .noReportsFound {
                     self.popUpAlertType = .noReportsFound
                 } else {
+                    if alert == .activatePlugin {
+                        self.mailPluginIsActive = false
+                    }
                     self.alertType = alert
                 }
             case .success(_):
@@ -201,20 +204,21 @@ struct OpenHaystackMainView: View {
     }
 
     var mailStatePopover: some View {
-        HStack {
-            Image(systemName: "envelope")
-                .foregroundColor(self.mailPluginIsActive ? .green : .red)
+        VStack {
+            HStack {
+                Image(systemName: "envelope")
+                    .font(.title)
+                    .foregroundColor(self.mailPluginIsActive ? .green : .red)
 
-            if self.mailPluginIsActive {
-                Text("The mail plug-in is up and running")
-            } else {
-                Text("Cannot connect to the mail plug-in. Open Apple Mail and make sure the plug-in is enabled")
-                    .lineLimit(10)
-                    .multilineTextAlignment(.leading)
+                if self.mailPluginIsActive {
+                    Text("The mail plug-in is up and running")
+                } else {
+                    Text("Cannot connect to the mail plug-in. Open Apple Mail and make sure the plug-in is enabled")
+                }
             }
+            .padding()
         }
-        .frame(maxWidth: 250)
-        .padding()
+        .frame(width: 250, height: 120)
     }
 
     func deploy(accessory: Accessory) {
