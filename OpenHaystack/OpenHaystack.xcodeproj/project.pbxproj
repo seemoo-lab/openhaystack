@@ -51,6 +51,7 @@
 		78EC226C25DBC2E40042B775 /* OpenHaystackMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC226B25DBC2E40042B775 /* OpenHaystackMainView.swift */; };
 		78EC227225DBC8CE0042B775 /* Accessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC227125DBC8CE0042B775 /* Accessory.swift */; };
 		78EC227725DBDB7E0042B775 /* KeychainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC227625DBDB7E0042B775 /* KeychainController.swift */; };
+		78F8BB4C261C50EB00D9F37F /* LargeButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F8BB4B261C50EB00D9F37F /* LargeButtonStyle.swift */; };
 		F126102F2600D1D80066A859 /* Slider+LogScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = F126102E2600D1D80066A859 /* Slider+LogScale.swift */; };
 		F12D5A5A25FA4F3500CBBA09 /* BluetoothAccessoryScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12D5A5925FA4F3500CBBA09 /* BluetoothAccessoryScanner.swift */; };
 		F12D5A6025FA79FA00CBBA09 /* Advertisement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12D5A5F25FA79FA00CBBA09 /* Advertisement.swift */; };
@@ -155,6 +156,7 @@
 		78EC226B25DBC2E40042B775 /* OpenHaystackMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenHaystackMainView.swift; sourceTree = "<group>"; };
 		78EC227125DBC8CE0042B775 /* Accessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessory.swift; sourceTree = "<group>"; };
 		78EC227625DBDB7E0042B775 /* KeychainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainController.swift; sourceTree = "<group>"; };
+		78F8BB4B261C50EB00D9F37F /* LargeButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeButtonStyle.swift; sourceTree = "<group>"; };
 		F126102E2600D1D80066A859 /* Slider+LogScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Slider+LogScale.swift"; sourceTree = "<group>"; };
 		F12D5A5925FA4F3500CBBA09 /* BluetoothAccessoryScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothAccessoryScanner.swift; sourceTree = "<group>"; };
 		F12D5A5F25FA79FA00CBBA09 /* Advertisement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Advertisement.swift; sourceTree = "<group>"; };
@@ -360,6 +362,7 @@
 		78EC227025DBC8BB0042B775 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				78F8BB4A261C50D500D9F37F /* Styles */,
 				78286D7625E5114600F65511 /* ActivityIndicator.swift */,
 				78EC226B25DBC2E40042B775 /* OpenHaystackMainView.swift */,
 				78486BEE25DD711E0007ED87 /* PopUpAlertView.swift */,
@@ -372,6 +375,14 @@
 				F126102E2600D1D80066A859 /* Slider+LogScale.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		78F8BB4A261C50D500D9F37F /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+				78F8BB4B261C50EB00D9F37F /* LargeButtonStyle.swift */,
+			);
+			path = Styles;
 			sourceTree = "<group>";
 		};
 		F12D5A5E25FA79D600CBBA09 /* Bluetooth */ = {
@@ -541,7 +552,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if command -v swift-format >/dev/null; then\n  swift-format lint -r \"$SRCROOT\"\nelse\n  echo \"warning: swift-format not installed, download from https://github.com/apple/swift-format\"\nfi\n";
+			shellScript = "if command -v swift-format >/dev/null; then\n  swift-format format -i -r \"$SRCROOT\"; swift-format lint -r \"$SRCROOT\"\nelse\n  echo \"warning: swift-format not installed, download from https://github.com/apple/swift-format\"\nfi\n";
 		};
 		F14B2C7E25EFBB11002DC056 /* Set Version Number from Git */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -615,6 +626,7 @@
 				F12D5A6025FA79FA00CBBA09 /* Advertisement.swift in Sources */,
 				781EB3F225DAD7EA00FEAA19 /* OpenHaystackApp.swift in Sources */,
 				781EB3F325DAD7EA00FEAA19 /* Models.swift in Sources */,
+				78F8BB4C261C50EB00D9F37F /* LargeButtonStyle.swift in Sources */,
 				781EB3F425DAD7EA00FEAA19 /* FindMyController.swift in Sources */,
 				781EB3F525DAD7EA00FEAA19 /* BoringSSL.m in Sources */,
 				F12D5A5A25FA4F3500CBBA09 /* BluetoothAccessoryScanner.swift in Sources */,
