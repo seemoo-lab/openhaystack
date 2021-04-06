@@ -43,12 +43,12 @@ static esp_ble_adv_params_t ble_adv_params = {
     // Minimum advertising interval for undirected and low duty cycle
     // directed advertising. Range: 0x0020 to 0x4000 Default: N = 0x0800
     // (1.28 second) Time = N * 0.625 msec Time Range: 20 ms to 10.24 sec
-    .adv_int_min        = 0x00A0, // 100ms
+    .adv_int_min        = 0x0640, // 1s
     // Advertising max interval:
     // Maximum advertising interval for undirected and low duty cycle
     // directed advertising. Range: 0x0020 to 0x4000 Default: N = 0x0800
     // (1.28 second) Time = N * 0.625 msec Time Range: 20 ms to 10.24 sec
-    .adv_int_max        = 0x0140, // 200ms
+    .adv_int_max        = 0x0C80, // 2s
     // Advertisement type
     .adv_type           = ADV_TYPE_NONCONN_IND,
     // Use the random address
