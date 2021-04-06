@@ -15,7 +15,7 @@
 
 #include "ll.h"
 
-#define ADV_INTERVAL			LL_ADV_INTERVAL_MIN_NONCONN	/* 100 ms */
+#define ADV_INTERVAL			2000000	/* 2 s */
 
 /* don't make `const` so we can replace key in compiled binary image */
 static char public_key[28] = "OFFLINEFINDINGPUBLICKEYHERE!";
