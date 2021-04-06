@@ -157,6 +157,7 @@ class AccessoryController: ObservableObject {
     //MARK: Location reports
 
     /// Download the location reports from.
+    ///
     /// - Parameter completion: called when the reports have been succesfully downloaded or the request has failed
     func downloadLocationReports(completion: @escaping (Result<Void, OpenHaystackMainView.AlertType>) -> Void) {
         AnisetteDataManager.shared.requestAnisetteData { result in

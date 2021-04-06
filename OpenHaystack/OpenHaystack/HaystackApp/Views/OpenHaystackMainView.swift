@@ -221,26 +221,6 @@ struct OpenHaystackMainView: View {
         .frame(width: 250, height: 120)
     }
 
-    func deploy(accessory: Accessory) {
-        self.accessoryToDeploy = accessory
-        self.alertType = .selectDepoyTarget
-    }
-
-    /// Deploy the public key of the accessory to a BBC microbit.
-    func deployAccessoryToMicrobit(accessory: Accessory) {
-        do {
-            try MicrobitController.deploy(accessory: accessory)
-        } catch {
-            os_log("Error occurred %@", String(describing: error))
-            self.alertType = .deployFailed
-            return
-        }
-
-        self.alertType = .deployedSuccessfully
-        accessory.isDeployed = true
-        self.accessoryToDeploy = nil
-    }
-
     /// Ask to install and activate the mail plugin.
     func installMailPlugin() {
         let pluginManager = MailPluginManager()
@@ -373,20 +353,6 @@ struct OpenHaystackMainView: View {
                     action: {
                         self.downloadPlugin()
                     }), secondaryButton: .cancel())
-        case .selectDepoyTarget:
-            let microbitButton = Alert.Button.default(Text("Microbit"), action: { self.deployAccessoryToMicrobit(accessory: self.accessoryToDeploy!) })
-
-            let esp32Button = Alert.Button.default(
-                Text("ESP32"),
-                action: {
-                    self.showESP32DeploySheet = true
-                })
-
-            return Alert(
-                title: Text("Select target"),
-                message: Text("Please select to which device you want to deploy"),
-                primaryButton: microbitButton,
-                secondaryButton: esp32Button)
         case .downloadingReportsFailed:
             return Alert(
                 title: Text("Downloading locations failed"),
@@ -419,7 +385,6 @@ struct OpenHaystackMainView: View {
         case downloadingReportsFailed
         case activatePlugin
         case pluginInstallFailed
-        case selectDepoyTarget
         case exportFailed
         case importFailed
     }

@@ -74,10 +74,8 @@ struct MicrobitController {
         return patchedFirmware
     }
 
-    static func deploy(accessory: Accessory) throws {
-        let microbits = try MicrobitController.findMicrobits()
-        guard let microBitURL = microbits.first,
-            let firmwareURL = Bundle.main.url(forResource: "firmware", withExtension: "bin")
+    static func patchFirmware(for accessory: Accessory) throws -> Data {
+        guard let firmwareURL = Bundle.main.url(forResource: "firmware", withExtension: "bin")
         else {
             throw FirmwareFlashError.notFound
         }
@@ -86,6 +84,18 @@ struct MicrobitController {
         let pattern = "OFFLINEFINDINGPUBLICKEYHERE!".data(using: .ascii)!
         let publicKey = try accessory.getAdvertisementKey()
         let patchedFirmware = try MicrobitController.patchFirmware(firmware, pattern: pattern, with: publicKey)
+
+        return patchedFirmware
+    }
+
+    static func deploy(accessory: Accessory) throws {
+        let microbits = try MicrobitController.findMicrobits()
+        guard let microBitURL = microbits.first
+        else {
+            throw FirmwareFlashError.notFound
+        }
+
+        let patchedFirmware = try self.patchFirmware(for: accessory)
 
         try MicrobitController.deployToMicrobit(microBitURL, firmwareFile: patchedFirmware)
     }

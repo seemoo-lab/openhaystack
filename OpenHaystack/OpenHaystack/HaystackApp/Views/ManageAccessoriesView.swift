@@ -8,6 +8,7 @@
 //
 
 import SwiftUI
+import os
 
 struct ManageAccessoriesView: View {
 
@@ -21,6 +22,7 @@ struct ManageAccessoriesView: View {
     @Binding var focusedAccessory: Accessory?
     @Binding var accessoryToDeploy: Accessory?
     @Binding var showESP32DeploySheet: Bool
+    @State var sheetShown: SheetType?
 
     @State var showMailPopup = false
 
@@ -42,11 +44,14 @@ struct ManageAccessoriesView: View {
         .toolbar(content: {
             self.toolbarView
         })
-        .sheet(
-            isPresented: self.$showESP32DeploySheet,
-            content: {
+        .sheet(item: self.$sheetShown) { sheetType in
+            switch sheetType {
+            case .esp32Install:
                 ESP32InstallSheet(accessory: self.$accessoryToDeploy, alertType: self.$alertType)
-            })
+            case .deployFirmware:
+                self.selectTargetView
+            }
+        }
     }
 
     /// Accessory List view.
@@ -103,6 +108,57 @@ struct ManageAccessoriesView: View {
         }
     }
 
+    var selectTargetView: some View {
+        VStack {
+            Text("Select target")
+                .font(.title)
+            Text("Please select to which device you want to deply")
+                .padding(.bottom, 4)
+
+            VStack {
+                Button(
+                    "Micro:bit",
+                    action: {
+                        self.sheetShown = nil
+                        if let accessory = self.accessoryToDeploy {
+                            self.deployAccessoryToMicrobit(accessory: accessory)
+                        }
+                    }
+                )
+                .buttonStyle(LargeButtonStyle())
+
+                Button(
+                    "Export Microbit firmware",
+                    action: {
+                        self.sheetShown = nil
+                        if let accessory = self.accessoryToDeploy {
+                            self.exportMicrobitFirmware(for: accessory)
+                        }
+                    }
+                )
+                .buttonStyle(LargeButtonStyle())
+
+                Button(
+                    "ESP32",
+                    action: {
+                        self.sheetShown = .esp32Install
+                    }
+                )
+                .buttonStyle(LargeButtonStyle())
+
+                Button(
+                    "Cancel",
+                    action: {
+                        self.sheetShown = nil
+                    }
+                )
+                .buttonStyle(LargeButtonStyle(destructive: true))
+            }
+
+        }
+        .padding()
+    }
+
     /// Delete an accessory from the list of accessories.
     func delete(accessory: Accessory) {
         do {
@@ -114,7 +170,7 @@ struct ManageAccessoriesView: View {
 
     func deploy(accessory: Accessory) {
         self.accessoryToDeploy = accessory
-        self.alertType = .selectDepoyTarget
+        self.sheetShown = .deployFirmware
     }
 
     /// Add an accessory with the provided details.
@@ -149,6 +205,58 @@ struct ManageAccessoriesView: View {
         }
     }
 
+    /// Deploy the public key of the accessory to a BBC microbit.
+    func deployAccessoryToMicrobit(accessory: Accessory) {
+        do {
+            try MicrobitController.deploy(accessory: accessory)
+        } catch {
+            os_log("Error occurred %@", String(describing: error))
+            self.alertType = .deployFailed
+            return
+        }
+
+        self.alertType = .deployedSuccessfully
+        accessory.isDeployed = true
+        self.accessoryToDeploy = nil
+    }
+
+    func exportMicrobitFirmware(for accessory: Accessory) {
+        do {
+            let firmware = try MicrobitController.patchFirmware(for: accessory)
+
+            let savePanel = NSSavePanel()
+            savePanel.allowedFileTypes = ["bin"]
+            savePanel.canCreateDirectories = true
+            savePanel.directoryURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            savePanel.message = "Export the micro:bit firmware"
+            savePanel.nameFieldLabel = "Firmware name"
+            savePanel.nameFieldStringValue = "openhaystack_firmware.bin"
+            savePanel.prompt = "Export"
+            savePanel.title = "Export firmware"
+
+            let result = savePanel.runModal()
+
+            if result == .OK,
+                let url = savePanel.url
+            {
+                // Store the accessory file
+                try firmware.write(to: url)
+            }
+
+        } catch {
+            os_log("Error occurred %@", String(describing: error))
+            self.alertType = .exportFailed
+            return
+        }
+    }
+
+    enum SheetType: Int, Identifiable {
+        var id: Int {
+            return self.rawValue
+        }
+        case esp32Install
+        case deployFirmware
+    }
 }
 
 struct ManageAccessoriesView_Previews: PreviewProvider {
