@@ -1,5 +1,10 @@
 #!/bin/bash
 
+cleanup() {
+    echo "cleanup ..."
+    rm "$KEYFILE"
+}
+
 # Directory of this script
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
@@ -127,6 +132,7 @@ fi
 
 # Call esptool.py. Errors from here on are critical
 set -e
+trap cleanup INT TERM EXIT
 
 # Clear NVM
 esptool.py --after no_reset \
@@ -136,4 +142,3 @@ esptool.py --before no_reset --baud $BAUDRATE \
                 0x8000  "$SCRIPT_DIR/build/partition_table/partition-table.bin" \
                 0xe000  "$KEYFILE" \
                 0x10000 "$SCRIPT_DIR/build/openhaystack.bin"
-rm "$KEYFILE"
