@@ -58,6 +58,7 @@ Our plugin does not access any other private data such as emails (see [source co
 2. Open OpenHaystack. This will ask you to install the Mail plugin in `~/Library/Mail/Bundle`.
 3. Open a terminal and run `sudo spctl --master-disable`, which will disable Gatekeeper and allow our Apple Mail plugin to run.
 4. Open Apple Mail. Go to _Preferences_ → _General_ → _Manage Plug-Ins..._ and activate the checkbox next to _OpenHaystackMail.mailbundle_.
+   * If the _Manage Plug-Ins..._ button does not appear. Run this command in terminal `sudo defaults write "/Library/Preferences/com.apple.mail" EnableBundles 1`
 5. Allow access and restart Mail.
 6. Open a terminal and enter `sudo spctl --master-enable`, which will enable Gatekeeper again.
 
