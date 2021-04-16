@@ -135,9 +135,9 @@ set -e
 trap cleanup INT TERM EXIT
 
 # Clear NVM
-esptool.py --after no_reset \
+esptool.py --after no_reset --port "$PORT" \
     erase_region 0x9000 0x5000
-esptool.py --before no_reset --baud $BAUDRATE \
+esptool.py --before no_reset --baud $BAUDRATE --port "$PORT" \
     write_flash 0x1000  "$SCRIPT_DIR/build/bootloader/bootloader.bin" \
                 0x8000  "$SCRIPT_DIR/build/partition_table/partition-table.bin" \
                 0xe000  "$KEYFILE" \
