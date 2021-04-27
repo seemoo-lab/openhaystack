@@ -28,8 +28,8 @@ class AccessoryNearbyMonitor: BluetoothAccessoryDelegate {
     }
 
     func initTimer() {
-        self.cleanup = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
-            self.removeNearbyAccessories()
+        self.cleanup = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            self?.removeNearbyAccessories()
         }
     }
 

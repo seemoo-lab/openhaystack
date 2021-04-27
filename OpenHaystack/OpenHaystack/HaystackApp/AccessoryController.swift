@@ -30,12 +30,12 @@ class AccessoryController: ObservableObject {
     }
 
     func initAccessoryObserver() {
-        self.selfObserver = self.objectWillChange.sink { _ in
+        self.selfObserver = self.objectWillChange.sink { [weak self] _ in
             // objectWillChange is called before the values are actually changed,
             // so we dispatch the call to save()
-            DispatchQueue.main.async {
-                self.initObserver()
-                try? self.save()
+            DispatchQueue.main.async { [weak self] in
+                self?.initObserver()
+                try? self?.save()
             }
         }
     }
@@ -45,7 +45,7 @@ class AccessoryController: ObservableObject {
             $0.cancel()
         })
         self.accessories.forEach({
-            let c = $0.objectWillChange.sink(receiveValue: { self.objectWillChange.send() })
+            let c = $0.objectWillChange.sink(receiveValue: { [weak self] in self?.objectWillChange.send() })
             // Important: You have to keep the returned value allocated,
             // otherwise the sink subscription gets cancelled
             self.listElementsObserver.append(c)
@@ -160,7 +160,8 @@ class AccessoryController: ObservableObject {
     ///
     /// - Parameter completion: called when the reports have been succesfully downloaded or the request has failed
     func downloadLocationReports(completion: @escaping (Result<Void, OpenHaystackMainView.AlertType>) -> Void) {
-        AnisetteDataManager.shared.requestAnisetteData { result in
+        AnisetteDataManager.shared.requestAnisetteData { [weak self] result in
+          guard let self = self else { return }
             switch result {
             case .failure(_):
                 completion(.failure(.activatePlugin))
@@ -173,7 +174,7 @@ class AccessoryController: ObservableObject {
                     return
                 }
 
-                self.findMyController.fetchReports(for: self.accessories, with: token) { result in
+                self.findMyController.fetchReports(for: self.accessories, with: token) { [weak self] result in
                     switch result {
                     case .failure(let error):
                         os_log(.error, "Downloading reports failed %@", error.localizedDescription)
@@ -183,7 +184,7 @@ class AccessoryController: ObservableObject {
                         if reports.isEmpty {
                             completion(.failure(.noReportsFound))
                         } else {
-                            self.updateWithDecryptedReports(devices: devices)
+                            self?.updateWithDecryptedReports(devices: devices)
                             completion(.success(()))
                         }
                     }

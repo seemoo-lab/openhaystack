@@ -52,8 +52,8 @@ final class MapViewController: NSViewController, MKMapViewDelegate {
     }
 
     func zoomInOn(annotations: [MKAnnotation]) {
-        DispatchQueue.main.async {
-            self.mapView.showAnnotations(annotations, animated: true)
+        DispatchQueue.main.async { [weak self] in
+            self?.mapView.showAnnotations(annotations, animated: true)
         }
     }
 
