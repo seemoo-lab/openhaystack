@@ -46,7 +46,7 @@ class AccessoryAnnotationView: MKAnnotationView {
         guard let accessory = (self.annotation as? AccessoryAnnotation)?.accessory else { return }
         self.pinView?.removeFromSuperview()
         self.pinView = nil
-        self.pinView = NSHostingView(rootView: AccessoryPinView(accessory: accessory)) // TODO: LEAK! This view is not release properly
+        self.pinView = NSHostingView(rootView: AccessoryPinView(accessory: accessory))  // TODO: LEAK! This view is not release properly
 
         self.addSubview(pinView!)
 
