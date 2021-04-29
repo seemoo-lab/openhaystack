@@ -33,7 +33,10 @@ class FindMyController: ObservableObject {
 
         // Decrypt the reports with the imported keys
         DispatchQueue.global(qos: .background).async { [weak self] in
-          guard let self = self else { return }
+            guard let self = self else {
+                completion()
+                return
+            }
 
             var d = self.devices
             // Add the reports to the according device by finding the right key for the report
@@ -110,7 +113,10 @@ class FindMyController: ObservableObject {
     func fetchReports(with searchPartyToken: Data, completion: @escaping (Error?) -> Void) {
 
         DispatchQueue.global(qos: .background).async { [weak self] in
-          guard let self = self else { return }
+            guard let self = self else {
+                completion(FindMyErrors.objectReleased)
+                return
+            }
             let fetchReportGroup = DispatchGroup()
 
             let fetcher = ReportsFetcher()
@@ -169,9 +175,13 @@ class FindMyController: ObservableObject {
                 #endif
 
                 DispatchQueue.main.async { [weak self] in
-                    self?.devices = devices
+                    guard let self = self else {
+                        completion(FindMyErrors.objectReleased)
+                        return
+                    }
+                    self.devices = devices
 
-                    self?.decryptReports {
+                    self.decryptReports {
                         completion(nil)
                     }
 
@@ -230,4 +240,5 @@ class FindMyController: ObservableObject {
 
 enum FindMyErrors: Error {
     case decodingPlistFailed(message: String)
+    case objectReleased
 }

@@ -161,7 +161,10 @@ class AccessoryController: ObservableObject {
     /// - Parameter completion: called when the reports have been succesfully downloaded or the request has failed
     func downloadLocationReports(completion: @escaping (Result<Void, OpenHaystackMainView.AlertType>) -> Void) {
         AnisetteDataManager.shared.requestAnisetteData { [weak self] result in
-          guard let self = self else { return }
+            guard let self = self else {
+                completion(.failure(.noReportsFound))
+                return
+            }
             switch result {
             case .failure(_):
                 completion(.failure(.activatePlugin))
