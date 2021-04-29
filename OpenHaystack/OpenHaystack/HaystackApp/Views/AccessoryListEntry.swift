@@ -64,6 +64,7 @@ struct AccessoryListEntry: View {
                 .fill(accessory.isNearby ? Color.green : accessory.isActive ? Color.orange : Color.red)
                 .frame(width: 8, height: 8)
         }
+        .listRowBackground(Color.clear)
         .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0))
         .contextMenu {
             Button("Delete", action: { self.delete(accessory) })

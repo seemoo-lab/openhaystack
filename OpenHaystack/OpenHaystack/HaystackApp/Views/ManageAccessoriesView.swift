@@ -56,6 +56,7 @@ struct ManageAccessoriesView: View {
 
     /// Accessory List view.
     var accessoryList: some View {
+
         List(self.accessories, id: \.self, selection: $focusedAccessory) { accessory in
             AccessoryListEntry(
                 accessory: accessory,
@@ -74,9 +75,10 @@ struct ManageAccessoriesView: View {
                 alertType: self.$alertType,
                 delete: self.delete(accessory:),
                 deployAccessoryToMicrobit: self.deploy(accessory:),
-                zoomOn: { self.focusedAccessory = $0 })
+                zoomOn: { self.focusedAccessory = $0 }
+            )
         }
-        .listStyle(SidebarListStyle())
+        .listStyle(PlainListStyle())
 
     }
 
@@ -269,5 +271,13 @@ struct ManageAccessoriesView_Previews: PreviewProvider {
 
     static var previews: some View {
         ManageAccessoriesView(alertType: self.$alertType, focusedAccessory: self.$focussed, accessoryToDeploy: self.$deploy, showESP32DeploySheet: self.$showESPSheet)
+    }
+}
+
+//FIXME: This is a workaround, because the List with Default style (and clear background) started to crop the rows on macOS 11.3
+extension NSTableView {
+    open override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        self.backgroundColor = .clear
     }
 }
