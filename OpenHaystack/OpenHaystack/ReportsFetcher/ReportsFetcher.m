@@ -26,10 +26,12 @@
 
     CFTypeRef item;
     OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)query, &item);
-
+    
+    
     if (status == errSecSuccess) {
         NSData *securityToken = (__bridge NSData *)(item);
-
+        CFRelease(item);
+        
         NSLog(@"Fetched token %@", [[NSString alloc] initWithData:securityToken encoding:NSUTF8StringEncoding]);
 
         if (securityToken.length == 0) {
@@ -79,7 +81,8 @@
 
     if (status == errSecSuccess) {
         NSDictionary *itemDict = (__bridge NSDictionary *)(item);
-
+        CFRelease(item);
+        
         NSString *accountId = itemDict[(NSString *)kSecAttrAccount];
 
         return accountId;
