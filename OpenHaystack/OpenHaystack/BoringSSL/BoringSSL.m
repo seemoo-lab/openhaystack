@@ -52,7 +52,11 @@
         BIO_free(bio);
     }
 
-    NSLog(@"Shared key: %@", [sharedKey base64EncodedStringWithOptions:0]);
+    // NSLog(@"Shared key: %@", [sharedKey base64EncodedStringWithOptions:0]);
+    //Free
+    EC_KEY_free(key);
+    EC_GROUP_free(curve);
+    EC_POINT_free(publicKey);
 
     return sharedKey;
 }
@@ -90,26 +94,32 @@
     BN_CTX *ctx = BN_CTX_new();
     BN_CTX_start(ctx);
 
+    // Read in the private key data
     BIGNUM *privateKeyNum = BN_bin2bn(privateKeyData.bytes, privateKeyData.length, nil);
-
     int res = EC_POINT_mul(group, point, privateKeyNum, nil, nil, ctx);
+    
     if (res != 1) {
         NSLog(@"Failed");
         return nil;
     }
 
     res = EC_KEY_set_public_key(key, point);
+    EC_POINT_free(point);
+    
     if (res != 1) {
         NSLog(@"Failed");
         return nil;
     }
 
-    privateKeyNum = BN_bin2bn(privateKeyData.bytes, privateKeyData.length, nil);
+
     EC_KEY_set_private_key(key, privateKeyNum);
+    BN_free(privateKeyNum);
 
-    // Free the big numbers
+    // Free
     BN_CTX_free(ctx);
-
+    
+    
+    
     return key;
 }
 
@@ -126,6 +136,10 @@
 
     size_t size = EC_POINT_point2oct(curve, publicKey, POINT_CONVERSION_COMPRESSED, publicKeyBytes.mutableBytes, keySize, NULL);
 
+    //Free
+    EC_KEY_free(key);
+    EC_GROUP_free(curve);
+    
     if (size == 0) {
         return nil;
     }
@@ -146,6 +160,7 @@
 
     size_t size = BN_bn2bin(privateKey, privateKeyBytes.mutableBytes);
 
+    EC_KEY_free(key); 
     if (size == 0) {
         return nil;
     }
