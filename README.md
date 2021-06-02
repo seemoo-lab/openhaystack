@@ -123,7 +123,8 @@ Feel free to port OpenHaystack to other devices that support Bluetooth Low Energ
 
 ## References
 
-- Alexander Heinrich, Milan Stute, Tim Kornhuber, Matthias Hollick. **Who Can _Find My_ Devices? Security and Privacy of Apple's Crowd-Sourced Bluetooth Location Tracking System.** _Proceedings on Privacy Enhancing Technologies (PoPETs)_, 2021. [📄 Preprint](https://arxiv.org/abs/2103.02282).
+- Alexander Heinrich, Milan Stute, Tim Kornhuber, Matthias Hollick. **Who Can _Find My_ Devices? Security and Privacy of Apple's Crowd-Sourced Bluetooth Location Tracking System.** _Proceedings on Privacy Enhancing Technologies (PoPETs)_, 2021. [doi:10.2478/popets-2021-0045](https://doi.org/10.2478/popets-2021-0045) [📄 Paper](https://www.petsymposium.org/2021/files/papers/issue3/popets-2021-0045.pdf) [📄 Preprint](https://arxiv.org/abs/2103.02282).
+- Alexander Heinrich, Milan Stute, and Matthias Hollick. **DEMO: OpenHaystack: A Framework for Tracking Personal Bluetooth Devices via Apple’s Massive Find My Network.** _14th ACM Conference on Security and Privacy in Wireless and Mobile (WiSec ’21)_, 2021.
 - Tim Kornhuber. **Analysis of Apple's Crowd-Sourced Location Tracking System.** _Technical University of Darmstadt_, Master's thesis, 2020.
 - Apple Inc. **Find My Network Accessory Specification – Developer Preview – Release R3.** 2020. [📄 Download](https://developer.apple.com/find-my/).
 
