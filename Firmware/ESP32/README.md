@@ -36,7 +36,7 @@ These files are required for the next step: Deploy the firmware.
 Use the `flash_esp32.sh` script to deploy the firmware and a public key to an ESP32 device connected to your local machine:
 
 ```bash
-./flash_esp32.sh -p /dev/yourSerialPort "public-key-in-base64"
+./flash_esp32.sh -p /dev/yourSerialPort "Base64-encoded advertisement key"
 ```
 
 > **Note:** You might need to reset your device after running the script before it starts sending advertisements.
