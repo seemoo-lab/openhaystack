@@ -19,10 +19,10 @@ struct PreviewData {
     static let latitude: Double = 49.878046
     static let longitude: Double = 8.656993
 
-    static func randomLocation() -> CLLocation {
+    static func randomLocation(lat: Double = latitude, lng: Double = longitude, distance: Double = 0.005) -> CLLocation {
         return CLLocation(
-            latitude: latitude + Double.random(in: 0..<0.005) * (Bool.random() ? -1 : 1),
-            longitude: longitude + Double.random(in: 0..<0.005) * (Bool.random() ? -1 : 1)
+            latitude: lat + Double.random(in: 0..<distance) * (Bool.random() ? -1 : 1),
+            longitude: lng + Double.random(in: 0..<distance) * (Bool.random() ? -1 : 1)
         )
     }
 
@@ -37,6 +37,16 @@ struct PreviewData {
         accessory.isDeployed = true
         accessory.isActive = true
         accessory.isNearby = Bool.random()
+        //Generate recent locations
+        let startDate = Date().addingTimeInterval(-60 * 60 * 24)
+        var date = startDate
+        var locations: [FindMyLocationReport] = []
+        while date < Date() {
+            let location = randomLocation(lat: accessory.lastLocation!.coordinate.latitude, lng: accessory.lastLocation!.coordinate.longitude, distance: 0.0005)
+            locations.append(FindMyLocationReport(lat: location.coordinate.latitude, lng: location.coordinate.longitude, acc: 10, dP: date, t: date, c: 0))
+            date += 30 * 60
+        }
+        accessory.locations = locations
         return accessory
     }
 
