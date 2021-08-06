@@ -18,7 +18,7 @@ defaults:
 
 jobs:
   format-swift:
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v2

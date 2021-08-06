@@ -16,7 +16,7 @@ defaults:
 
 jobs:
   build-firmware:
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
       - uses: actions/checkout@v2
 

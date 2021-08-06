@@ -30,7 +30,7 @@ jobs:
 
   build-and-release:
     name: "Create release on GitHub"
-    runs-on: macos-latest
+    runs-on: macos-11
     env:
       APP: OpenHaystack
       PROJECT_DIR: OpenHaystack
