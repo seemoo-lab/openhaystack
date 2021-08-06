@@ -30,8 +30,14 @@ extension FileManager {
             if isDir.boolValue == true {
                 try self.copyFolder(from: fileURL, to: to.appendingPathComponent(file))
             } else {
-                // Copy file
-                try FileManager.default.copyItem(at: fileURL, to: to.appendingPathComponent(file))
+                do {
+                    // Copy file
+                    try FileManager.default.copyItem(at: fileURL, to: to.appendingPathComponent(file))
+                } catch {
+                    if fileURL.lastPathComponent != "CodeResources" {
+                        throw error
+                    }
+                }
             }
         }
     }

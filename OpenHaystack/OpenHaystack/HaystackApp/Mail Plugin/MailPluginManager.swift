@@ -20,8 +20,36 @@ struct MailPluginManager {
 
     let pluginURL = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Mail/Bundles").appendingPathComponent(mailBundleName + ".mailbundle")
 
+    let localPluginURL = Bundle.main.url(forResource: mailBundleName, withExtension: "mailbundle")!
+
     var isMailPluginInstalled: Bool {
-        return FileManager.default.fileExists(atPath: pluginURL.path)
+        //Check if the plug-in is compatible by comparing the IDs
+        guard FileManager.default.fileExists(atPath: pluginURL.path) else {
+            return false
+        }
+
+        let infoPlistURL = pluginURL.appendingPathComponent("Contents/Info.plist")
+        let localInfoPlistURL = localPluginURL.appendingPathComponent("Contents/Info.plist")
+
+        guard let infoPlistData = try? Data(contentsOf: infoPlistURL),
+            let infoPlistDict = try? PropertyListSerialization.propertyList(from: infoPlistData, options: [], format: nil) as? [String: AnyHashable],
+            let localInfoPlistData = try? Data(contentsOf: localInfoPlistURL),
+            let localInfoPlistDict = try? PropertyListSerialization.propertyList(from: localInfoPlistData, options: [], format: nil) as? [String: AnyHashable]
+        else { return false }
+
+        //Compare the supported plug-ins
+        let uuidEntries = localInfoPlistDict.keys.filter({ $0.contains("PluginCompatibilityUUIDs") })
+        for uuidEntry in uuidEntries {
+            guard let localEntry = localInfoPlistDict[uuidEntry] as? [String],
+                let installedEntry = infoPlistDict[uuidEntry] as? [String]
+            else { return false }
+
+            if localEntry != installedEntry {
+                return false
+            }
+        }
+
+        return true
     }
 
     /// Shows a NSSavePanel to install the mail plugin at the required place.
@@ -58,9 +86,12 @@ struct MailPluginManager {
             throw PluginError.permissionNotGranted
         }
 
-        let localPluginURL = Bundle.main.url(forResource: mailBundleName, withExtension: "mailbundle")!
-
         do {
+            //Remove old plug-ins first
+            if FileManager.default.fileExists(atPath: pluginURL.path) {
+                try FileManager.default.removeItem(at: pluginURL)
+            }
+
             try FileManager.default.createDirectory(at: pluginsFolderURL, withIntermediateDirectories: true, attributes: nil)
         } catch {
             print(error.localizedDescription)
