@@ -71,8 +71,12 @@ struct AccessoryListEntry: View {
             Divider()
             Button("Rename", action: { self.editingName = true })
             Divider()
-            Button("Copy advertisment key (Base64)", action: { self.copyPublicKey(of: accessory) })
             Button("Copy key ID (Base64)", action: { self.copyPublicKeyHash(of: accessory) })
+            Menu("Copy advertisement key") {
+                Button("Base64", action: { self.copyAdvertisementKeyB64(of: accessory) })
+                Button("Byte array", action: { self.copyAdvertisementKey(escapedString: false) })
+                Button("Escaped string", action: { self.copyAdvertisementKey(escapedString: true) })
+            }
             Divider()
             Button("Mark as \(accessory.isDeployed ? "deployable" : "deployed")", action: { accessory.isDeployed.toggle() })
         }
@@ -90,12 +94,46 @@ struct AccessoryListEntry: View {
         }
     }
 
+    func copyAdvertisementKeyB64(of accessory: Accessory) {
+        do {
+            let publicKey = try accessory.getAdvertisementKey()
+            let pasteboard = NSPasteboard.general
+            pasteboard.prepareForNewContents(with: .currentHostOnly)
+            pasteboard.setString(publicKey.base64EncodedString(), forType: .string)
+        } catch {
+            os_log("Failed extracing public key %@", String(describing: error))
+            assert(false)
+        }
+    }
+
     func copyPublicKeyHash(of accessory: Accessory) {
         do {
             let keyID = try accessory.getKeyId()
             let pasteboard = NSPasteboard.general
             pasteboard.prepareForNewContents(with: .currentHostOnly)
             pasteboard.setString(keyID, forType: .string)
+        } catch {
+            os_log("Failed extracing public key %@", String(describing: error))
+            assert(false)
+        }
+    }
+
+    func copyAdvertisementKey(escapedString: Bool) {
+        do {
+            let publicKey = try self.accessory.getAdvertisementKey()
+            let keyByteArray = [UInt8](publicKey)
+
+            if escapedString {
+                let string = keyByteArray.map { "\\x\(String($0, radix: 16))" }.joined()
+                let pasteboard = NSPasteboard.general
+                pasteboard.prepareForNewContents(with: .currentHostOnly)
+                pasteboard.setString(string, forType: .string)
+            } else {
+                let string = keyByteArray.map { "0x\(String($0, radix: 16))" }.joined(separator: ", ")
+                let pasteboard = NSPasteboard.general
+                pasteboard.prepareForNewContents(with: .currentHostOnly)
+                pasteboard.setString(string, forType: .string)
+            }
         } catch {
             os_log("Failed extracing public key %@", String(describing: error))
             assert(false)
