@@ -72,7 +72,7 @@
     // Public key will be stored in point
     int res = EC_POINT_oct2point(group, point, pointBytes.bytes, pointBytes.length, ctx);
     [self printPoint:point withGroup:group];
-
+    
     // Free the big numbers
     BN_CTX_free(ctx);
 
@@ -117,9 +117,7 @@
 
     // Free
     BN_CTX_free(ctx);
-    
-    
-    
+
     return key;
 }
 
@@ -159,6 +157,8 @@
     NSMutableData *privateKeyBytes = [[NSMutableData alloc] initWithLength:keySize];
 
     size_t size = BN_bn2bin(privateKey, privateKeyBytes.mutableBytes);
+    
+    
 
     EC_KEY_free(key); 
     if (size == 0) {
