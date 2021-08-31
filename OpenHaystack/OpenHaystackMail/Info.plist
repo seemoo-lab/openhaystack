@@ -108,6 +108,10 @@
 		<string># For mail version 14.0 (3652.0.5.2.1) on OS X Version 11.0 (build 20A5343i)</string>
 		<string>D985F0E4-3BBC-4B95-BBA1-12056AC4A531</string>
 	</array>
+	<key>Supported12.0PluginCompatibilityUUIDs</key>
+	<array>
+		<string>D985F0E4-3BBC-4B95-BBA1-12056AC4A531</string>
+	</array>
 	<key>Supported11.8PluginCompatibilityUUIDs</key>
 	<array>
 		<string># UUIDs for versions from 10.13 to 99.99.99</string>
