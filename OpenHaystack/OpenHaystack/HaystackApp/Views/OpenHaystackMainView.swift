@@ -135,6 +135,7 @@ struct OpenHaystackMainView: View {
                 action: {
                     if !self.mailPluginIsActive {
                         self.showMailPlugInPopover.toggle()
+                        self.checkPluginIsRunning(silent: true, nil)
                     } else {
                         self.downloadLocationReports()
                     }
@@ -177,9 +178,11 @@ struct OpenHaystackMainView: View {
         if pluginManager.isMailPluginInstalled == false {
             // Install the mail plugin
             self.alertType = .activatePlugin
+            self.checkPluginIsRunning(silent: true, nil)
         } else {
             self.checkPluginIsRunning(nil)
         }
+
     }
 
     /// Download the location reports for all current accessories. Shows an error if something fails, like plug-in is missing
