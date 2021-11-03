@@ -87,11 +87,7 @@ struct MailPluginManager {
         }
 
         do {
-            //Remove old plug-ins first
-            if FileManager.default.fileExists(atPath: pluginURL.path) {
-                try FileManager.default.removeItem(at: pluginURL)
-            }
-
+            // Create the Bundles folder if necessary
             try FileManager.default.createDirectory(at: pluginsFolderURL, withIntermediateDirectories: true, attributes: nil)
         } catch {
             print(error.localizedDescription)

@@ -32,7 +32,7 @@ extension FileManager {
             } else {
                 do {
                     // Copy file
-                    try FileManager.default.copyItem(at: fileURL, to: to.appendingPathComponent(file))
+                    try self.createFile(atPath: to.appendingPathComponent(file).path, contents: Data(contentsOf: fileURL), attributes: nil)
                 } catch {
                     if fileURL.lastPathComponent != "CodeResources" {
                         throw error
