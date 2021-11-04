@@ -23,6 +23,7 @@ struct OpenHaystackMainView: View {
     @State var alertType: AlertType?
     @State var popUpAlertType: PopUpAlertType?
     @State var errorDescription: String?
+    @State var scriptOutput: String?
     @State var searchPartyToken: String = ""
     @State var searchPartyTokenLoaded = false
     @State var mapType: MKMapType = .standard
@@ -43,6 +44,7 @@ struct OpenHaystackMainView: View {
 
             ManageAccessoriesView(
                 alertType: self.$alertType,
+                scriptOutput: self.$scriptOutput,
                 focusedAccessory: self.$focusedAccessory,
                 accessoryToDeploy: self.$accessoryToDeploy,
                 showESP32DeploySheet: self.$showESP32DeploySheet
@@ -317,6 +319,11 @@ struct OpenHaystackMainView: View {
                 title: Text("Could not deploy"),
                 message: Text("Deploying to microbit failed. Please reconnect the device over USB"),
                 dismissButton: Alert.Button.okay())
+        case .nrfDeployFailed:
+            return Alert(
+                title: Text("Could not deploy"),
+                message: Text(self.scriptOutput ?? "Unknown Error"),
+                dismissButton: Alert.Button.okay())
         case .deployedSuccessfully:
             return Alert(
                 title: Text("Deploy successfull"),
@@ -382,6 +389,7 @@ struct OpenHaystackMainView: View {
         case keyError
         case searchPartyToken
         case deployFailed
+        case nrfDeployFailed
         case deployedSuccessfully
         case deletionFailed
         case noReportsFound

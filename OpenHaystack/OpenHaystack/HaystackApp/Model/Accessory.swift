@@ -31,6 +31,11 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
     @Published var name: String
     let id: Int
     let privateKey: Data
+    let symmetricKey: Data
+    @Published var usesDerivation: Bool
+    @Published var oldestRelevantSymmetricKey: Data
+    @Published var lastDerivationTimestamp: Date
+    @Published var updateInterval: TimeInterval
     @Published var locations: [FindMyLocationReport]?
     @Published var color: Color
     @Published var icon: String
@@ -41,6 +46,10 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
             // Reset active status if deployed
             if !wasDeployed && isDeployed {
                 self.isActive = false
+                self.usesDerivation = false
+            } else if wasDeployed && !isDeployed {
+                self.usesDerivation = false
+                self.updateInterval = TimeInterval(60*60*24)
             }
         }
     }
@@ -63,6 +72,14 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
         }
         self.id = key.hashValue
         self.privateKey = key
+        let symKey = SymmetricKey(size: .bits256)
+        self.symmetricKey = symKey.withUnsafeBytes {
+            return Data(Array($0))
+        }
+        self.usesDerivation = false
+        self.oldestRelevantSymmetricKey = self.symmetricKey
+        self.lastDerivationTimestamp = Date()
+        self.updateInterval = TimeInterval(60*60)
         self.color = color
         self.icon = iconName
         self.isDeployed = false
@@ -73,6 +90,11 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
         self.name = try container.decode(String.self, forKey: .name)
         self.id = try container.decode(Int.self, forKey: .id)
         self.privateKey = try container.decode(Data.self, forKey: .privateKey)
+        self.symmetricKey =  (try? container.decode(Data.self, forKey: .symmetricKey)) ?? SymmetricKey(size: .bits256).withUnsafeBytes{ return Data($0) }
+        self.usesDerivation = (try? container.decode(Bool.self, forKey: .usesDerivation)) ?? false
+        self.oldestRelevantSymmetricKey = (try? container.decode(Data.self, forKey: .oldestRelevantSymmetricKey)) ?? self.symmetricKey
+        self.lastDerivationTimestamp = (try? container.decode(Date.self, forKey: .lastDerivationTimestamp)) ?? Date()
+        self.updateInterval = (try? container.decode(TimeInterval.self, forKey: .updateInterval)) ?? TimeInterval(60*60*24)
         self.icon = (try? container.decode(String.self, forKey: .icon)) ?? ""
         self.isDeployed = (try? container.decode(Bool.self, forKey: .isDeployed)) ?? false
         self.isActive = (try? container.decode(Bool.self, forKey: .isActive)) ?? false
@@ -93,6 +115,11 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
         try container.encode(self.name, forKey: .name)
         try container.encode(self.id, forKey: .id)
         try container.encode(self.privateKey, forKey: .privateKey)
+        try container.encode(self.symmetricKey, forKey: .symmetricKey)
+        try container.encode(self.usesDerivation, forKey: .usesDerivation)
+        try container.encode(self.oldestRelevantSymmetricKey, forKey: .oldestRelevantSymmetricKey)
+        try container.encode(self.lastDerivationTimestamp, forKey: .lastDerivationTimestamp)
+        try container.encode(self.updateInterval, forKey: .updateInterval)
         try container.encode(self.icon, forKey: .icon)
         try container.encode(self.isDeployed, forKey: .isDeployed)
         try container.encode(self.isActive, forKey: .isActive)
@@ -114,6 +141,15 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
         return publicKey
     }
 
+    /// Get Uncompressed public key
+    /// This is needed for libraries such as mbedtls that do not support loading compressed points
+    func getUncompressedPublicKey() throws -> Data {
+        guard let publicKey = BoringSSL.deriveUncompressedPublicKey(fromPrivateKey: self.privateKey) else {
+            throw KeyError.keyDerivationFailed
+        }
+        return publicKey
+    }
+    
     func getAdvertisementKey() throws -> Data {
         guard var publicKey = BoringSSL.derivePublicKey(fromPrivateKey: self.privateKey) else {
             throw KeyError.keyDerivationFailed
@@ -146,10 +182,24 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
 
         return Data(digest)
     }
+    
+    func getNewestSymmetricKey() -> Data {
+        var derivationTimestamp = self.lastDerivationTimestamp
+        var symmetricKey = self.oldestRelevantSymmetricKey
+        while derivationTimestamp < Date() {
+            derivationTimestamp.addTimeInterval(self.updateInterval)
+            symmetricKey = Accessory.kdf(inputData: self.symmetricKey, sharedInfo: "update".data(using: .ascii)!, bytesToReturn: 32)
+        }
+        return symmetricKey
+    }
+
 
     func toFindMyDevice() throws -> FindMyDevice {
-
-        let findMyKey = FindMyKey(
+        
+        var findMyKey = [FindMyKey]()
+        
+        /// Always append first FindMyKey to support devices without derivation
+        findMyKey.append(FindMyKey(
             advertisedKey: try self.getAdvertisementKey(),
             hashedKey: try self.hashedPublicKey(),
             privateKey: self.privateKey,
@@ -158,19 +208,116 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
             pu: nil,
             yCoordinate: nil,
             fullKey: nil)
-
+        )
+        if self.usesDerivation {
+            /// Derive FindMyKeys until we have symmetric key from one week before now
+            while self.lastDerivationTimestamp < Date() - TimeInterval(7*24*60*60) {
+                self.lastDerivationTimestamp.addTimeInterval(self.updateInterval)
+                self.oldestRelevantSymmetricKey = Accessory.kdf(inputData: self.symmetricKey, sharedInfo: "update".data(using: .ascii)!, bytesToReturn: 32)
+            }
+            
+            /// we need to generate Keys from seven days in the past until now and 10 extra keys in case of desynchronization
+            let untilDate = Date() + TimeInterval(self.updateInterval * 11)
+            var derivationTimestamp = self.lastDerivationTimestamp
+            var derivedSymmetricKey = self.oldestRelevantSymmetricKey
+            
+            print("--- Derived keys for \(self.name) ---")
+            print("Masterbacon symmetric key \(self.symmetricKey.hexEncodedString())")
+            do {
+                let uncompressedMasterBeaconKey =  try self.getUncompressedPublicKey()
+                print("Masterbeacon public key (uncompressed) \(uncompressedMasterBeaconKey.hexEncodedString())")
+            } catch {
+                print("Failed to get master beacon public key (only needed for printing)")
+            }
+            
+            
+            while derivationTimestamp < untilDate {
+                /// Step 1: derive SKN_i
+                derivedSymmetricKey = Accessory.kdf(inputData: derivedSymmetricKey, sharedInfo: "update".data(using: .ascii)!, bytesToReturn: 32)
+                /// Step 2: derive u_i and v_i
+                let derivedAntiTrackingKeys = Accessory.kdf(inputData: derivedSymmetricKey, sharedInfo: "diversify".data(using: .ascii)!, bytesToReturn: 72)
+                /// Step 3 & 4: compute private and public key
+                guard let derivedPrivateKey = BoringSSL.calculatePrivateKey(fromSharedData: derivedAntiTrackingKeys, masterBeaconPrivateKey: self.privateKey) else{
+                    throw KeyError.keyDerivationFailed
+                }
+                guard let derivedPublicKey = BoringSSL.derivePublicKey(fromPrivateKey: derivedPrivateKey) else {
+                    throw KeyError.keyDerivationFailed
+                }
+                
+                /// Drop first byte to get advertisment key
+                let derivedAdvertisementKey = derivedPublicKey.dropFirst()
+                guard derivedAdvertisementKey.count == 28 else { throw KeyError.keyDerivationFailed }
+                
+                /// Get hash of advertisment key
+                var sha = SHA256()
+                sha.update(data: derivedAdvertisementKey)
+                let derivedAdvertisementKeyHash = Data(sha.finalize())
+                
+                print("-> Derived keys for \(derivationTimestamp):")
+                //print("Dervided anti tracking keys \(derivedAntiTrackingKeys.hexEncodedString())")
+                //print("SymmetricKey \(derivedSymmetricKey.hexEncodedString())")
+                print("Derived public key \(derivedPublicKey.hexEncodedString())")
+                
+                findMyKey.append(FindMyKey(
+                    advertisedKey: derivedAdvertisementKey,
+                    hashedKey: derivedAdvertisementKeyHash,
+                    privateKey: derivedPrivateKey,
+                    startTime: nil,
+                    duration: nil,
+                    pu: nil,
+                    yCoordinate: nil,
+                    fullKey: nil)
+                )
+                
+                /// Add time interval to derivation timestamp
+                derivationTimestamp.addTimeInterval(self.updateInterval)
+            }
+        }
+        
         return FindMyDevice(
             deviceId: String(self.id),
-            keys: [findMyKey],
+            keys: findMyKey,
             catalinaBigSurKeyFiles: nil,
             reports: nil,
             decryptedReports: nil)
     }
+    
+    static func kdf(inputData: Data, sharedInfo: Data, bytesToReturn: Int) -> Data{
+        var derivedKey = Data()
+        var counter: Int32 = 1
+        
+        /// derive from input and shared info until we have enough data
+        while derivedKey.count < bytesToReturn {
+            var shaDigest = SHA256()
+            shaDigest.update(data: inputData)
+            let counterData = Data(Data(bytes: &counter, count: MemoryLayout.size(ofValue: counter)).reversed())
+            shaDigest.update(data: counterData)
+            shaDigest.update(data: sharedInfo)
+            derivedKey.append(Data(shaDigest.finalize()))
+            counter += 1
+        }
+        
+        /// drop bytes which are not needed and return
+        derivedKey = derivedKey.dropLast(derivedKey.count - bytesToReturn)
+        return derivedKey
+    }
+    
+    func resetDerivationState(){
+        /// reset keys and derivation time in case an accessory is reflashed with old keys
+        self.oldestRelevantSymmetricKey = self.symmetricKey
+        self.lastDerivationTimestamp = Date()
+    }
+    
 
     enum CodingKeys: String, CodingKey {
         case name
         case id
         case privateKey
+        case usesDerivation
+        case symmetricKey
+        case oldestRelevantSymmetricKey
+        case lastDerivationTimestamp
+        case updateInterval
         case colorComponents
         case colorSpaceName
         case icon

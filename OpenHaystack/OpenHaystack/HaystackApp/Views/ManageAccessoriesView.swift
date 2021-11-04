@@ -19,6 +19,7 @@ struct ManageAccessoriesView: View {
 
     // MARK: Bindings from main View
     @Binding var alertType: OpenHaystackMainView.AlertType?
+    @Binding var scriptOutput: String?
     @Binding var focusedAccessory: Accessory?
     @Binding var accessoryToDeploy: Accessory?
     @Binding var showESP32DeploySheet: Bool
@@ -48,6 +49,8 @@ struct ManageAccessoriesView: View {
             switch sheetType {
             case .esp32Install:
                 ESP32InstallSheet(accessory: self.$accessoryToDeploy, alertType: self.$alertType)
+            case .nrfDeviceInstall:
+                NRFInstallSheet(accessory: self.$accessoryToDeploy, alertType: self.$alertType, scriptOutput: self.$scriptOutput)
             case .deployFirmware:
                 self.selectTargetView
             }
@@ -148,6 +151,13 @@ struct ManageAccessoriesView: View {
                 )
                 .buttonStyle(LargeButtonStyle())
 
+                Button(
+                    "NRF Device",
+                    action: {
+                        self.sheetShown = .nrfDeviceInstall
+                    }
+                ).buttonStyle(LargeButtonStyle())
+                
                 Button(
                     "Cancel",
                     action: {
@@ -257,6 +267,7 @@ struct ManageAccessoriesView: View {
             return self.rawValue
         }
         case esp32Install
+        case nrfDeviceInstall
         case deployFirmware
     }
 }
@@ -265,12 +276,13 @@ struct ManageAccessoriesView_Previews: PreviewProvider {
 
     @State static var accessories = PreviewData.accessories
     @State static var alertType: OpenHaystackMainView.AlertType?
+    @State static var scriptOutput: String?
     @State static var focussed: Accessory?
     @State static var deploy: Accessory?
     @State static var showESPSheet: Bool = true
 
     static var previews: some View {
-        ManageAccessoriesView(alertType: self.$alertType, focusedAccessory: self.$focussed, accessoryToDeploy: self.$deploy, showESP32DeploySheet: self.$showESPSheet)
+        ManageAccessoriesView(alertType: self.$alertType, scriptOutput: self.$scriptOutput,  focusedAccessory: self.$focussed, accessoryToDeploy: self.$deploy, showESP32DeploySheet: self.$showESPSheet)
     }
 }
 

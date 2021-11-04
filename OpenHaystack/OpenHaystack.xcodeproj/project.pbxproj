@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A2C9089273425720044407E /* NRF in Resources */ = {isa = PBXBuildFile; fileRef = 5A2C9088273425720044407E /* NRF */; };
+		5A2C908B2734266A0044407E /* DataToHexExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2C908A2734266A0044407E /* DataToHexExtension.swift */; };
+		5A2C908D273429360044407E /* NRFController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2C908C273429360044407E /* NRFController.swift */; };
+		5A2C908F273429540044407E /* NRFInstallSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2C908E273429540044407E /* NRFInstallSheet.swift */; };
 		78014A2925DC08580089F6D9 /* MicrobitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78014A2725DC01220089F6D9 /* MicrobitController.swift */; };
 		78014A2B25DC22120089F6D9 /* sample.bin in Resources */ = {isa = PBXBuildFile; fileRef = 78014A2A25DC22110089F6D9 /* sample.bin */; };
 		78014A2F25DC2F100089F6D9 /* pattern_sample.bin in Resources */ = {isa = PBXBuildFile; fileRef = 78014A2E25DC2F100089F6D9 /* pattern_sample.bin */; };
@@ -108,6 +112,10 @@
 		025DFEDB248FED250039C718 /* DecryptReports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecryptReports.swift; sourceTree = "<group>"; };
 		0298C0C8248F9506003928FE /* AuthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthKit.framework; path = ../../../../../../../../../../System/Library/PrivateFrameworks/AuthKit.framework; sourceTree = "<group>"; };
 		116B4EEC24A913AA007BA636 /* SavePanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavePanel.swift; sourceTree = "<group>"; };
+		5A2C9088273425720044407E /* NRF */ = {isa = PBXFileReference; lastKnownFileType = folder; path = NRF; sourceTree = "<group>"; };
+		5A2C908A2734266A0044407E /* DataToHexExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataToHexExtension.swift; sourceTree = "<group>"; };
+		5A2C908C273429360044407E /* NRFController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NRFController.swift; sourceTree = "<group>"; };
+		5A2C908E273429540044407E /* NRFInstallSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NRFInstallSheet.swift; sourceTree = "<group>"; };
 		78014A2725DC01220089F6D9 /* MicrobitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MicrobitController.swift; sourceTree = "<group>"; };
 		78014A2A25DC22110089F6D9 /* sample.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = sample.bin; sourceTree = "<group>"; };
 		78014A2E25DC2F100089F6D9 /* pattern_sample.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = pattern_sample.bin; sourceTree = "<group>"; };
@@ -203,6 +211,7 @@
 		78023CAC25F7775300B083EF /* Firmwares */ = {
 			isa = PBXGroup;
 			children = (
+				5A2C9088273425720044407E /* NRF */,
 				78023CAE25F7797400B083EF /* ESP32 */,
 				78023CAD25F7775A00B083EF /* Microbit */,
 			);
@@ -346,6 +355,8 @@
 				78023CAA25F7767000B083EF /* ESP32Controller.swift */,
 				7821DAD025F7B2C10054DC33 /* FileManager.swift */,
 				F1647C1A25FF7954004144D6 /* AccessoryNearbyMonitor.swift */,
+				5A2C908A2734266A0044407E /* DataToHexExtension.swift */,
+				5A2C908C273429360044407E /* NRFController.swift */,
 			);
 			path = HaystackApp;
 			sourceTree = "<group>";
@@ -373,6 +384,7 @@
 				7821DAD225F7C39A0054DC33 /* ESP32InstallSheet.swift */,
 				78D9B80525F7CF60009B9CE8 /* ManageAccessoriesView.swift */,
 				F126102E2600D1D80066A859 /* Slider+LogScale.swift */,
+				5A2C908E273429540044407E /* NRFInstallSheet.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -510,6 +522,7 @@
 				78023CAF25F7797400B083EF /* ESP32 in Resources */,
 				7899D1D625DE74EE00115740 /* firmware.bin in Resources */,
 				781EB3FE25DAD7EA00FEAA19 /* MapViewController.xib in Resources */,
+				5A2C9089273425720044407E /* NRF in Resources */,
 				781EB40025DAD7EA00FEAA19 /* Preview Assets.xcassets in Resources */,
 				781EB40225DAD7EA00FEAA19 /* Assets.xcassets in Resources */,
 			);
@@ -597,6 +610,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A2C908D273429360044407E /* NRFController.swift in Sources */,
 				781EB43125DADF2B00FEAA19 /* AnisetteDataManager.swift in Sources */,
 				7851F1DD25EE90FA0049480D /* AccessoryMapView.swift in Sources */,
 				7899D1E925DEBF4900115740 /* AccessoryMapAnnotation.swift in Sources */,
@@ -605,6 +619,7 @@
 				78286D8C25E5355B00F65511 /* PreviewData.swift in Sources */,
 				781EB3EB25DAD7EA00FEAA19 /* SavePanel.swift in Sources */,
 				7899D1E125DE97E200115740 /* IconSelectionView.swift in Sources */,
+				5A2C908F273429540044407E /* NRFInstallSheet.swift in Sources */,
 				78EC227725DBDB7E0042B775 /* KeychainController.swift in Sources */,
 				78D9B80625F7CF60009B9CE8 /* ManageAccessoriesView.swift in Sources */,
 				78486BEF25DD711E0007ED87 /* PopUpAlertView.swift in Sources */,
@@ -614,6 +629,7 @@
 				78286D1F25E3D8B800F65511 /* ALTAnisetteData.m in Sources */,
 				781EB3EC25DAD7EA00FEAA19 /* DecryptReports.swift in Sources */,
 				78EC226C25DBC2E40042B775 /* OpenHaystackMainView.swift in Sources */,
+				5A2C908B2734266A0044407E /* DataToHexExtension.swift in Sources */,
 				78EC227225DBC8CE0042B775 /* Accessory.swift in Sources */,
 				7821DAD125F7B2C10054DC33 /* FileManager.swift in Sources */,
 				78286E0225E66F9400F65511 /* AccessoryListEntry.swift in Sources */,

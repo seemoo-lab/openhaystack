@@ -35,6 +35,15 @@ struct AccessoryListEntry: View {
         }
         .font(.footnote)
     }
+    
+    func updateIntervalView() -> some View {
+        let intervalFormatter = DateComponentsFormatter()
+        intervalFormatter.unitsStyle = .abbreviated
+        
+        return Group {
+            Text("Key derivation interval: \(intervalFormatter.string(from: accessory.updateInterval)!)")
+        }.font(.footnote)
+    }
 
     var body: some View {
 
@@ -51,6 +60,9 @@ struct AccessoryListEntry: View {
                         .font(.headline)
                 }
                 self.timestampView()
+                if accessory.usesDerivation {
+                    self.updateIntervalView()
+                }
             }
 
             Spacer()
@@ -68,14 +80,21 @@ struct AccessoryListEntry: View {
         .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 0))
         .contextMenu {
             Button("Delete", action: { self.delete(accessory) })
-            Divider()
             Button("Rename", action: { self.editingName = true })
+            Menu("Key derivation options") {
+                Button("Toggle key derivation", action: { accessory.usesDerivation = !accessory.usesDerivation })
+                Button("Reset derivation state", action: { accessory.resetDerivationState() })
+            }
             Divider()
             Button("Copy key ID (Base64)", action: { self.copyPublicKeyHash(of: accessory) })
             Menu("Copy advertisement key") {
                 Button("Base64", action: { self.copyAdvertisementKeyB64(of: accessory) })
                 Button("Byte array", action: { self.copyAdvertisementKey(escapedString: false) })
                 Button("Escaped string", action: { self.copyAdvertisementKey(escapedString: true) })
+            }
+            Menu("Copy symmetric and uncompressed public key") {
+                Button("Base64", action: { self.copySymmetricAndPublicKeyBase64(of: accessory) })
+                Button("Escaped string", action: { self.copySymmetricAndPublicKey(of: accessory) })
             }
             Divider()
             Button("Mark as \(accessory.isDeployed ? "deployable" : "deployed")", action: { accessory.isDeployed.toggle() })
@@ -139,6 +158,36 @@ struct AccessoryListEntry: View {
             assert(false)
         }
     }
+    
+    func copySymmetricAndPublicKey(of accessory: Accessory){
+        do{
+            let symmetricKey = accessory.symmetricKey
+            let publicKey = try accessory.getUncompressedPublicKey()
+            let publicKeyString = [UInt8](publicKey).map { "\\x\(String($0, radix: 16))" }.joined()
+            let symmetricKeyString = [UInt8](symmetricKey).map { "\\x\(String($0, radix: 16))" }.joined()
+            
+            let pasteboard = NSPasteboard.general
+            pasteboard.prepareForNewContents(with: .currentHostOnly)
+            pasteboard.setString("Symmetric key: \(symmetricKeyString)\n Uncompressed public key: \(publicKeyString) ", forType: .string)
+        } catch {
+            os_log("Failed extracing public key %@", String(describing: error))
+            assert(false)
+        }
+    }
+
+    func copySymmetricAndPublicKeyBase64(of accessory: Accessory){
+        do{
+            let symmetricKey = accessory.symmetricKey
+            let publicKey = try accessory.getUncompressedPublicKey()
+            
+            let pasteboard = NSPasteboard.general
+            pasteboard.prepareForNewContents(with: .currentHostOnly)
+            pasteboard.setString("Symmetric key: \(symmetricKey.base64EncodedString())\n Uncompressed public key: \(publicKey.base64EncodedString()) ", forType: .string)
+        } catch {
+            os_log("Failed extracing public key %@", String(describing: error))
+            assert(false)
+        }
+    }
 
     struct AccessoryListEntry_Previews: PreviewProvider {
         @StateObject static var accessory = PreviewData.accessories.first!
@@ -160,6 +209,7 @@ struct AccessoryListEntry: View {
                         get: { accessory.name },
                         set: { accessory.name = $0 }
                     ),
+
                     alertType: self.$alertType,
                     delete: { _ in () },
                     deployAccessoryToMicrobit: { _ in () },
