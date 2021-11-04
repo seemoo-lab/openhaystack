@@ -20,7 +20,7 @@ runs:
         sudo apt install git wget flex bison gperf python3 python3-pip python3-setuptools cmake ninja-build ccache libffi-dev libssl-dev dfu-util libusb-1.0-0
         mkdir -p /opt/esp
         cd /opt/esp
-        git clone --recursive --depth 1 --branch v4.3.1 https://github.com/espressif/esp-idf.git
+        git clone --recursive --depth 1 --branch release/v4.3 https://github.com/espressif/esp-idf.git
         cd /opt/esp/esp-idf
         ./install.sh
     - name: Build firmware
