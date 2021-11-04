@@ -25,7 +25,7 @@ jobs:
       - name: "Install swift-format"
         run: brew install swift-format
       - name: "Run swift-format"
-        run: swift-format --recursive --mode lint .
+        run: swift-format lint --recursive .
 
   format-objc:
     runs-on: macos-latest
