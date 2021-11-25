@@ -796,7 +796,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
-				EXCLUDED_ARCHS = "arm64e arm64";
+				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = OpenHaystack/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -823,7 +823,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
-				EXCLUDED_ARCHS = "arm64e arm64";
+				EXCLUDED_ARCHS = "";
 				INFOPLIST_FILE = OpenHaystack/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

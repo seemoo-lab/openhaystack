@@ -9,6 +9,7 @@
 
 import Foundation
 import SwiftUI
+import CoreLocation
 
 // swiftlint:disable force_try
 struct PreviewData {
