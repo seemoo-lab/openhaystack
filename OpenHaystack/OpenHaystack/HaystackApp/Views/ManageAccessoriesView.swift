@@ -157,7 +157,7 @@ struct ManageAccessoriesView: View {
                         self.sheetShown = .nrfDeviceInstall
                     }
                 ).buttonStyle(LargeButtonStyle())
-                
+
                 Button(
                     "Cancel",
                     action: {
@@ -282,7 +282,9 @@ struct ManageAccessoriesView_Previews: PreviewProvider {
     @State static var showESPSheet: Bool = true
 
     static var previews: some View {
-        ManageAccessoriesView(alertType: self.$alertType, scriptOutput: self.$scriptOutput,  focusedAccessory: self.$focussed, accessoryToDeploy: self.$deploy, showESP32DeploySheet: self.$showESPSheet)
+        ManageAccessoriesView(
+            alertType: self.$alertType, scriptOutput: self.$scriptOutput, focusedAccessory: self.$focussed, accessoryToDeploy: self.$deploy,
+            showESP32DeploySheet: self.$showESPSheet)
     }
 }
 

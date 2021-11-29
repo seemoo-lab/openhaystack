@@ -10,7 +10,7 @@
 import Foundation
 
 struct NRFController {
-    
+
     static var nrfFirmwareDirectory: URL? {
         Bundle.main.resourceURL?.appendingPathComponent("NRF")
     }
@@ -28,9 +28,9 @@ struct NRFController {
 
         try FileManager.default.copyFolder(from: nrfDirectory, to: urlTemp)
         let urlScript = urlTemp.appendingPathComponent("flash_nrf.sh")
-        try FileManager.default.setAttributes([FileAttributeKey.posixPermissions : 0o755], ofItemAtPath: urlScript.path)
-        try FileManager.default.setAttributes([FileAttributeKey.posixPermissions : 0o755], ofItemAtPath: urlTemp.appendingPathComponent("flash_nrf.py").path)
-        
+        try FileManager.default.setAttributes([FileAttributeKey.posixPermissions: 0o755], ofItemAtPath: urlScript.path)
+        try FileManager.default.setAttributes([FileAttributeKey.posixPermissions: 0o755], ofItemAtPath: urlTemp.appendingPathComponent("flash_nrf.py").path)
+
         // Get public key, newest relevant symmetric key and updateInterval for flashing
         let masterBeaconPublicKey = try accessory.getUncompressedPublicKey()
         let masterBeaconSymmetricKey = accessory.getNewestSymmetricKey()
@@ -40,7 +40,7 @@ struct NRFController {
         let loggingFileUrl = urlTemp.appendingPathComponent("nrf_installer.log")
         try "".write(to: loggingFileUrl, atomically: true, encoding: .utf8)
         let loggingFileHandle = FileHandle.init(forWritingAtPath: loggingFileUrl.path)!
-        
+
         // Run script
         let task = try NSUserUnixTask(url: urlScript)
         task.standardOutput = loggingFileHandle
@@ -54,16 +54,15 @@ struct NRFController {
                 }
             }
         }
-        
+
         try loggingFileHandle.close()
     }
 }
 
 enum ClosureResult {
-   case success(URL)
-   case failure(URL, Error)
+    case success(URL)
+    case failure(URL, Error)
 }
-
 
 enum NRFFirmwareFlashError: Error {
     /// Missing files for flashing

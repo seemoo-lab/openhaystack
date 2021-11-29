@@ -15,6 +15,8 @@ struct OpenHaystackApp: App {
     var accessoryNearbyMonitor: AccessoryNearbyMonitor?
     var frameWidth: CGFloat? = nil
     var frameHeight: CGFloat? = nil
+    
+    @State var checkedForUpdates = false
 
     init() {
         let accessoryController: AccessoryController
@@ -35,9 +37,18 @@ struct OpenHaystackApp: App {
             OpenHaystackMainView()
                 .environmentObject(self.accessoryController)
                 .frame(width: self.frameWidth, height: self.frameHeight)
+                .onAppear {
+                    self.checkForUpdates()
+                }
         }
         .commands {
             SidebarCommands()
         }
+    }
+    
+    func checkForUpdates() {
+        guard checkedForUpdates == false, ProcessInfo().arguments.contains("-stopUpdateCheck") == false else {return}
+        UpdateCheckController.checkForNewVersion()
+        checkedForUpdates = true
     }
 }

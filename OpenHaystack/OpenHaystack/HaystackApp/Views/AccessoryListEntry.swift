@@ -35,11 +35,11 @@ struct AccessoryListEntry: View {
         }
         .font(.footnote)
     }
-    
+
     func updateIntervalView() -> some View {
         let intervalFormatter = DateComponentsFormatter()
         intervalFormatter.unitsStyle = .abbreviated
-        
+
         return Group {
             Text("Key derivation interval: \(intervalFormatter.string(from: accessory.updateInterval)!)")
         }.font(.footnote)
@@ -158,14 +158,14 @@ struct AccessoryListEntry: View {
             assert(false)
         }
     }
-    
-    func copySymmetricAndPublicKey(of accessory: Accessory){
-        do{
+
+    func copySymmetricAndPublicKey(of accessory: Accessory) {
+        do {
             let symmetricKey = accessory.symmetricKey
             let publicKey = try accessory.getUncompressedPublicKey()
             let publicKeyString = [UInt8](publicKey).map { "\\x\(String($0, radix: 16))" }.joined()
             let symmetricKeyString = [UInt8](symmetricKey).map { "\\x\(String($0, radix: 16))" }.joined()
-            
+
             let pasteboard = NSPasteboard.general
             pasteboard.prepareForNewContents(with: .currentHostOnly)
             pasteboard.setString("Symmetric key: \(symmetricKeyString)\n Uncompressed public key: \(publicKeyString) ", forType: .string)
@@ -175,11 +175,11 @@ struct AccessoryListEntry: View {
         }
     }
 
-    func copySymmetricAndPublicKeyBase64(of accessory: Accessory){
-        do{
+    func copySymmetricAndPublicKeyBase64(of accessory: Accessory) {
+        do {
             let symmetricKey = accessory.symmetricKey
             let publicKey = try accessory.getUncompressedPublicKey()
-            
+
             let pasteboard = NSPasteboard.general
             pasteboard.prepareForNewContents(with: .currentHostOnly)
             pasteboard.setString("Symmetric key: \(symmetricKey.base64EncodedString())\n Uncompressed public key: \(publicKey.base64EncodedString()) ", forType: .string)
