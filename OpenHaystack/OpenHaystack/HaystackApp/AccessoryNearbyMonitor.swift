@@ -48,7 +48,7 @@ class AccessoryNearbyMonitor: BluetoothAccessoryDelegate {
         accessory.lastAdvertisement = Date()
     }
 
-    func removeNearbyAccessories(now: Date = Date(), timeout: TimeInterval = 10.0) {
+    func removeNearbyAccessories(now: Date = Date(), timeout: TimeInterval = 120.0) {
         let nearbyAccessories = self.accessoryController.accessories.filter({ $0.isNearby })
         for accessory in nearbyAccessories {
             guard let lastAdvertisement = accessory.lastAdvertisement else {
