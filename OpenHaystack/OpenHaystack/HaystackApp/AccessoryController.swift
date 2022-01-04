@@ -95,10 +95,13 @@ class AccessoryController: ObservableObject {
 
     /// Export the accessories property list so it can be imported at another location.
     func export(accessories: [Accessory]) throws -> URL {
-        let propertyList = try PropertyListEncoder().encode(accessories)
 
         let savePanel = NSSavePanel()
-        savePanel.allowedFileTypes = ["plist"]
+//        savePanel.allowedFileTypes = ["plist", "json"]
+        if #available(macOS 12.0, *) {
+            savePanel.allowedContentTypes = [.propertyList, .json]
+        }
+        savePanel.allowedFileTypes = ["plist", "json"]
         savePanel.canCreateDirectories = true
         savePanel.directoryURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
         savePanel.message = "This export contains all private keys! Keep the file save to protect your location data"
@@ -106,6 +109,7 @@ class AccessoryController: ObservableObject {
         savePanel.nameFieldStringValue = "openhaystack_accessories.plist"
         savePanel.prompt = "Export"
         savePanel.title = "Export accessories & keys"
+        savePanel.isExtensionHidden = false
 
         let result = savePanel.runModal()
 
@@ -113,7 +117,13 @@ class AccessoryController: ObservableObject {
             let url = savePanel.url
         {
             // Store the accessory file
-            try propertyList.write(to: url)
+            if url.pathExtension == "plist" {
+                let propertyList = try PropertyListEncoder().encode(accessories)
+                try propertyList.write(to: url)
+            }else if url.pathExtension == "json" {
+                let jsonObject = try JSONEncoder().encode(accessories)
+                try jsonObject.write(to: url)
+            }
 
             return url
         }
