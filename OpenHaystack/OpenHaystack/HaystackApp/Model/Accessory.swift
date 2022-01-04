@@ -90,9 +90,10 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
         self.name = try container.decode(String.self, forKey: .name)
         self.id = try container.decode(Int.self, forKey: .id)
         self.privateKey = try container.decode(Data.self, forKey: .privateKey)
-        self.symmetricKey = (try? container.decode(Data.self, forKey: .symmetricKey)) ?? SymmetricKey(size: .bits256).withUnsafeBytes { return Data($0) }
+        let symmetricKey = (try? container.decode(Data.self, forKey: .symmetricKey)) ?? SymmetricKey(size: .bits256).withUnsafeBytes { return Data($0) }
+        self.symmetricKey = symmetricKey
         self.usesDerivation = (try? container.decode(Bool.self, forKey: .usesDerivation)) ?? false
-        self.oldestRelevantSymmetricKey = (try? container.decode(Data.self, forKey: .oldestRelevantSymmetricKey)) ?? self.symmetricKey
+        self.oldestRelevantSymmetricKey = (try? container.decode(Data.self, forKey: .oldestRelevantSymmetricKey)) ?? symmetricKey
         self.lastDerivationTimestamp = (try? container.decode(Date.self, forKey: .lastDerivationTimestamp)) ?? Date()
         self.updateInterval = (try? container.decode(TimeInterval.self, forKey: .updateInterval)) ?? TimeInterval(60 * 60 * 24)
         self.icon = (try? container.decode(String.self, forKey: .icon)) ?? ""
