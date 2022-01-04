@@ -43,8 +43,12 @@ struct NRFInstallSheet: View {
 
             Divider()
 
-            Text("Put key update time:")
+            Text("The new NRF firmware uses rotating keys. This means that the device changes its public key after a specific number of days. This disallows ad networks to track your device over several days when you are moving around the city. Shorter update cycles then days are not supported")
             self.timePicker
+            
+            Text("One day is a reasonable amount of time")
+                .font(.footnote)
+                .foregroundColor(.secondary)
 
             Spacer()
 
@@ -55,9 +59,12 @@ struct NRFInstallSheet: View {
                     "Deploy",
                     action: {
                         if let accessory = self.accessory {
-                            let daysInt = Int(days.value) ?? 0
-                            let hoursInt = Int(hours.value) ?? 0
-                            let minutesInt = Int(minutes.value) ?? 0
+                            var daysInt = Int(days.value) ?? 1
+                            if daysInt < 1 {
+                                daysInt = 1
+                            }
+                            let hoursInt = 0
+                            let minutesInt = 0
 
                             let updateInterval = daysInt * 24 * 60 + hoursInt * 60 + minutesInt
                             //warn user if no update interval was given
@@ -75,6 +82,13 @@ struct NRFInstallSheet: View {
                         self.presentationMode.wrappedValue.dismiss()
                     })
             }
+            
+            HStack {
+                Spacer()
+                Text("Flashing from M1 Macs might fail due to missing ARM support by NRF")
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+            }
         }
     }
 
@@ -83,10 +97,6 @@ struct NRFInstallSheet: View {
             HStack {
                 TextField("", text: $days.value).textFieldStyle(RoundedBorderTextFieldStyle())
                 Text("Day(s)")
-                TextField("", text: $hours.value).textFieldStyle(RoundedBorderTextFieldStyle())
-                Text("Hour(s)")
-                TextField("", text: $minutes.value).textFieldStyle(RoundedBorderTextFieldStyle())
-                Text("Minute(s)")
             }
         }.padding()
     }
@@ -158,7 +168,7 @@ struct NRFInstallSheet_Previews: PreviewProvider {
 }
 
 class NumbersOnly: ObservableObject {
-    @Published var value = "" {
+    @Published var value = "1" {
         didSet {
             let filtered = value.filter { $0.isNumber }
 
