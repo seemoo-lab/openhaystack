@@ -17,3 +17,27 @@ Our Python script uses HCI calls to configure Bluetooth advertising. You can cop
 ```bash
 sudo python3 HCI.py --key <ADVERTISMENT_KEY>
 ```
+
+### Optional Arguments
+```bash
+sudo python3 HCI.py --key <ADVERTISMENT_KEY> \
+[--no_mac_address_reverse | -nmacr] \
+[--mac_opcode_group_field <MAC_OPCODE_GROUP_FIELD> | -mac_ogf <MAC_OPCODE_GROUP_FIELD>] \
+[--mac_opcode_command_field <MAC_OPCODE_COMMAND_FIELD> | -mac_ocf MAC_OPCODE_COMMAND_FIELD] \
+[--no_restart_bluetooth | -nrbt]
+```
+
+Where
+
+| Option                                                 | Description                                                  |
+|--------------------------------------------------------|--------------------------------------------------------------|
+|`--no_mac_address_reverse`                              | Do not reverse the mac address bytes                         |
+|`--mac_opcode_group_field <MAC_OPCODE_GROUP_FIELD>`     | Vendor-specific OpCode Group Field for setting mac address   |
+|`--mac_opcode_command_field <MAC_OPCODE_COMMAND_FIELD>` | Vendor-specific OpCode Command Field for setting mac address |
+|`--no_restart_bluetooth`                                | Do not restart bluetooth                                     |
+
+Example usage for Texas Instruments WL1838MOD Wi-Fi, Bluetooth, and Bluetooth Smart Module
+
+```bash
+sudo python3 HCI.py --key <ADVERTISMENT_KEY> -nmacr -mac_ocf 0x006
+```

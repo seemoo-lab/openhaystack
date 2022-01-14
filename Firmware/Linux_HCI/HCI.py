@@ -38,7 +38,7 @@ def run_hci_cmd(cmd, hci="hci0", wait=1):
         time.sleep(wait)
 
 
-def start_advertising(key, interval_ms=2000):
+def start_advertising(key, no_mac_address_reverse, mac_opcode_group_field, mac_opcode_command_field, no_restart_bluetooth, interval_ms=2000):
     addr = bytearray(key[:6])
     addr[0] |= 0b11000000
 
@@ -51,9 +51,16 @@ def start_advertising(key, interval_ms=2000):
     print(f"payload ({len(adv):2}) {adv.hex()}")
 
     # Set BLE address
-    run_hci_cmd(["0x3f", "0x001"] + bytes_to_strarray(addr, with_prefix=True)[::-1])
-    subprocess.run(["systemctl", "restart", "bluetooth"])
-    time.sleep(1)
+    if no_mac_address_reverse:
+        mac_address = bytes_to_strarray(addr, with_prefix=True)
+    else:
+        mac_address = bytes_to_strarray(addr, with_prefix=True)[::-1]
+
+    run_hci_cmd([mac_opcode_group_field, mac_opcode_command_field] + mac_address)
+
+    if no_restart_bluetooth == False:
+        subprocess.run(["systemctl", "restart", "bluetooth"])
+        time.sleep(1)
 
     # Set BLE advertisement payload
     run_hci_cmd(["0x08", "0x0008"] + [format(len(adv), "x")] + bytes_to_strarray(adv))
@@ -74,10 +81,14 @@ def start_advertising(key, interval_ms=2000):
 def main(args):
     parser = argparse.ArgumentParser()
     parser.add_argument("--key", "-k", help="Advertisement key (base64)")
+    parser.add_argument("--no_mac_address_reverse", "-nmacr", action='store_true', default=False, help="Do not reverse the mac address bytes")
+    parser.add_argument("--mac_opcode_group_field", "-mac_ogf", type=str, default="0x3f", help="Vendor-specific OpCode Group Field for setting mac address")
+    parser.add_argument("--mac_opcode_command_field", "-mac_ocf", type=str, default="0x001", help="Vendor-specific OpCode Command Field for setting mac address")
+    parser.add_argument("--no_restart_bluetooth", "-nrbt", action='store_true', default=False, help="Do not restart bluetooth")
     args = parser.parse_args(args)
 
     key = base64.b64decode(args.key.encode())
-    start_advertising(key)
+    start_advertising(key, args.no_mac_address_reverse, args.mac_opcode_group_field, args.mac_opcode_command_field, args.no_restart_bluetooth)
 
 
 if __name__ == "__main__":
