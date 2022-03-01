@@ -41,4 +41,4 @@ Use the `flash_esp32.sh` script to deploy the firmware and a public key to an ES
 
 > **Note:** You might need to reset your device after running the script before it starts sending advertisements.
 
-For more options, see `./flash-esp32.h --help`.
+For more options, see `./flash-esp32.sh --help`.
