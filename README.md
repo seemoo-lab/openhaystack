@@ -120,8 +120,7 @@ Feel free to port OpenHaystack to other devices that support Bluetooth Low Energ
 ## OpenHaystack Mobile
 OpenHaystack Mobile is a complete reimplementation of the OpenHaystack MacOS application for smartphones. The app provides the same functionality to create and track accessories and aims to increase the usability, especially for new users. In contrast to the MacOS application, the location reports cannot be fetched directly on the smartphone, so the app requires a proxy server hosted on Mac hardware to access the Find My network. The proxy server can be accessed over a network by multiple users simultaneously.
 
-<img width="300" src="./Resources/mobile-map-view.png">
-<img width="300" src="./Resources/mobile-accessory-history.png">
+<img width="300" src="./Resources/mobile-map-view.png"> <img width="300" src="./Resources/mobile-accessory-history.png">
 
 OpenHaystack Mobile is built with the cross-platform [Flutter framework](https://flutter.dev/) and currently runs on Android and iOS. More information about the app and usage instructions can be found in the [openhaystack-mobile](openhaystack-mobile) folder of this repository.
 
