@@ -1,10 +1,8 @@
 # OpenHaystack Mobile
-Seemoo Lab WS21/22 project: Porting OpenHaystack to Mobile
+Porting OpenHaystack to Mobile
 
 # About OpenHaystack
 OpenHaystack is a project that allows location tracking of Bluetooth Low Energy (BLE) devices over Apples Find My Network.
-
-See the [OpenHaystack GitHub page](https://github.com/seemoo-lab/openhaystack/) for more deatils on how it works.
 
 # Development
 This project is written in [Dart](https://dart.dev/), using the cross platform development framework [Flutter](https://flutter.dev/). This allows the creation of apps for all major platforms using a single code base.
