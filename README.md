@@ -19,6 +19,7 @@ OpenHaystack is a framework for tracking personal Bluetooth devices via Apple's 
   - [Finding](#finding-3)
   - [Searching](#searching-4)
 - [How to track other Bluetooth devices?](#how-to-track-other-bluetooth-devices)
+- [OpenHaystack Mobile](#openhaystack-mobile)
 - [Authors](#authors)
 - [References](#references)
 - [License](#license)
@@ -115,6 +116,11 @@ Feel free to port OpenHaystack to other devices that support Bluetooth Low Energ
 | [Linux HCI](Firmware/Linux_HCI) | Raspberry Pi 4 w/ Raspbian | | Should support any Linux machine. |
 
 ![Setup](Resources/Setup.jpg)
+
+## OpenHaystack Mobile
+OpenHaystack Mobile is a complete reimplementation of the OpenHaystack MacOS application for smartphones. The app provides the same functionality to create and track accessories and aims to increase the usability, especially for new users. In contrast to the MacOS application, the location reports cannot be fetched directly on the smartphone, so the app requires a proxy server hosted on Mac hardware to access the Find My network. The proxy server can be accessed over a network by multiple users simultaneously.
+
+OpenHaystack Mobile is built with the cross-platform [Flutter framework](https://flutter.dev/) and currently runs on Android and iOS. More information about the app and usage instructions can be found in the [openhaystack-mobile](openhaystack-mobile) folder of this repository.
 
 ## Authors
 
