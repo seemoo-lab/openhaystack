@@ -18,7 +18,7 @@ defaults:
 
 jobs:
   format-swift:
-    runs-on: macos-11
+    runs-on: macos-12
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v2
@@ -28,7 +28,7 @@ jobs:
         run: swift-format lint --recursive .
 
   format-objc:
-    runs-on: macos-latest
+    runs-on: macos-12
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v2
@@ -38,7 +38,7 @@ jobs:
         run: clang-format -n **/*.{h,m}
 
   build-app:
-    runs-on: macos-latest
+    runs-on: macos-12
     needs:
       - format-swift
       - format-objc
