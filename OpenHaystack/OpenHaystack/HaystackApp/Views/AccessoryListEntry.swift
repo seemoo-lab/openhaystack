@@ -98,6 +98,8 @@ struct AccessoryListEntry: View {
             }
             Divider()
             Button("Mark as \(accessory.isDeployed ? "deployable" : "deployed")", action: { accessory.isDeployed.toggle() })
+            
+            Button("Copy private Key B64", action: { copyPrivateKey(accessory: accessory) })
         }
     }
 
@@ -187,6 +189,15 @@ struct AccessoryListEntry: View {
             os_log("Failed extracing public key %@", String(describing: error))
             assert(false)
         }
+    }
+    
+    func copyPrivateKey(accessory: Accessory) {
+        let privateKey = accessory.privateKey
+        let keyB64 = privateKey.base64EncodedString()
+        
+        let pasteboard = NSPasteboard.general
+        pasteboard.prepareForNewContents(with: .currentHostOnly)
+        pasteboard.setString(keyB64, forType: .string)
     }
 
     struct AccessoryListEntry_Previews: PreviewProvider {
