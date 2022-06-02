@@ -1,6 +1,6 @@
 # OpenHaystack Firmware for ESP32
 
-This project contains a PoC firmware for Espressif ESP32 chips (like ESP32-WROOM or ESP32-WROVER, but _not_ ESP32-S2).
+This project contains a PoC firmware for Espressif ESP32 chips (like ESP32-WROOM or ESP32-WROVER, but _not_ ESP32-S2/S3 or ESP32-C3).
 After flashing our firmware, the device sends out Bluetooth Low Energy advertisements such that it can be found by [Apple's Find My network](https://developer.apple.com/find-my/).
 
 ## Disclaimer
@@ -41,4 +41,4 @@ Use the `flash_esp32.sh` script to deploy the firmware and a public key to an ES
 
 > **Note:** You might need to reset your device after running the script before it starts sending advertisements.
 
-For more options, see `./flash-esp32.h --help`.
+For more options, see `./flash_esp32.sh --help`.
