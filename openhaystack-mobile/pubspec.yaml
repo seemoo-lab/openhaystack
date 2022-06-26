@@ -57,7 +57,7 @@ dependencies:
 
   # Sharing
   receive_sharing_intent: ^1.4.5
-  share_plus: ^3.0.4
+  share_plus: ^4.0.4
   url_launcher: ^6.0.17
   path_provider: ^2.0.8
   maps_launcher: ^2.0.1
