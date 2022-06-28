@@ -32,7 +32,7 @@ def bytes_to_strarray(bytes_, with_prefix=False):
 def run_hci_cmd(cmd, hci="hci0", wait=1):
     cmd_ = ["hcitool", "-i", hci, "cmd"]
     cmd_ += cmd
-    print(cmd_)
+    #print(cmd_)
     subprocess.run(cmd_)
     if wait > 0:
         time.sleep(wait)
@@ -46,9 +46,9 @@ def start_advertising(key, interval_ms=2000):
     adv[7:29] = key[6:28]
     adv[29] = key[0] >> 6
 
-    print(f"key     ({len(key):2}) {key.hex()}")
-    print(f"address ({len(addr):2}) {addr.hex()}")
-    print(f"payload ({len(adv):2}) {adv.hex()}")
+    #print(f"key     ({len(key):2}) {key.hex()}")
+    #print(f"address ({len(addr):2}) {addr.hex()}")
+    #print(f"payload ({len(adv):2}) {adv.hex()}")
 
     # Set BLE address
     run_hci_cmd(["0x3f", "0x001"] + bytes_to_strarray(addr, with_prefix=True)[::-1])
