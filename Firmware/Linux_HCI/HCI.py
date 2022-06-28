@@ -37,6 +37,10 @@ def run_hci_cmd(cmd, hci="hci0", wait=1):
     if wait > 0:
         time.sleep(wait)
 
+def run_hciconf_leadv_3(hci="hci0"):
+    #EDIT: the above command makes the advertised service connectable. If you don't want to allow connections, change it to $ sudo hciconfig hci0 leadv 3
+    cmd_ = ["hciconfig", hci, "leadv", "3"]
+    subprocess.run(cmd_)
 
 def start_advertising(key, interval_ms=2000):
     addr = bytearray(key[:6])
@@ -53,7 +57,7 @@ def start_advertising(key, interval_ms=2000):
     # Set BLE address
     run_hci_cmd(["0x3f", "0x001"] + bytes_to_strarray(addr, with_prefix=True)[::-1])
     subprocess.run(["systemctl", "restart", "bluetooth"])
-    time.sleep(1)
+    time.sleep(3)
 
     # Set BLE advertisement payload
     run_hci_cmd(["0x08", "0x0008"] + [format(len(adv), "x")] + bytes_to_strarray(adv))
@@ -69,6 +73,8 @@ def start_advertising(key, interval_ms=2000):
 
     # Start BLE advertising
     run_hci_cmd(["0x08", "0x000a"] + ["01"], wait=0)
+
+    run_hciconf_leadv_3()
 
 
 def main(args):
