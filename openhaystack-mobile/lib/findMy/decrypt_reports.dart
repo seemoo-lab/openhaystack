@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:isolate';
 import 'dart:typed_data';
 
 import 'package:pointycastle/export.dart';
@@ -19,9 +18,8 @@ class DecryptReports {
 
     _decodeTimeAndConfidence(payloadData, report);
 
-    final privateKey = ECPrivateKey(
-        pc_utils.decodeBigIntWithSign(1, key),
-        curveDomainParam);
+    final privateKey =
+        ECPrivateKey(pc_utils.decodeBigIntWithSign(1, key), curveDomainParam);
 
     final decodePoint = curveDomainParam.curve.decodePoint(ephemeralKeyBytes);
     final ephemeralPublicKey = ECPublicKey(decodePoint, curveDomainParam);
@@ -36,9 +34,10 @@ class DecryptReports {
   }
 
   /// Decodes the unencrypted timestamp and confidence
-  static void _decodeTimeAndConfidence(Uint8List payloadData, FindMyReport report) {
-    final seenTimeStamp = payloadData.sublist(0, 4).buffer.asByteData()
-        .getInt32(0, Endian.big);
+  static void _decodeTimeAndConfidence(
+      Uint8List payloadData, FindMyReport report) {
+    final seenTimeStamp =
+        payloadData.sublist(0, 4).buffer.asByteData().getInt32(0, Endian.big);
     final timestamp = DateTime(2001).add(Duration(seconds: seenTimeStamp));
     final confidence = payloadData.elementAt(4);
     report.timestamp = timestamp;
@@ -47,11 +46,12 @@ class DecryptReports {
 
   /// Performs an Elliptic Curve Diffie-Hellman with the given keys.
   /// Returns the derived raw key data.
-  static Uint8List _ecdh(ECPublicKey ephemeralPublicKey, ECPrivateKey privateKey) {
+  static Uint8List _ecdh(
+      ECPublicKey ephemeralPublicKey, ECPrivateKey privateKey) {
     final sharedKey = ephemeralPublicKey.Q! * privateKey.d;
-    final sharedKeyBytes = pc_utils.encodeBigIntAsUnsigned(
-        sharedKey!.x!.toBigInteger()!);
-    print("Isolate:${Isolate.current.hashCode}: Shared Key (shared secret): ${base64Encode(sharedKeyBytes)}");
+    final sharedKeyBytes =
+        pc_utils.encodeBigIntAsUnsigned(sharedKey!.x!.toBigInteger()!);
+    print("Shared Key (shared secret): ${base64Encode(sharedKeyBytes)}");
 
     return sharedKeyBytes;
   }
@@ -60,7 +60,6 @@ class DecryptReports {
   /// the resulting [FindMyLocationReport].
   static FindMyLocationReport _decodePayload(
       Uint8List payload, FindMyReport report) {
-
     final latitude = payload.buffer.asByteData(0, 4).getUint32(0, Endian.big);
     final longitude = payload.buffer.asByteData(4, 4).getUint32(0, Endian.big);
     final accuracy = payload.buffer.asByteData(8, 1).getUint8(0);
@@ -80,8 +79,10 @@ class DecryptReports {
     final iv = symmetricKey.sublist(16, symmetricKey.length);
 
     final aesGcm = GCMBlockCipher(AESEngine())
-      ..init(false, AEADParameters(KeyParameter(decryptionKey),
-          tag.lengthInBytes * 8, iv, tag));
+      ..init(
+          false,
+          AEADParameters(
+              KeyParameter(decryptionKey), tag.lengthInBytes * 8, iv, tag));
 
     final plainText = Uint8List(cipherText.length);
     var offset = 0;
@@ -109,7 +110,7 @@ class DecryptReports {
     Uint8List out = Uint8List(shaDigest.digestSize);
     shaDigest.doFinal(out, 0);
 
-    print("Isolate:${Isolate.current.hashCode}: Derived key: ${base64Encode(out)}");
+    print("Derived key: ${base64Encode(out)}");
     return out;
   }
 }
