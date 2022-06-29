@@ -40,7 +40,8 @@ dependencies:
 
   # Cryptography
   # latest version of pointy castle for crypto functions
-  pointycastle: ^3.4.0
+  pointycastle: ^3.6.0
+  cryptography: ^2.0.5
 
   # State Management
   provider: ^6.0.1

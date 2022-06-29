@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:pointycastle/export.dart';
 import 'package:pointycastle/src/utils.dart' as pc_utils;
 import 'package:openhaystack_mobile/findMy/models.dart';
+
+import 'package:cryptography/cryptography.dart' as nice_crypto;
 
 class DecryptReports {
   /// Decrypts a given [FindMyReport] with the given private key.
@@ -27,7 +30,7 @@ class DecryptReports {
     final Uint8List sharedKeyBytes = _ecdh(ephemeralPublicKey, privateKey);
     final Uint8List derivedKey = _kdf(sharedKeyBytes, ephemeralKeyBytes);
 
-    final decryptedPayload = _decryptPayload(encData, derivedKey, tag);
+    final decryptedPayload = await _decryptPayload(encData, derivedKey, tag);
     final locationReport = _decodePayload(decryptedPayload, report);
 
     return locationReport;
@@ -73,10 +76,22 @@ class DecryptReports {
 
   /// Decrypts the given cipher text with the key data using an AES-GCM block cipher.
   /// Returns the decrypted raw data.
-  static Uint8List _decryptPayload(
-      Uint8List cipherText, Uint8List symmetricKey, Uint8List tag) {
+  static Future<Uint8List> _decryptPayload(
+      Uint8List cipherText, Uint8List symmetricKey, Uint8List tag) async {
     final decryptionKey = symmetricKey.sublist(0, 16);
     final iv = symmetricKey.sublist(16, symmetricKey.length);
+    if (kIsWeb) {
+      nice_crypto.SecretKey secretKey =
+          new nice_crypto.SecretKey(decryptionKey);
+
+      nice_crypto.SecretBox secretBox = new nice_crypto.SecretBox(cipherText,
+          nonce: iv, mac: nice_crypto.Mac(tag));
+
+      List<int> decrypted = await nice_crypto.AesGcm.with128bits()
+          .decrypt(secretBox, secretKey: secretKey);
+      print(decrypted);
+      return Uint8List.fromList(decrypted);
+    }
 
     final aesGcm = GCMBlockCipher(AESEngine())
       ..init(
