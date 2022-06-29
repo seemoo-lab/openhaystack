@@ -34,8 +34,12 @@ class FindMyController {
     final jsonResults = await ReportsFetcher.fetchLocationReports(
         keyPair.getHashedAdvertisementKey());
     for (var result in jsonResults) {
-      results.add(
-          await _decryptResult(result, keyPair, keyPair.privateKeyBase64!));
+      try {
+        results.add(
+            await _decryptResult(result, keyPair, keyPair.privateKeyBase64!));
+      } catch (e) {
+        print(e);
+      }
     }
     return results;
   }

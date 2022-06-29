@@ -89,7 +89,7 @@ class DecryptReports {
 
       List<int> decrypted = await nice_crypto.AesGcm.with128bits()
           .decrypt(secretBox, secretKey: secretKey);
-      print(decrypted);
+
       return Uint8List.fromList(decrypted);
     }
 
