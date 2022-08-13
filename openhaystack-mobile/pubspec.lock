@@ -421,7 +421,7 @@ packages:
       name: pointycastle
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.5.1"
+    version: "3.6.1"
   positioned_tap_detector_2:
     dependency: transitive
     description:
