@@ -3,12 +3,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:openhaystack_mobile/accessory/accessory_dto.dart';
 import 'package:openhaystack_mobile/accessory/accessory_model.dart';
 import 'package:openhaystack_mobile/accessory/accessory_registry.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:clipboard/clipboard.dart';
 
 class ItemExportMenu extends StatelessWidget {
   /// The accessory to export from
@@ -22,6 +24,22 @@ class ItemExportMenu extends StatelessWidget {
     Key? key,
     required this.accessory,
   }) : super(key: key);
+
+   Future<void> _share(String s, BuildContext context) async {
+    if (Platform.isWindows) {
+      await  FlutterClipboard.copy(s);
+      ScaffoldMessenger.of(context).showSnackBar(
+
+        const SnackBar(
+          content: Text('Copied in clipboard'),
+
+        ),
+      );
+
+      return;
+    }
+    Share.share(s);
+  }
 
   /// Shows the export options for the [accessory].
   void showKeyExportSheet(BuildContext context, Accessory accessory) {
@@ -58,7 +76,7 @@ class ItemExportMenu extends StatelessWidget {
               title: const Text('Export Hashed Advertisement Key (Base64)'),
               onTap: () async {
                 var advertisementKey = await accessory.getHashedAdvertisementKey();
-                Share.share(advertisementKey);
+                await _share(advertisementKey, context);
                 Navigator.pop(context);
               },
             ),
@@ -66,7 +84,7 @@ class ItemExportMenu extends StatelessWidget {
               title: const Text('Export Advertisement Key (Base64)'),
               onTap: () async {
                 var advertisementKey = await accessory.getAdvertisementKey();
-                Share.share(advertisementKey);
+                await _share(advertisementKey, context);
                 Navigator.pop(context);
               },
             ),
@@ -74,7 +92,7 @@ class ItemExportMenu extends StatelessWidget {
               title: const Text('Export Private Key (Base64)'),
               onTap: () async {
                 var privateKey = await accessory.getPrivateKey();
-                Share.share(privateKey);
+                await _share(privateKey, context);
                 Navigator.pop(context);
               },
             ),
@@ -123,12 +141,18 @@ class ItemExportMenu extends StatelessWidget {
     JsonEncoder encoder = const JsonEncoder.withIndent('  '); // format output
     String encodedAccessories = encoder.convert(exportAccessories);
     await file.writeAsString(encodedAccessories);
-    // Share export file over os share dialog
-    Share.shareFiles(
-      [file.path],
-      mimeTypes: ['application/json'],
-      subject: filename,
-    );
+
+    if (Platform.isWindows) {
+      // on windows we can open the file.
+      launch('file://${file.path}');
+    } else {
+      // Share export file over os share dialog
+      Share.shareFiles(
+        [file.path],
+        mimeTypes: ['application/json'],
+        subject: filename,
+      );
+    }
   }
 
   /// Show an explanation how the different key types are used.

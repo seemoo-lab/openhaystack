@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:openhaystack_mobile/item_management/item_management_desktop.dart';
 import 'package:provider/provider.dart';
 import 'package:openhaystack_mobile/accessory/accessory_list.dart';
 import 'package:openhaystack_mobile/accessory/accessory_registry.dart';
@@ -48,7 +49,21 @@ class _DashboardDesktopState extends State<DashboardDesktop> {
   /// Fetch locaiton updates for all accessories.
   Future<void> loadLocationUpdates() async {
     var accessoryRegistry = Provider.of<AccessoryRegistry>(context, listen: false);
-    await accessoryRegistry.loadLocationReports();
+    try {
+      await accessoryRegistry.loadLocationReports();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Theme.of(context).colorScheme.error,
+          content: Text(
+            'Could not find location reports. Try again later.',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onError,
+            ),
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -63,7 +78,12 @@ class _DashboardDesktopState extends State<DashboardDesktop> {
                 AppBar(
                   title: const Text('OpenHaystack'),
                   leading: IconButton(
-                    onPressed: () { /* reload */ },
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const ItemManagementDesktop()),
+                      );
+                    },
                     icon: const Icon(Icons.menu),
                   ),
                   actions: <Widget>[
