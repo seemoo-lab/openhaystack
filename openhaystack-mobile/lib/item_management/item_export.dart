@@ -17,8 +17,8 @@ class ItemExportMenu extends StatelessWidget {
   Accessory accessory;
 
   /// Displays a bottom sheet with export options.
-  /// 
-  /// The accessory can be exported to a JSON file or the 
+  ///
+  /// The accessory can be exported to a JSON file or the
   /// key parameters can be exported separately.
   ItemExportMenu({
     Key? key,
@@ -26,7 +26,7 @@ class ItemExportMenu extends StatelessWidget {
   }) : super(key: key);
 
    Future<void> _share(String s, BuildContext context) async {
-    if (Platform.isWindows) {
+     if (kIsWeb || Platform.isWindows) {
       await  FlutterClipboard.copy(s);
       ScaffoldMessenger.of(context).showSnackBar(
 
@@ -61,14 +61,14 @@ class ItemExportMenu extends StatelessWidget {
               title: const Text('Export All Accessories (JSON)'),
               onTap: () async {
                 var accessories = Provider.of<AccessoryRegistry>(context, listen: false).accessories;
-                await _exportAccessoriesAsJSON(accessories);
+                await _exportAccessoriesAsJSON(accessories, context);
                 Navigator.pop(context);
               },
             ),
             ListTile(
               title: const Text('Export Accessory (JSON)'),
               onTap: () async {
-                await _exportAccessoriesAsJSON([accessory]);
+                await _exportAccessoriesAsJSON([accessory], context);
                 Navigator.pop(context);
               },
             ),
@@ -103,13 +103,12 @@ class ItemExportMenu extends StatelessWidget {
   }
 
   /// Export the serialized [accessories] as a JSON file.
-  /// 
+  ///
   /// The OpenHaystack export format is used for interoperability with
   /// the desktop app.
-  Future<void> _exportAccessoriesAsJSON(List<Accessory> accessories) async {
+  Future<void> _exportAccessoriesAsJSON(List<Accessory> accessories, BuildContext context) async {
     // Create temporary directory to store export file
-    Directory tempDir = await getTemporaryDirectory();
-    String path = tempDir.path;
+
     // Convert accessories to export format
     List<AccessoryDTO> exportAccessories = [];
     for (Accessory accessory in accessories) {
@@ -135,11 +134,26 @@ class ItemExportMenu extends StatelessWidget {
         isActive: accessory.isActive,
       ));
     }
+
+    JsonEncoder encoder = const JsonEncoder.withIndent('  '); // format output
+    String encodedAccessories = encoder.convert(exportAccessories);
+    if (kIsWeb) {
+      await  FlutterClipboard.copy(encodedAccessories);
+      ScaffoldMessenger.of(context).showSnackBar(
+
+        const SnackBar(
+          content: Text('Copied in clipboard'),
+
+        ),
+      );
+      return;
+    }
+    Directory tempDir = await getTemporaryDirectory();
+    String path = tempDir.path;
     // Create file and write accessories as json
     const filename = 'accessories.json';
     File file = File('$path/$filename');
-    JsonEncoder encoder = const JsonEncoder.withIndent('  '); // format output
-    String encodedAccessories = encoder.convert(exportAccessories);
+
     await file.writeAsString(encodedAccessories);
 
     if (Platform.isWindows) {
