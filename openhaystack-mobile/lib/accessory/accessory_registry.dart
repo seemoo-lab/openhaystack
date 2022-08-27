@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:openhaystack_mobile/accessory/accessory_model.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:openhaystack_mobile/accessory/accessory_storage.dart';
 import 'package:openhaystack_mobile/findMy/find_my_controller.dart';
 import 'package:openhaystack_mobile/findMy/models.dart';
 
@@ -12,7 +13,7 @@ const accessoryStorageKey = 'ACCESSORIES';
 
 class AccessoryRegistry extends ChangeNotifier {
 
-  final _storage = const FlutterSecureStorage();
+  final _storage = const AccessoryStorage(const FlutterSecureStorage());
   final _findMyController = FindMyController();
   List<Accessory> _accessories = [];
   bool loading = false;
