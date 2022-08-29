@@ -100,12 +100,12 @@ class AccessoryRegistry extends ChangeNotifier {
     var reportsForAccessories = await Future.wait(runningLocationRequests);
     for (var i = 0; i < currentAccessories.length; i++) {
       var accessory = currentAccessories.elementAt(i);
-      var reports = reportsForAccessories.elementAt(i);
+      var reports = reportsForAccessories.elementAt(i)
+          .where((report) => report.latitude.abs() <= 90 && report.longitude.abs() < 90 );
       
       print("Found ${reports.length} reports for accessory '${accessory.name}'");
 
       accessory.locationHistory = reports
-        .where((report) => report.latitude.abs() <= 90 && report.longitude.abs() < 90 )
         .map((report) => Pair<LatLng, DateTime>(
           LatLng(report.latitude, report.longitude),
           report.timestamp ?? report.published,
