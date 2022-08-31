@@ -25,7 +25,7 @@ class _AccessoryHistoryState extends State<AccessoryHistory> {
 
   final MapController _mapController = MapController();
   final ScrollController _scrollController = new ScrollController();
-
+  List<Pair<LatLng, DateTime>> locationHistory = [];
   bool showPopup = false;
   Pair<LatLng, DateTime>? popupEntry;
 
@@ -51,11 +51,23 @@ class _AccessoryHistoryState extends State<AccessoryHistory> {
         var bounds = LatLngBounds.fromPoints(historicLocations);
         _mapController.fitBounds(bounds);
       });
+    buildLocationHistory();
   }
 
+  void   buildLocationHistory() {
+    var now = DateTime.now();
+    locationHistory = widget.accessory.locationHistory
+        .where(
+          (element) => element.b.isAfter(
+        now.subtract(Duration(days: numberOfDays.round())),
+      ),
+    ).toList();
+
+  }
   List<Marker> buildMarkers() {
     List<Marker> toRet = [];
-    var length = widget.accessory.locationHistory.length;
+
+    var length = locationHistory.length;
     for (int i=1; i< length-1; i++) {
       toRet.add(buildMarker(i));
     }
@@ -69,7 +81,7 @@ class _AccessoryHistoryState extends State<AccessoryHistory> {
   }
 
   Marker buildMarker(int index) {
-    var entry = widget.accessory.locationHistory.elementAt(index);
+    var entry = locationHistory.elementAt(index);
     return Marker(
       point: entry.a,
 
@@ -82,12 +94,12 @@ class _AccessoryHistoryState extends State<AccessoryHistory> {
         },
         child: Icon(
           Icons.circle,
-          size: (widget.accessory.locationHistory.first == entry || widget.accessory.locationHistory.last == entry) ? 20: 10,
+          size: (locationHistory.first == entry || locationHistory.last == entry) ? 20: 10,
           color: (() {
-            if (widget.accessory.locationHistory.first == entry) {
+            if (locationHistory.first == entry) {
               return Colors.amber;
             }
-            if (widget.accessory.locationHistory.last == entry) {
+            if (locationHistory.last == entry) {
               return Colors.green;
             }
             if (index == scrolledMarker) {
@@ -105,13 +117,6 @@ class _AccessoryHistoryState extends State<AccessoryHistory> {
   @override
   Widget build(BuildContext context) {
     // Filter for the locations after the specified cutoff date (now - number of days)
-    var now = DateTime.now();
-    List<Pair<LatLng, DateTime>> locationHistory = widget.accessory.locationHistory
-      .where(
-        (element) => element.b.isAfter(
-          now.subtract(Duration(days: numberOfDays.round())),
-        ),
-      ).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -122,7 +127,7 @@ class _AccessoryHistoryState extends State<AccessoryHistory> {
           child: Column(
             children: <Widget>[
               Flexible(
-                flex: 3,
+                flex: 4,
                 fit: FlexFit.tight,
                 child: FlutterMap(
                   mapController: _mapController,
@@ -198,6 +203,7 @@ class _AccessoryHistoryState extends State<AccessoryHistory> {
                   onChanged: (double newValue) {
                     setState(() {
                       numberOfDays = newValue;
+                      buildLocationHistory();
                     });
                   },
                 ),
