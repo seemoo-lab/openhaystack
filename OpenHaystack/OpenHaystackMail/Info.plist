@@ -124,20 +124,24 @@
 	</array>
 	<key>Supported12.3PluginCompatibilityUUIDs</key>
 	<array>
+		<string>A4B49485-0377-4FAB-8D8E-E3B8018CFC21</string>
 		<string>25288CEF-7D9B-49A8-BE6B-E41DA6277CF3</string>
 		<string>D985F0E4-3BBC-4B95-BBA1-12056AC4A531</string>
 		<string>224E7F96-2099-499C-A501-63FB68C79CD2</string>
 		<string>6FF8B077-81FA-45A4-BD57-17CDE79F13A5</string>
 		<string># For Mail.app version 16.0 (3696.80.82.1.1) on macOS version 12.3.1 (build 21E258)</string>
 		<string>A4B49485-0377-4FAB-8D8E-E3B8018CFC21</string>
+		<string>890E3F5B-9490-4828-8F3F-B6561E513FCC</string>
 	</array>
 	<key>Supported12.4PluginCompatibilityUUIDs</key>
 	<array>
+		<string>A4B49485-0377-4FAB-8D8E-E3B8018CFC21</string>
 		<string>25288CEF-7D9B-49A8-BE6B-E41DA6277CF3</string>
 		<string>224E7F96-2099-499C-A501-63FB68C79CD2</string>
 		<string>D985F0E4-3BBC-4B95-BBA1-12056AC4A531</string>
 		<string>6FF8B077-81FA-45A4-BD57-17CDE79F13A5</string>
 		<string>A4B49485-0377-4FAB-8D8E-E3B8018CFC21</string>
+		<string>890E3F5B-9490-4828-8F3F-B6561E513FCC</string>
 	</array>
 	<key>Supported12.5PluginCompatibilityUUIDs</key>
 	<array>
@@ -146,6 +150,7 @@
 		<string>D985F0E4-3BBC-4B95-BBA1-12056AC4A531</string>
 		<string>6FF8B077-81FA-45A4-BD57-17CDE79F13A5</string>
 		<string>A4B49485-0377-4FAB-8D8E-E3B8018CFC21</string>
+		<string>890E3F5B-9490-4828-8F3F-B6561E513FCC</string>
 	</array>
 	<key>Supported12.6PluginCompatibilityUUIDs</key>
 	<array>
@@ -154,6 +159,7 @@
 		<string>D985F0E4-3BBC-4B95-BBA1-12056AC4A531</string>
 		<string>6FF8B077-81FA-45A4-BD57-17CDE79F13A5</string>
 		<string>A4B49485-0377-4FAB-8D8E-E3B8018CFC21</string>
+		<string>890E3F5B-9490-4828-8F3F-B6561E513FCC</string>
 	</array>
 	<key>Supported12.7PluginCompatibilityUUIDs</key>
 	<array>
@@ -162,6 +168,7 @@
 		<string>D985F0E4-3BBC-4B95-BBA1-12056AC4A531</string>
 		<string>6FF8B077-81FA-45A4-BD57-17CDE79F13A5</string>
 		<string>A4B49485-0377-4FAB-8D8E-E3B8018CFC21</string>
+		<string>890E3F5B-9490-4828-8F3F-B6561E513FCC</string>
 	</array>
 	<key>Supported12.8PluginCompatibilityUUIDs</key>
 	<array>
@@ -170,6 +177,7 @@
 		<string>6FF8B077-81FA-45A4-BD57-17CDE79F13A5</string>
 		<string>224E7F96-2099-499C-A501-63FB68C79CD2</string>
 		<string>A4B49485-0377-4FAB-8D8E-E3B8018CFC21</string>
+		<string>890E3F5B-9490-4828-8F3F-B6561E513FCC</string>
 	</array>
 	<key>Supported12.9PluginCompatibilityUUIDs</key>
 	<array>
@@ -177,6 +185,15 @@
 		<string>6FF8B077-81FA-45A4-BD57-17CDE79F13A5</string>
 		<string>224E7F96-2099-499C-A501-63FB68C79CD2</string>
 		<string>A4B49485-0377-4FAB-8D8E-E3B8018CFC21</string>
+		<string>890E3F5B-9490-4828-8F3F-B6561E513FCC</string>
+	</array>
+	<key>Supported13.0PluginCompatibilityUUIDs</key>
+	<array>
+		<string>25288CEF-7D9B-49A8-BE6B-E41DA6277CF3</string>
+		<string>6FF8B077-81FA-45A4-BD57-17CDE79F13A5</string>
+		<string>224E7F96-2099-499C-A501-63FB68C79CD2</string>
+		<string>A4B49485-0377-4FAB-8D8E-E3B8018CFC21</string>
+		<string>890E3F5B-9490-4828-8F3F-B6561E513FCC</string>
 	</array>
 </dict>
 </plist>
