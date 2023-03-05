@@ -55,7 +55,7 @@ Therefore, the installation procedure is slightly different and requires you to 
 Our plugin does not access any other private data such as emails (see [source code](OpenHaystack/OpenHaystackMail)).
 
 1. Download a precompiled binary release from our <a href="https://github.com/seemoo-lab/openhaystack/releases">GitHub page</a>.  
-   _Alternative:_ build the application from source via Xcode.
+   _Alternative:_ build the application from source via Xcode, see [here](build.md).
 2. Open OpenHaystack. This will ask you to install the Mail plugin in `~/Library/Mail/Bundle`.
 3. Open a terminal and run `sudo spctl --master-disable`, which will disable Gatekeeper and allow our Apple Mail plugin to run.
 4. Open Apple Mail. Go to _Preferences_ → _General_ → _Manage Plug-Ins..._ and activate the checkbox next to _OpenHaystackMail.mailbundle_.
