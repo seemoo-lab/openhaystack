@@ -98,7 +98,8 @@ public class AnisetteDataManager: NSObject {
                         "X-Apple-I-MD-M": data.machineID,
                         "X-Apple-I-MD": data.oneTimePassword,
                         "X-Apple-I-TimeZone": String(data.timeZone.abbreviation() ?? "UTC"),
-                        "X-Apple-I-Client-Time": ISO8601DateFormatter().string(from: data.date),
+                        //                        "X-Apple-I-Client-Time": ISO8601DateFormatter().string(from: data.date),
+                        "X-Apple-I-Client-Time": ISO8601DateFormatter().string(from: Date()),
                         "X-Apple-I-MD-RINFO": String(data.routingInfo),
                     ] as [AnyHashable: Any])
             }

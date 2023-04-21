@@ -11,7 +11,7 @@ import AppKit
 import Foundation
 import SwiftUI
 
-final class ActivityIndicator: NSViewRepresentable {
+struct ActivityIndicator: NSViewRepresentable {
 
     init(size: NSControl.ControlSize) {
         self.size = size

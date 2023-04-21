@@ -98,8 +98,13 @@ struct AccessoryListEntry: View {
             }
             Divider()
             Button("Mark as \(accessory.isDeployed ? "deployable" : "deployed")", action: { accessory.isDeployed.toggle() })
-            
-            Button("Copy private Key B64", action: { copyPrivateKey(accessory: accessory) })
+
+            Group {
+                Button("Copy private Key B64", action: { copyPrivateKey(accessory: accessory) })
+
+                Button("Export Locations", action: { exportLocations(accessory: accessory) })
+            }
+
         }
     }
 
@@ -190,14 +195,25 @@ struct AccessoryListEntry: View {
             assert(false)
         }
     }
-    
+
     func copyPrivateKey(accessory: Accessory) {
         let privateKey = accessory.privateKey
         let keyB64 = privateKey.base64EncodedString()
-        
+
         let pasteboard = NSPasteboard.general
         pasteboard.prepareForNewContents(with: .currentHostOnly)
         pasteboard.setString(keyB64, forType: .string)
+    }
+
+    func exportLocations(accessory: Accessory) {
+        guard let locations = accessory.locations,
+            let locationData = try? JSONEncoder().encode(locations)
+        else {
+            return
+        }
+
+        let savePanel = SavePanel.shared
+        savePanel.saveFile(file: locationData, fileExtension: "json")
     }
 
     struct AccessoryListEntry_Previews: PreviewProvider {

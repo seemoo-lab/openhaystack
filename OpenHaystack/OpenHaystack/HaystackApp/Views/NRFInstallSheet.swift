@@ -43,9 +43,11 @@ struct NRFInstallSheet: View {
 
             Divider()
 
-            Text("The new NRF firmware uses rotating keys. This means that the device changes its public key after a specific number of days. This disallows ad networks to track your device over several days when you are moving around the city. Shorter update cycles then days are not supported")
+            Text(
+                "The new NRF firmware uses rotating keys. This means that the device changes its public key after a specific number of days. This disallows ad networks to track your device over several days when you are moving around the city. Shorter update cycles then days are not supported"
+            )
             self.timePicker
-            
+
             Text("One day is a reasonable amount of time")
                 .font(.footnote)
                 .foregroundColor(.secondary)
@@ -82,7 +84,7 @@ struct NRFInstallSheet: View {
                         self.presentationMode.wrappedValue.dismiss()
                     })
             }
-            
+
             HStack {
                 Spacer()
                 Text("Flashing from M1 Macs might fail due to missing ARM support by NRF")
