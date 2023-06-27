@@ -29,7 +29,7 @@ public struct UpdateCheckController {
             }
 
             //Get installed version
-            let version = Bundle.main.infoDictionary?["CFBundleVersionShortString"] as? String ?? "0"
+            let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
 
             let comparisonResult = compareVersions(availableVersion: availableVersion, installedVersion: version)
 
