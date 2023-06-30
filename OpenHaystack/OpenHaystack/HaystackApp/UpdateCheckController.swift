@@ -94,11 +94,11 @@ public struct UpdateCheckController {
         var availableVersionTrim = availableVersion
         var installedVersionTrim = installedVersion
 
-        if let dashIndex = availablePart.firstIndex(of: "-") {
-            availablePart = availablePart[..<dashIndex]
+        if let dashIndex = availableVersion.firstIndex(of: "-") {
+            availableVersionTrim = String(availableVersion[..<dashIndex])
         }
-        if let dashIndex = installedPart.firstIndex(of: "-") {
-            installedPart = installedPart[..<dashIndex]
+        if let dashIndex = installedVersion.firstIndex(of: "-") {
+            installedVersionTrim = String(installedVersion[..<dashIndex])
         }
 
         let availableVersionSplit = availableVersionTrim.split(separator: ".")
