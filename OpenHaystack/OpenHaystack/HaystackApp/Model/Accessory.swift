@@ -214,7 +214,7 @@ class Accessory: ObservableObject, Codable, Identifiable, Equatable, Hashable {
             /// Derive FindMyKeys until we have symmetric key from one week before now
             while self.lastDerivationTimestamp < Date() - TimeInterval(7 * 24 * 60 * 60) {
                 self.lastDerivationTimestamp.addTimeInterval(self.updateInterval)
-                self.oldestRelevantSymmetricKey = Accessory.kdf(inputData: self.symmetricKey, sharedInfo: "update".data(using: .ascii)!, bytesToReturn: 32)
+                self.oldestRelevantSymmetricKey = Accessory.kdf(inputData: self.oldestRelevantSymmetricKey, sharedInfo: "update".data(using: .ascii)!, bytesToReturn: 32)
             }
 
             /// we need to generate Keys from seven days in the past until now and 10 extra keys in case of desynchronization
