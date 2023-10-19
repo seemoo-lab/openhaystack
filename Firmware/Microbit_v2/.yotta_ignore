@@ -1,0 +1,2 @@
+# build.py uses CMake as well and this top level file is not Yotta compatible
+CMakeLists.txt

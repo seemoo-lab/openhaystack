@@ -1,0 +1,21 @@
+{
+    "target": {
+        "name": "codal-microbit-v2",
+        "url": "https://github.com/lancaster-university/codal-microbit-v2",
+        "branch": "master",
+        "type": "git",
+        "test_ignore": true,
+        "dev": true
+    } ,
+    "config":{
+        "SOFTDEVICE_PRESENT": 1,
+        "DEVICE_BLE": 1,
+        "MICROBIT_BLE_ENABLED" : 1,
+        "MICROBIT_BLE_PAIRING_MODE": 1,
+        "MICROBIT_BLE_DFU_SERVICE": 1,
+        "MICROBIT_BLE_DEVICE_INFORMATION_SERVICE": 1,
+        "MICROBIT_BLE_EVENT_SERVICE" : 1,
+        "MICROBIT_BLE_PARTIAL_FLASHING" : 0,
+        "MICROBIT_BLE_SECURITY_LEVEL": "SECURITY_MODE_ENCRYPTION_NO_MITM"
+    }
+}

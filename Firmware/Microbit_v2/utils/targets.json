@@ -1,0 +1,105 @@
+[
+    {
+        "name":"codal-arduino-uno",
+        "info":"This target specifies the arduino uno which is driven by an atmega328p.",
+        "device_url":"https://store.arduino.cc/arduino-uno-rev3",
+        "url":"https://github.com/lancaster-university/codal-arduino-uno",
+        "branch":"master",
+        "type":"git"
+    },
+    {
+        "name":"codal-circuit-playground",
+        "info":"This target specifies the circuit playground which is driven by a SAMD21.",
+        "device_url":"https://www.adafruit.com/product/3333",
+        "url":"https://github.com/lancaster-university/codal-circuit-playground",
+        "branch":"master",
+        "type":"git"
+    },
+    {
+        "name":"codal-microbit",
+        "info":"This target specifies the microbit, which uses the nordic NRF51822.",
+        "device_url":"https://microbit.org",
+        "url":"https://github.com/lancaster-university/codal-microbit",
+        "test_ignore":true,
+        "branch":"codal-microbit-mbed",
+        "type":"git"
+    },
+    {
+        "name":"codal-huzzah",
+        "info":"This target specifies the HUZZAH which is driven by a ESP8266.",
+        "device_url":"https://www.adafruit.com/product/3405",
+        "url":"https://github.com/lancaster-university/codal-huzzah",
+        "test_ignore":true,
+        "branch":"master",
+        "type":"git"
+    },
+    {
+        "name":"codal-brainpad",
+        "info":"This target specifies the BRAINPAD which is driven by a STM32f.",
+        "device_url":"https://brainpad.com",
+        "url":"https://github.com/lancaster-university/codal-brainpad",
+        "branch":"master",
+        "type":"git"
+    },
+    {
+        "name":"codal-microbit-next",
+        "info":"version 1.4 revision of the BBC micro:bit.",
+        "device_url":"https://www.microbit.org",
+        "url":"https://github.com/microbit-foundation/codal-microbit-next",
+        "test_ignore":true,
+        "branch":"nrf52833-mbedos",
+        "type":"git"
+    },
+    {
+        "name":"codal-ble-nano",
+        "info":"This target specifies the ble-nano by RedBear which is driven by a NRF52.",
+        "device_url":"https://redbear.cc/product/ble-nano-kit-2.html",
+        "url":"https://github.com/lancaster-university/codal-ble-nano",
+        "branch":"master",
+        "type":"git"
+    },
+    {
+        "name":"codal-stm32-iot-node",
+        "info":"This target specifies the STM32 IoT Node board which is driven by a STM32L475.",
+        "device_url":"http://www.st.com/en/evaluation-tools/b-l475e-iot01a.html",
+        "url":"https://github.com/LabAixBidouille-STM32/codal-stm32-iot-node",
+        "test_ignore":true,
+        "branch":"master",
+        "type":"git"
+    },
+    {
+        "name":"codal-big-brainpad",
+        "info":"This target specifies the stm32f401re (The big brain pad).",
+        "device_url":"",
+        "url":"https://github.com/lancaster-university/codal-big-brainpad",
+        "branch":"master",
+        "type":"git",
+        "test_ignore":true
+    },
+    {
+        "name":"codal-mkr1300",
+        "info":"This target specifies the arduino mkr1300 variant.",
+        "device_url":"",
+        "url":"https://github.com/ElectronicCats/codal-mkr1300",
+        "branch":"master",
+        "type":"git",
+        "test_ignore":true
+    },
+    {
+        "name":"codal-jacdac-feather",
+        "info":"This target specifies the jacdac-feather board based on the stmf103",
+        "device_url":"",
+        "url":"https://github.com/lancaster-university/codal-jacdac-feather",
+        "branch":"master",
+        "type":"git",
+        "test_ignore":true
+    },
+    {
+        "name":"codal-itsybitsy-m4",
+        "info":"This target specifies the adafruit itsybitsy board.",
+        "device_url":"",
+        "url":"https://github.com/lancaster-university/codal-itsybitsy-m4",
+        "branch":"master",
+        "type":"git"
+    }
+]
