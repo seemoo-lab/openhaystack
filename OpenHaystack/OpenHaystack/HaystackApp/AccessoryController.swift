@@ -14,6 +14,8 @@ import SwiftUI
 
 class AccessoryController: ObservableObject {
     @Published var accessories: [Accessory]
+    @AppStorage(APISource.storageKey) var apiSource: APISource = .mailPlugin
+
     var selfObserver: AnyCancellable?
     var listElementsObserver = [AnyCancellable]()
     let findMyController: FindMyController
@@ -235,39 +237,64 @@ class AccessoryController: ObservableObject {
     ///
     /// - Parameter completion: called when the reports have been succesfully downloaded or the request has failed
     func downloadLocationReports(completion: @escaping (Result<Void, OpenHaystackMainView.AlertType>) -> Void) {
-        AnisetteDataManager.shared.requestAnisetteData { [weak self] result in
-            guard let self = self else {
-                completion(.failure(.noReportsFound))
-                return
-            }
-            switch result {
-            case .failure(_):
-                completion(.failure(.activatePlugin))
-            case .success(let accountData):
-
-                guard let token = accountData.searchPartyToken,
-                    token.isEmpty == false
-                else {
-                    completion(.failure(.searchPartyToken))
+        switch apiSource {
+        case .mailPlugin:
+            AnisetteDataManager.shared.requestAnisetteData { [weak self] result in
+                guard let self = self else {
+                    completion(.failure(.noReportsFound))
                     return
                 }
+                switch result {
+                case .failure(_):
+                    completion(.failure(.activatePlugin))
+                case .success(let accountData):
 
-                self.findMyController.fetchReports(for: self.accessories, with: token) { [weak self] result in
-                    switch result {
-                    case .failure(let error):
-                        os_log(.error, "Downloading reports failed %@", error.localizedDescription)
-                        completion(.failure(.downloadingReportsFailed))
-                    case .success(let devices):
-                        let reports = devices.compactMap({ $0.reports }).flatMap({ $0 })
-                        if reports.isEmpty {
-                            completion(.failure(.noReportsFound))
-                        } else {
-                            self?.updateWithDecryptedReports(devices: devices)
-                            completion(.success(()))
+                    guard let token = accountData.searchPartyToken,
+                        token.isEmpty == false
+                    else {
+                        completion(.failure(.searchPartyToken))
+                        return
+                    }
+
+                    self.findMyController.fetchReports(for: self.accessories, with: token) { [weak self] result in
+                        switch result {
+                        case .failure(let error):
+                            os_log(.error, "Downloading reports failed %@", error.localizedDescription)
+                            completion(.failure(.downloadingReportsFailed))
+                        case .success(let devices):
+                            let reports = devices.compactMap({ $0.reports }).flatMap({ $0 })
+                            if reports.isEmpty {
+                                completion(.failure(.noReportsFound))
+                            } else {
+                                self?.updateWithDecryptedReports(devices: devices)
+                                completion(.success(()))
+                            }
                         }
                     }
-                }
 
+                }
+            }
+        case .reportsServer(let serverOptions):
+            guard let url = serverOptions.url else {
+                os_log(.error, "Downloading reports failed, no URL provided")
+                completion(.failure(.downloadingReportsFailed))
+                return
+            }
+            
+            self.findMyController.fetchReports(for: self.accessories, with: url, authorizationHeader: serverOptions.authorizationHeader) { [weak self] result in
+                switch result {
+                case .failure(let error):
+                    os_log(.error, "Downloading reports failed %@", error.localizedDescription)
+                    completion(.failure(.downloadingReportsFailed))
+                case .success(let devices):
+                    let reports = devices.compactMap({ $0.reports }).flatMap({ $0 })
+                    if reports.isEmpty {
+                        completion(.failure(.noReportsFound))
+                    } else {
+                        self?.updateWithDecryptedReports(devices: devices)
+                        completion(.success(()))
+                    }
+                }
             }
         }
     }

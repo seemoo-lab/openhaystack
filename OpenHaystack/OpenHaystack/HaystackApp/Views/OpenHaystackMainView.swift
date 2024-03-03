@@ -33,6 +33,7 @@ struct OpenHaystackMainView: View {
     @State var historySeconds: TimeInterval = TimeInterval.Units.day.rawValue
     @State var accessoryToDeploy: Accessory?
     @State var showMailPlugInPopover = false
+    @State var showSettingsPopover = false
 
     @State var mailPluginIsActive = false
 
@@ -135,21 +136,31 @@ struct OpenHaystackMainView: View {
 
             Button(
                 action: {
-                    if !self.mailPluginIsActive {
-                        self.showMailPlugInPopover.toggle()
-                        self.checkPluginIsRunning(silent: true, nil)
-                    } else {
+                    switch accessoryController.apiSource {
+                    case .mailPlugin:
+                        if !self.mailPluginIsActive {
+                            self.showMailPlugInPopover.toggle()
+                            self.checkPluginIsRunning(silent: true, nil)
+                        } else {
+                            self.downloadLocationReports()
+                        }
+                    case .reportsServer:
                         self.downloadLocationReports()
                     }
 
                 },
                 label: {
-                    HStack {
-                        Circle()
-                            .fill(self.mailPluginIsActive ? Color.green : Color.orange)
-                            .frame(width: 8, height: 8)
+                    switch accessoryController.apiSource {
+                    case .mailPlugin:
+                        HStack {
+                            Circle()
+                                .fill(self.mailPluginIsActive ? Color.green : Color.orange)
+                                .frame(width: 8, height: 8)
+                            Label("Reload", systemImage: "arrow.clockwise")
+                                .disabled(!self.mailPluginIsActive)
+                        }
+                    case .reportsServer:
                         Label("Reload", systemImage: "arrow.clockwise")
-                            .disabled(!self.mailPluginIsActive)
                     }
 
                 }
@@ -160,29 +171,50 @@ struct OpenHaystackMainView: View {
                 content: {
                     self.mailStatePopover
                 })
+            
+            Button(
+                action: {
+                    self.showSettingsPopover.toggle()
+                },
+                label: {
+                    Label("Settings", systemImage: "gearshape.fill")
+                }
+            )
+            .popover(
+                isPresented: $showSettingsPopover,
+                content: {
+                    self.settingsPopover
+                }
+            )
         }
     }
 
     func onAppear() {
 
-        /// Checks if the search party token can be fetched without the Mail Plugin. If true the plugin is not needed for this environment. (e.g.  when SIP is disabled)
-        let reportsFetcher = ReportsFetcher()
-        if let token = reportsFetcher.fetchSearchpartyToken(),
-            let tokenString = String(data: token, encoding: .ascii)
-        {
-            self.searchPartyToken = tokenString
-            return
-        }
+        switch accessoryController.apiSource {
+        case .mailPlugin:
+            /// Checks if the search party token can be fetched without the Mail Plugin. If true the plugin is not needed for this environment. (e.g.  when SIP is disabled)
+            let reportsFetcher = AnisetteDependentReportsFetcher()
+            if let token = reportsFetcher.fetchSearchpartyToken(),
+                let tokenString = String(data: token, encoding: .ascii)
+            {
+                self.searchPartyToken = tokenString
+                return
+            }
 
-        let pluginManager = MailPluginManager()
+            let pluginManager = MailPluginManager()
 
-        // Check if the plugin is installed
-        if pluginManager.isMailPluginInstalled == false {
-            // Install the mail plugin
-            self.alertType = .activatePlugin
-            self.checkPluginIsRunning(silent: true, nil)
-        } else {
-            self.checkPluginIsRunning(nil)
+            // Check if the plugin is installed
+            if pluginManager.isMailPluginInstalled == false {
+                // Install the mail plugin
+                self.alertType = .activatePlugin
+                self.checkPluginIsRunning(silent: true, nil)
+            } else {
+                self.checkPluginIsRunning(nil)
+            }
+
+        case .reportsServer:
+            downloadLocationReports()
         }
 
     }
@@ -224,6 +256,89 @@ struct OpenHaystackMainView: View {
             .padding()
         }
         .frame(width: 250, height: 120)
+    }
+    
+    var settingsPopover: some View {
+        Form {
+            Section(
+                content: {
+                    VStack(spacing: 8) {
+                        Picker("", selection: self.$accessoryController.apiSource) {
+                            Text("Mail Plugin").tag(APISource.mailPlugin)
+                            Text("Server").tag(APISource.reportsServer(.init()))
+                        }
+                        .pickerStyle(SegmentedPickerStyle())
+                        
+                        TextField(
+                            "URL",
+                            text: Binding(
+                                get: {
+                                    guard case let .reportsServer(serverOptions) = $accessoryController.apiSource.wrappedValue else { return "" }
+                                    return serverOptions.url?.absoluteString ?? ""
+                                },
+                                set: { mapped, transaction in
+                                    guard case var .reportsServer(serverOptions) = $accessoryController.apiSource.wrappedValue else { return }
+                                    serverOptions.url = URL(string: mapped)
+                                    $accessoryController.apiSource.transaction(transaction).wrappedValue = .reportsServer(serverOptions)
+                                }
+                            )
+                        )
+                        .padding(.leading, 12)
+                        .padding(.trailing, 4)
+                        .disabled(accessoryController.apiSource == .mailPlugin)
+                        .foregroundColor(accessoryController.apiSource == .mailPlugin ? Color(NSColor.disabledControlTextColor) : nil)
+                        
+                        HStack {
+                            Toggle(
+                                "Is Protected?",
+                                isOn: Binding(
+                                    get: {
+                                        guard case let .reportsServer(serverOptions) = $accessoryController.apiSource.wrappedValue else { return false }
+                                        return serverOptions.authorizationHeader != nil
+                                    },
+                                    set: { mapped, transaction in
+                                        guard case var .reportsServer(serverOptions) = $accessoryController.apiSource.wrappedValue else { return }
+                                        serverOptions.authorizationHeader = mapped ? "" : nil
+                                        $accessoryController.apiSource.transaction(transaction).wrappedValue = .reportsServer(serverOptions)
+                                    }
+                                )
+                            )
+                            
+                            Spacer()
+                        }
+                        .padding(.leading, 12)
+                        .disabled(accessoryController.apiSource == .mailPlugin)
+                        
+                        TextField(
+                            "Authorization Header",
+                            text: Binding(
+                                get: {
+                                    guard case let .reportsServer(serverOptions) = $accessoryController.apiSource.wrappedValue else { return "" }
+                                    return serverOptions.authorizationHeader ?? ""
+                                },
+                                set: { mapped, transaction in
+                                    guard case var .reportsServer(serverOptions) = $accessoryController.apiSource.wrappedValue else { return }
+                                    serverOptions.authorizationHeader = mapped.isEmpty ? nil : mapped
+                                    $accessoryController.apiSource.transaction(transaction).wrappedValue = .reportsServer(serverOptions)
+                                }
+                            )
+                        )
+                        .padding(.leading, 12)
+                        .padding(.trailing, 4)
+                        .disabled(accessoryController.apiSource.shouldDisableAuthorizationHeader)
+                        .foregroundColor(accessoryController.apiSource.shouldDisableAuthorizationHeader ? Color(NSColor.disabledControlTextColor) : nil)
+                    }
+                    .padding(.top, 8)
+                },
+                header: {
+                    Text("API Source")
+                        .fontWeight(.semibold)
+                        .padding(.leading, -64)
+                }
+            )
+        }
+        .padding()
+        .frame(width: 450)
     }
 
     /// Ask to install and activate the mail plugin.
@@ -446,5 +561,12 @@ extension TimeInterval {
             case .week: return "Week"
             }
         }
+    }
+}
+
+private extension APISource {
+    var shouldDisableAuthorizationHeader: Bool {
+        guard case .reportsServer(let serverOptions) = self else { return true }
+        return serverOptions.authorizationHeader == nil
     }
 }
