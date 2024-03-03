@@ -16,17 +16,6 @@ class FindMyController: ObservableObject {
     @Published var error: Error?
     @Published var devices = [FindMyDevice]()
 
-    func loadPrivateKeys(from data: Data, with searchPartyToken: Data, completion: @escaping (Error?) -> Void) {
-        do {
-            let devices = try PropertyListDecoder().decode([FindMyDevice].self, from: data)
-
-            self.devices.append(contentsOf: devices)
-            self.fetchReports(with: searchPartyToken, completion: completion)
-        } catch {
-            self.error = FindMyErrors.decodingPlistFailed(message: String(describing: error))
-        }
-    }
-
     func importReports(reports: [FindMyReport], and keys: Data, completion: @escaping () -> Void) throws {
         let devices = try PropertyListDecoder().decode([FindMyDevice].self, from: keys)
         self.devices = devices
@@ -88,6 +77,14 @@ class FindMyController: ObservableObject {
     }
 
     func fetchReports(for accessories: [Accessory], with token: Data, completion: @escaping (Result<[FindMyDevice], Error>) -> Void) {
+        fetchReports(for: accessories, fetcher: AnisetteDependentReportsFetcher(searchPartyToken: token), completion: completion)
+    }
+    
+    func fetchReports(for accessories: [Accessory], with url: URL, authorizationHeader: String?, completion: @escaping (Result<[FindMyDevice], Error>) -> Void) {
+        fetchReports(for: accessories, fetcher: ExternalReportsFetcher(serverUrl: url, authorizationHeader: authorizationHeader), completion: completion)
+    }
+    
+    private func fetchReports(for accessories: [Accessory], fetcher: ReportsFetcher, completion: @escaping (Result<[FindMyDevice], Error>) -> Void) {
         let findMyDevices = accessories.compactMap({ acc -> FindMyDevice? in
             do {
                 return try acc.toFindMyDevice()
@@ -99,7 +96,7 @@ class FindMyController: ObservableObject {
 
         self.devices = findMyDevices
 
-        self.fetchReports(with: token) { error in
+        self.fetchReports(from: fetcher) { error in
 
             if let error = error {
                 completion(.failure(error))
@@ -109,18 +106,15 @@ class FindMyController: ObservableObject {
             }
         }
     }
-
-    func fetchReports(with searchPartyToken: Data, completion: @escaping (Error?) -> Void) {
-
+    
+    private func fetchReports(from fetcher: ReportsFetcher, completion: @escaping (Error?) -> Void) {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self = self else {
                 completion(FindMyErrors.objectReleased)
                 return
             }
             let fetchReportGroup = DispatchGroup()
-
-            let fetcher = ReportsFetcher()
-
+            
             var devices = self.devices
             for deviceIndex in 0..<devices.count {
                 fetchReportGroup.enter()
@@ -134,8 +128,8 @@ class FindMyController: ObservableObject {
                 // 21 days
                 let duration: Double = (24 * 60 * 60) * 21
                 let startDate = Date() - duration
-
-                fetcher.query(forHashes: keyHashes, start: startDate, duration: duration, searchPartyToken: searchPartyToken) { jd in
+                
+                fetcher.query(forHashes: keyHashes, start: startDate, duration: duration) { jd in
                     guard let jsonData = jd else {
                         fetchReportGroup.leave()
                         return
