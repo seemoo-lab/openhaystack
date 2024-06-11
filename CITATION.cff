@@ -1,0 +1,31 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: OpenHaystack
+message: 'If you use this software, please cite it as below.'
+type: software
+authors:
+  - given-names: Alexander
+    family-names: Heinrich
+    affiliation: 'SEEMOO, TU Darmstadt'
+    orcid: 'https://orcid.org/0000-0002-1150-1922'
+  - given-names: Milan
+    family-names: Stute
+    affiliation: 'SEEMOO, TU Darmstadt'
+    orcid: 'https://orcid.org/0000-0003-4921-8476'
+  - given-names: Matthias
+    family-names: Hollick
+    affiliation: 'SEEMOO, TU Darmstadt'
+    orcid: 'https://orcid.org/0000-0002-9163-5989'
+repository-code: 'https://github.com/seemoo-lab/openhaystack'
+abstract: >-
+  OpenHaystack is a framework for tracking personal
+  Bluetooth devices via Apple's massive Find My network. Use
+  it to create your own tracking tags that you can append to
+  physical objects (keyrings, backpacks, ...) or integrate
+  it into other Bluetooth-capable devices such as notebooks.
+license: AGPL-3.0
+commit: 7d72fa1ac19d2a9f6dec43011be07df8976a8b02
+version: 0.5.3
+date-released: '2023-10-09'
