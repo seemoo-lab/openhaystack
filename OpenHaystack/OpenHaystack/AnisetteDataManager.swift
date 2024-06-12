@@ -51,7 +51,7 @@ public class AnisetteDataManager: NSObject {
     }
 
     func requestAnisetteDataAuthKit() -> AppleAccountData? {
-        let anisetteData = ReportsFetcher().anisetteDataDictionary()
+        let anisetteData = AnisetteDependentReportsFetcher().anisetteDataDictionary()
 
         let dateFormatter = ISO8601DateFormatter()
 
@@ -79,7 +79,7 @@ public class AnisetteDataManager: NSObject {
             locale: Locale.current,
             timeZone: TimeZone.current)
 
-        if let spToken = ReportsFetcher().fetchSearchpartyToken() {
+        if let spToken = AnisetteDependentReportsFetcher().fetchSearchpartyToken() {
             accountData.searchPartyToken = spToken
         }
 

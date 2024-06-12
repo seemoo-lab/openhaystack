@@ -14,7 +14,23 @@
 
 #import "OpenHaystack-Swift.h"
 
-@implementation ReportsFetcher
+@implementation AnisetteDependentReportsFetcher
+
+- (id)init {
+    if ( self = [super init] ) {
+        self.searchPartyToken = [NSData alloc];
+        return self;
+    } else
+        return nil;
+};
+
+- (id)initWithSearchPartyToken:(NSData *)searchPartyToken {
+    if ( self = [super init] ) {
+        self.searchPartyToken = searchPartyToken;
+        return self;
+    } else
+        return nil;
+};
 
 - (NSData *_Nullable)fetchSearchpartyToken {
     NSDictionary *query = @{
@@ -124,7 +140,6 @@
 - (void)queryForHashes:(NSArray *)publicKeys
              startDate:(NSDate *)date
               duration:(double)duration
-      searchPartyToken:(nonnull NSData *)searchPartyToken
             completion:(void (^)(NSData *_Nullable))completion {
 
     // calculate the timestamps for the defined duration
@@ -138,7 +153,7 @@
 
     NSLog(@"Query : %@", query);
     NSString *authKey = @"authorization";
-    NSData *securityToken = searchPartyToken;
+    NSData *securityToken = self.searchPartyToken;
     NSString *appleId = [self fetchAppleAccountId];
     NSString *authValue = [self basicAuthForAppleID:appleId andToken:securityToken];
 
@@ -173,6 +188,59 @@
 
       completion(data);
     }];
+}
+
+@end
+
+@implementation ExternalReportsFetcher
+
+- (id)initWithServerUrl:(NSURL *)serverUrl authorizationHeader:(nullable NSString *)authorizationHeader; {
+    if ( self = [super init] ) {
+        _serverUrl = serverUrl;
+        _authorizationHeader = authorizationHeader;
+        return self;
+    } else
+        return nil;
+};
+
+- (void)queryForHashes:(NSArray *)publicKeys
+             startDate:(NSDate *)date
+              duration:(double)duration
+            completion:(void (^)(NSData *_Nullable))completion {
+
+    // calculate the timestamps for the defined duration
+    long long startDate = [date timeIntervalSince1970] * 1000;
+    long long endDate = ([date timeIntervalSince1970] + duration) * 1000.0;
+
+    NSLog(@"Requesting data for %@", publicKeys);
+    NSDictionary *query =
+        @{@"search" : @[ @{@"endDate" : [NSString stringWithFormat:@"%lli", endDate], @"ids" : publicKeys, @"startDate" : [NSString stringWithFormat:@"%lli", startDate]} ]};
+    NSData *httpBody = [NSJSONSerialization dataWithJSONObject:query options:0 error:nil];
+
+    NSLog(@"Query : %@", query);
+
+    NSMutableURLRequest *req = [[NSMutableURLRequest alloc] initWithURL:[[NSURL alloc] initWithString:self.serverUrl.absoluteString]];
+    
+    [req setHTTPMethod:@"POST"];
+    [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [req setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    if (_authorizationHeader) {
+        [req setValue:_authorizationHeader forHTTPHeaderField:@"Authorization"];
+    }
+    
+    NSLog(@"Headers:\n%@", req.allHTTPHeaderFields);
+    
+    [req setHTTPBody:httpBody];
+    
+    NSURLResponse *response;
+    NSError *error = nil;
+    NSData *data = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&error];
+    
+    if (error) {
+        NSLog(@"Error during request: \n\n%@", error);
+    }
+    
+    completion(data);
 }
 
 @end

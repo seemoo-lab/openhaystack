@@ -39,26 +39,44 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)serverFriendlyDescription;
 @end
 
-@interface ReportsFetcher : NSObject
+@protocol ReportsFetcher
 
 /// WARNING: Runs synchronous network request. Please run this in a background thread.
 /// Query location reports for an array of public key hashes (ids)
 /// @param publicKeys Array of hashed public keys (in Base64)
 /// @param date Start date
 /// @param duration Duration checked
-/// @param searchPartyToken Search Party token
 /// @param completion Called when finished
 - (void)queryForHashes:(NSArray *)publicKeys
              startDate:(NSDate *)date
               duration:(double)duration
-      searchPartyToken:(nonnull NSData *)searchPartyToken
             completion:(void (^)(NSData *_Nullable))completion;
+
+@end
+
+
+@interface AnisetteDependentReportsFetcher : NSObject <ReportsFetcher>
+
+@property (nonatomic, strong) NSData *searchPartyToken;
+
+- (id)init;
+
+- (id)initWithSearchPartyToken:(NSData *)searchPartyToken;
 
 /// Fetches the search party token from the macOS Keychain. Returns null if it fails
 - (NSData *_Nullable)fetchSearchpartyToken;
 
 /// Get AnisetteData from AuthKit or return an empty dictionary
 - (NSDictionary *_Nonnull)anisetteDataDictionary;
+
+@end
+
+@interface ExternalReportsFetcher : NSObject <ReportsFetcher>
+
+@property (nonatomic, strong) NSURL *serverUrl;
+@property (nonatomic, strong) NSString *authorizationHeader;
+
+- (id)initWithServerUrl:(NSURL *)serverUrl authorizationHeader:(nullable NSString *)authorizationHeader;
 
 @end
 
