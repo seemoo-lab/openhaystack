@@ -71,11 +71,14 @@ class _AccessoryMapState extends State<AccessoryMap> {
       .where((accessory) => accessory.lastLocation != null)
       .map((accessory) => accessory.lastLocation!)
       .toList();
-    _mapController.fitBounds(
-      LatLngBounds.fromPoints([...points, ...accessoryPoints]),
-      options: const FitBoundsOptions(
-        padding: EdgeInsets.all(25),
-      ));
+    points = [... points, ...accessoryPoints];
+    if (points.isNotEmpty) {
+      _mapController.fitBounds(
+          LatLngBounds.fromPoints(points),
+          options: const FitBoundsOptions(
+            padding: EdgeInsets.all(25),
+          ));
+    }
   }
 
   @override
