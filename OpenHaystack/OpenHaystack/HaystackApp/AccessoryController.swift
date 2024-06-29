@@ -13,6 +13,7 @@ import OSLog
 import SwiftUI
 
 class AccessoryController: ObservableObject {
+    @AppStorage("searchPartyToken") private var searchPartyToken: String = ""
     @Published var accessories: [Accessory]
     var selfObserver: AnyCancellable?
     var listElementsObserver = [AnyCancellable]()
@@ -244,10 +245,8 @@ class AccessoryController: ObservableObject {
             case .failure(_):
                 completion(.failure(.activatePlugin))
             case .success(let accountData):
-
-                guard let token = accountData.searchPartyToken,
-                    token.isEmpty == false
-                else {
+                let token = accountData.searchPartyToken ?? self.searchPartyToken.data(using: .utf8) ?? Data()
+                if token.isEmpty {
                     completion(.failure(.searchPartyToken))
                     return
                 }
@@ -256,7 +255,12 @@ class AccessoryController: ObservableObject {
                     switch result {
                     case .failure(let error):
                         os_log(.error, "Downloading reports failed %@", error.localizedDescription)
-                        completion(.failure(.downloadingReportsFailed))
+                        switch error {
+                        case FindMyErrors.invalidSearchPartyToken:
+                            completion(.failure(.invalidSearchPartyToken))
+                        default:
+                            completion(.failure(.downloadingReportsFailed))
+                        }
                     case .success(let devices):
                         let reports = devices.compactMap({ $0.reports }).flatMap({ $0 })
                         if reports.isEmpty {
