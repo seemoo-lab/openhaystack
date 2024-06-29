@@ -44,6 +44,11 @@ struct OpenHaystackApp: App {
         .commands {
             SidebarCommands()
         }
+        #if os(macOS)
+        Settings {
+            OpenHaystackSettingsView()
+        }
+        #endif
     }
 
     func checkForUpdates() {

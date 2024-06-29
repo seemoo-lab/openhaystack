@@ -148,6 +148,10 @@ class FindMyController: ObservableObject {
 
                     } catch {
                         print("Failed with error \(error)")
+                        if jsonData.isEmpty {
+                            print("Empty response, consider updating your Search Party Token")
+                            completion(FindMyErrors.invalidSearchPartyToken)
+                        }
                         devices[deviceIndex].reports = []
                     }
                     fetchReportGroup.leave()
@@ -241,4 +245,5 @@ class FindMyController: ObservableObject {
 enum FindMyErrors: Error {
     case decodingPlistFailed(message: String)
     case objectReleased
+    case invalidSearchPartyToken
 }

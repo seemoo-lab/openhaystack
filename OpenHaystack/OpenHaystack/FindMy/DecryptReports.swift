@@ -20,7 +20,12 @@ struct DecryptReports {
     /// - Throws: Errors if the decryption fails
     /// - Returns: An decrypted location report
     static func decrypt(report: FindMyReport, with key: FindMyKey) throws -> FindMyLocationReport {
-        let payloadData = report.payload
+        var payloadData = report.payload
+        /// Fix decryption for new report format
+        /// See: https://github.com/biemster/FindMy/issues/52
+        if payloadData.count > 88 {
+            payloadData.remove(at: 5)
+        }
         let keyData = key.privateKey
 
         let privateKey = keyData

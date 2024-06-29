@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -58,6 +58,7 @@
 		78EC227225DBC8CE0042B775 /* Accessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC227125DBC8CE0042B775 /* Accessory.swift */; };
 		78EC227725DBDB7E0042B775 /* KeychainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EC227625DBDB7E0042B775 /* KeychainController.swift */; };
 		78F8BB4C261C50EB00D9F37F /* LargeButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F8BB4B261C50EB00D9F37F /* LargeButtonStyle.swift */; };
+		9ED440A02C1605EF002574D1 /* OpenHaystackSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ED4409F2C1605EF002574D1 /* OpenHaystackSettingsView.swift */; };
 		F126102F2600D1D80066A859 /* Slider+LogScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = F126102E2600D1D80066A859 /* Slider+LogScale.swift */; };
 		F12D5A5A25FA4F3500CBBA09 /* BluetoothAccessoryScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12D5A5925FA4F3500CBBA09 /* BluetoothAccessoryScanner.swift */; };
 		F12D5A6025FA79FA00CBBA09 /* Advertisement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12D5A5F25FA79FA00CBBA09 /* Advertisement.swift */; };
@@ -169,6 +170,7 @@
 		78EC227125DBC8CE0042B775 /* Accessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessory.swift; sourceTree = "<group>"; };
 		78EC227625DBDB7E0042B775 /* KeychainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainController.swift; sourceTree = "<group>"; };
 		78F8BB4B261C50EB00D9F37F /* LargeButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeButtonStyle.swift; sourceTree = "<group>"; };
+		9ED4409F2C1605EF002574D1 /* OpenHaystackSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenHaystackSettingsView.swift; sourceTree = "<group>"; };
 		F126102E2600D1D80066A859 /* Slider+LogScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Slider+LogScale.swift"; sourceTree = "<group>"; };
 		F12D5A5925FA4F3500CBBA09 /* BluetoothAccessoryScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothAccessoryScanner.swift; sourceTree = "<group>"; };
 		F12D5A5F25FA79FA00CBBA09 /* Advertisement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Advertisement.swift; sourceTree = "<group>"; };
@@ -380,6 +382,7 @@
 			isa = PBXGroup;
 			children = (
 				78F8BB4A261C50D500D9F37F /* Styles */,
+				9ED4409F2C1605EF002574D1 /* OpenHaystackSettingsView.swift */,
 				78286D7625E5114600F65511 /* ActivityIndicator.swift */,
 				78EC226B25DBC2E40042B775 /* OpenHaystackMainView.swift */,
 				78486BEE25DD711E0007ED87 /* PopUpAlertView.swift */,
@@ -644,6 +647,7 @@
 				7821DAD325F7C39A0054DC33 /* ESP32InstallSheet.swift in Sources */,
 				781EB3F125DAD7EA00FEAA19 /* FindMyKeyDecoder.swift in Sources */,
 				787D8AC125DECD3C00148766 /* AccessoryController.swift in Sources */,
+				9ED440A02C1605EF002574D1 /* OpenHaystackSettingsView.swift in Sources */,
 				78023CAB25F7767000B083EF /* ESP32Controller.swift in Sources */,
 				F12D5A6025FA79FA00CBBA09 /* Advertisement.swift in Sources */,
 				781EB3F225DAD7EA00FEAA19 /* OpenHaystackApp.swift in Sources */,

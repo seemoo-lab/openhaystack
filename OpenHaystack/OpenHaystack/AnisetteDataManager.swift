@@ -10,6 +10,20 @@
 import Foundation
 import OSLog
 
+/// Uses AOSKit to get anisette headers
+@objc private protocol AOSUtilitiesProtocol
+{
+    static var machineSerialNumber: String? { get }
+    static var machineUDID: String? { get }
+
+    static func retrieveOTPHeadersForDSID(_ dsid: String) -> [String: Any]?
+
+    // Non-static versions used for respondsToSelector:
+    var machineSerialNumber: String? { get }
+    var machineUDID: String? { get }
+    func retrieveOTPHeadersForDSID(_ dsid: String) -> [String: Any]?
+}
+
 /// Uses the AltStore Mail plugin to access recent anisette data.
 public class AnisetteDataManager: NSObject {
     @objc static let shared = AnisetteDataManager()
@@ -28,7 +42,7 @@ public class AnisetteDataManager: NSObject {
     }
 
     func requestAnisetteData(_ completion: @escaping (Result<AppleAccountData, Error>) -> Void) {
-        if let accountData = self.requestAnisetteDataAuthKit() {
+        if let accountData = self.requestAnisetteDataAOSKit() {
             os_log(.debug, "Anisette Data loaded %@", accountData.debugDescription)
             completion(.success(accountData))
             return
@@ -84,6 +98,61 @@ public class AnisetteDataManager: NSObject {
         }
 
         return accountData
+    }
+
+    /// Adapted from: https://github.com/altstoreio/AltStore/blob/main/AltServer/Anisette%20Data/AnisetteDataManager.swift
+    func requestAnisetteDataAOSKit() -> AppleAccountData? {
+        do
+        {
+            let aosKitURL = URL(fileURLWithPath: "/System/Library/PrivateFrameworks/AOSKit.framework")
+            guard let aosKit = Bundle(url: aosKitURL) else { throw AnisetteDataError.aosKitFailure }
+            try aosKit.loadAndReturnError()
+
+            guard let AOSUtilitiesClass = NSClassFromString("AOSUtilities"),
+                  AOSUtilitiesClass.responds(to: #selector(AOSUtilitiesProtocol.retrieveOTPHeadersForDSID(_:))),
+                  AOSUtilitiesClass.responds(to: #selector(getter: AOSUtilitiesProtocol.machineSerialNumber)),
+                  AOSUtilitiesClass.responds(to: #selector(getter: AOSUtilitiesProtocol.machineUDID))
+            else { throw AnisetteDataError.aosKitFailure }
+
+            let AOSUtilities = unsafeBitCast(AOSUtilitiesClass, to: AOSUtilitiesProtocol.Type.self)
+
+            guard let anisetteData = AOSUtilities.retrieveOTPHeadersForDSID("-2") else { throw AnisetteDataError.aosKitFailure }
+
+            guard let machineID = anisetteData["X-Apple-MD-M"] as? String,
+                let otp = anisetteData["X-Apple-MD"] as? String,
+                let deviceId = AOSUtilities.machineUDID,
+                let localUserId = deviceId.data(using: .utf8)?.base64EncodedString(),
+                let deviceClass = NSClassFromString("AKDevice")
+            else {
+                print("Failure retrieving anisette headers from AOSKit")
+                throw AnisetteDataError.aosKitFailure
+            }
+            let device: AKDevice = deviceClass.current()
+
+            let routingInfo: UInt64 = 84215040
+            let accountData = AppleAccountData(
+                machineID: machineID,
+                oneTimePassword: otp,
+                localUserID: localUserId,
+                routingInfo: routingInfo,
+                deviceUniqueIdentifier: device.uniqueDeviceIdentifier(),
+                deviceSerialNumber: device.serialNumber(),
+                deviceDescription: device.serverFriendlyDescription(),
+                date: Date(),
+                locale: Locale.current,
+                timeZone: TimeZone.current)
+
+            /// This only works with SIP disabled
+            if let spToken = ReportsFetcher().fetchSearchpartyToken() {
+                accountData.searchPartyToken = spToken
+            }
+            return accountData
+        }
+        catch
+        {
+            return nil
+        }
+
     }
 
     @objc func requestAnisetteDataObjc(_ completion: @escaping ([AnyHashable: Any]?) -> Void) {
@@ -163,4 +232,5 @@ extension AnisetteDataManager {
 enum AnisetteDataError: Error {
     case pluginNotFound
     case invalidAnisetteData
+    case aosKitFailure
 }
