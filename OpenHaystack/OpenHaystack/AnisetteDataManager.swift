@@ -118,8 +118,6 @@ public class AnisetteDataManager: NSObject {
 
             guard let anisetteData = AOSUtilities.retrieveOTPHeadersForDSID("-2") else { throw AnisetteDataError.aosKitFailure }
 
-            let dateFormatter = ISO8601DateFormatter()
-
             guard let machineID = anisetteData["X-Apple-MD-M"] as? String,
                 let otp = anisetteData["X-Apple-MD"] as? String,
                 let deviceId = AOSUtilities.machineUDID,
