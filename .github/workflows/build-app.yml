@@ -9,6 +9,7 @@ on:
     branches: [ main ]
     paths:
       - OpenHaystack/**
+  workflow_dispatch:
 
 env:
   APP: OpenHaystack

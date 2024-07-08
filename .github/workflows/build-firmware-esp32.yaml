@@ -9,6 +9,7 @@ on:
     branches: [ main ]
     paths:
       - Firmware/ESP32/**
+  workflow_dispatch:
 
 jobs:
   build-firmware-esp32:
