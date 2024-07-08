@@ -43,7 +43,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: "Select Xcode 12"
-        uses: devbotsxyz/xcode-select@v1
+        uses: keehun/xcode-select@v1
         with:
           version: "12"
       - name: "Add ESP32 firmware"

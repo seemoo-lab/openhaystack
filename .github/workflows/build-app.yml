@@ -46,7 +46,7 @@ jobs:
       - name: "Checkout code"
         uses: actions/checkout@v2
       - name: "Select Xcode 13"
-        uses: devbotsxyz/xcode-select@v1
+        uses: keehun/xcode-select@v1
         with:
           version: "13"
       - name: "Archive project"
