@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:openhaystack_mobile/item_management/item_management_desktop.dart';
 import 'package:provider/provider.dart';
 import 'package:openhaystack_mobile/accessory/accessory_list.dart';
 import 'package:openhaystack_mobile/accessory/accessory_registry.dart';
@@ -6,6 +8,7 @@ import 'package:openhaystack_mobile/location/location_model.dart';
 import 'package:openhaystack_mobile/map/map.dart';
 import 'package:openhaystack_mobile/preferences/preferences_page.dart';
 import 'package:openhaystack_mobile/preferences/user_preferences_model.dart';
+import 'package:latlong2/latlong.dart';
 
 class DashboardDesktop extends StatefulWidget {
 
@@ -20,7 +23,13 @@ class DashboardDesktop extends StatefulWidget {
 }
 
 class _DashboardDesktopState extends State<DashboardDesktop> {
+  final MapController _mapController = MapController();
 
+  void _centerPoint(LatLng point) {
+    _mapController.fitBounds(
+      LatLngBounds(point),
+    );
+  }
   @override
   void initState() {
     super.initState();
@@ -40,7 +49,21 @@ class _DashboardDesktopState extends State<DashboardDesktop> {
   /// Fetch locaiton updates for all accessories.
   Future<void> loadLocationUpdates() async {
     var accessoryRegistry = Provider.of<AccessoryRegistry>(context, listen: false);
-    await accessoryRegistry.loadLocationReports();
+    try {
+      await accessoryRegistry.loadLocationReports();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Theme.of(context).colorScheme.error,
+          content: Text(
+            'Could not find location reports. Try again later.',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onError,
+            ),
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -55,7 +78,12 @@ class _DashboardDesktopState extends State<DashboardDesktop> {
                 AppBar(
                   title: const Text('OpenHaystack'),
                   leading: IconButton(
-                    onPressed: () { /* reload */ },
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const ItemManagementDesktop()),
+                      );
+                    },
                     icon: const Icon(Icons.menu),
                   ),
                   actions: <Widget>[
@@ -77,13 +105,16 @@ class _DashboardDesktopState extends State<DashboardDesktop> {
                 Expanded(
                   child: AccessoryList(
                     loadLocationUpdates: loadLocationUpdates,
+                    centerOnPoint: _centerPoint,
                   ),
                 ),
               ],
             ),
           ),
-          const Expanded(
-            child: AccessoryMap(),
+          Expanded(
+            child: AccessoryMap(
+              mapController: _mapController,
+            ),
           ),
         ],
       ),

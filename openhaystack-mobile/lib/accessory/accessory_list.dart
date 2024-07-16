@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -63,12 +64,16 @@ class _AccessoryListState extends State<AccessoryList> {
           return const NoAccessoriesPlaceholder();
         }
 
-        // TODO: Refresh Indicator for desktop
-        // Use pull to refresh method
         return SlidableAutoCloseBehavior(child:
           RefreshIndicator(
             onRefresh: widget.loadLocationUpdates,
-            child: Scrollbar(
+            child: ScrollConfiguration(
+              behavior: ScrollConfiguration.of(context).copyWith(
+                dragDevices: {
+                  PointerDeviceKind.touch,
+                  PointerDeviceKind.mouse,
+                },
+              ),
               child: ListView(
                 children: accessories.map((accessory) {
                   // Calculate distance from users devices location

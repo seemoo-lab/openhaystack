@@ -40,7 +40,8 @@ dependencies:
 
   # Cryptography
   # latest version of pointy castle for crypto functions
-  pointycastle: ^3.4.0
+  pointycastle: ^3.6.0
+  cryptography: ^2.0.5
 
   # State Management
   provider: ^6.0.1
@@ -57,10 +58,11 @@ dependencies:
 
   # Sharing
   receive_sharing_intent: ^1.4.5
-  share_plus: ^3.0.4
+  share_plus: ^4.0.4
   url_launcher: ^6.0.17
   path_provider: ^2.0.8
   maps_launcher: ^2.0.1
+  clipboard: ^0.1.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
