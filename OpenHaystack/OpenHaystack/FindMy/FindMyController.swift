@@ -209,6 +209,7 @@ class FindMyController: ObservableObject {
 
             let accessQueue = DispatchQueue(label: "threadSafeAccess", qos: .userInitiated, attributes: .concurrent, autoreleaseFrequency: .workItem, target: nil)
             var decryptedReports = [FindMyLocationReport](repeating: FindMyLocationReport(lat: 0, lng: 0, acc: 0, dP: Date(), t: Date(), c: 0), count: reports.count)
+            var failedDecryptIndexes = [Int]()
             DispatchQueue.concurrentPerform(iterations: reports.count) { (reportIdx) in
                 let report = reports[reportIdx]
                 guard let key = keyMap[report.id] else { return }
@@ -219,11 +220,16 @@ class FindMyController: ObservableObject {
                         decryptedReports[reportIdx] = locationReport
                     }
                 } catch {
-                    return
+                    accessQueue.async(flags: .barrier) {
+                        failedDecryptIndexes.append(reportIdx)
+                    }
                 }
             }
 
             accessQueue.sync {
+                for index in failedDecryptIndexes.sorted(by: { $0 > $1 }) {
+                    decryptedReports.remove(at: index)
+                }
                 devices[deviceIdx].decryptedReports = decryptedReports
             }
         }
