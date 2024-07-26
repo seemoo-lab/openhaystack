@@ -341,7 +341,7 @@ struct OpenHaystackMainView: View {
         case .deployFailed:
             return Alert(
                 title: Text("Could not deploy"),
-                message: Text("Deploying to microbit failed. Please reconnect the device over USB"),
+                message: Text("Deploying failed. Please reconnect the device over USB"),
                 dismissButton: Alert.Button.okay())
         case .nrfDeployFailed:
             return Alert(
