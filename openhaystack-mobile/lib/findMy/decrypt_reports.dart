@@ -61,8 +61,8 @@ class DecryptReports {
   static FindMyLocationReport _decodePayload(
       Uint8List payload, FindMyReport report) {
 
-    final latitude = payload.buffer.asByteData(0, 4).getUint32(0, Endian.big);
-    final longitude = payload.buffer.asByteData(4, 4).getUint32(0, Endian.big);
+    final latitude = payload.buffer.asByteData(0, 4).getInt32(0, Endian.big);
+    final longitude = payload.buffer.asByteData(4, 4).getInt32(0, Endian.big);
     final accuracy = payload.buffer.asByteData(8, 1).getUint8(0);
 
     final latitudeDec = latitude / 10000000.0;
