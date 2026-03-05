@@ -151,8 +151,14 @@ struct OpenHaystackMainView: View {
                         Circle()
                             .fill(self.mailPluginIsActive ? Color.green : Color.orange)
                             .frame(width: 8, height: 8)
-                        Label("Reload", systemImage: "arrow.clockwise")
-                            .disabled(!self.mailPluginIsActive)
+                        // Dynamic label for plugin vs extension
+                        if MailPluginManager.supportsMailExtension {
+                            Label("Reload Extension", systemImage: "arrow.clockwise")
+                                .disabled(!self.mailPluginIsActive)
+                        } else {
+                            Label("Reload", systemImage: "arrow.clockwise")
+                                .disabled(!self.mailPluginIsActive)
+                        }
                     }
 
                 }
@@ -228,9 +234,17 @@ struct OpenHaystackMainView: View {
                     .foregroundColor(self.mailPluginIsActive ? .green : .red)
 
                 if self.mailPluginIsActive {
-                    Text("The mail plug-in is up and running")
+                    if #available(macOS 13, *) {
+                        Text("The mail extension is up and running")
+                    } else {
+                        Text("The mail plug-in is up and running")
+                    }
                 } else {
-                    Text("Cannot connect to the mail plug-in. Open Apple Mail and make sure the plug-in is enabled")
+                    if #available(macOS 13, *) {
+                        Text("Cannot connect to the mail extension. Open Apple Mail and make sure the extension is enabled")
+                    } else {
+                        Text("Cannot connect to the mail plug-in. Open Apple Mail and make sure the plug-in is enabled")
+                    }
                 }
             }
             .padding()
