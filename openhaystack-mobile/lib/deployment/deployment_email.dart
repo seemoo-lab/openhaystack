@@ -74,7 +74,7 @@ class DeploymentEmail {
     String mailContent = 'Linux HCI Deployment:\n\n'
         'Requirements\n'
         'Install the hcitool software on a Bluetooth Low Energy Linux device, '
-        'for example a Raspberry Pi. Additionally Pyhton 3 needs to be '
+        'for example a Raspberry Pi. Additionally Python 3 needs to be '
         'installed.\n\n'
         'Download\n'
         'Next download the python script that configures the HCI tool to '

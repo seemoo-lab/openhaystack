@@ -60,7 +60,7 @@ struct MailPluginManager {
         panel.prompt = "Install"
         panel.canCreateDirectories = true
         panel.showsTagField = false
-        panel.message = "OpenHaystack has no right to access the directory to install the plug-in automatically. By clicking install you grant the persmission."
+        panel.message = "OpenHaystack has no right to access the directory to install the plug-in automatically. By clicking install you grant the permission."
 
         if FileManager.default.fileExists(atPath: self.pluginsFolderURL.path) {
             panel.directoryURL = self.pluginsFolderURL

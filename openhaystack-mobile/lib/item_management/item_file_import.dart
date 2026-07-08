@@ -15,7 +15,7 @@ class ItemFileImport extends StatefulWidget {
   final String filePath;
 
   /// Lets the user select which accessories to import from a file.
-  /// 
+  ///
   /// Displays the accessories contained in the import file.
   /// The user can then select the accessories to import.
   const ItemFileImport({
@@ -55,7 +55,7 @@ class _ItemFileImportState extends State<ItemFileImport> {
         hasError = true;
         errorText = 'Invalid file path. Please select another file.';
       });
-      
+
       return;
     }
 
@@ -117,7 +117,7 @@ class _ItemFileImportState extends State<ItemFileImport> {
       }
     }
 
-    var nrOfImports = selected?.fold<int>(0, 
+    var nrOfImports = selected?.fold<int>(0,
       (previousValue, element) => element ? previousValue + 1 : previousValue) ?? 0;
     if (nrOfImports > 0) {
       var snackbar = SnackBar(
@@ -174,12 +174,12 @@ class _ItemFileImportState extends State<ItemFileImport> {
         child: Column(
           children: [
             Text(
-              'An error occured.',
+              'An error occurred.',
               style: Theme.of(context).textTheme.headline5,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
-              child: Text(errorText ?? 'An unknown error occured. Please try again.'),
+              child: Text(errorText ?? 'An unknown error occurred. Please try again.'),
             ),
           ],
         ),
