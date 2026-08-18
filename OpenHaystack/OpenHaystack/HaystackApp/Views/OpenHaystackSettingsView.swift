@@ -27,7 +27,14 @@ struct GeneralSettingsView: View {
 
     var body: some View {
         Form {
-            Toggle("Use Apple Mail Plugin (only works on macOS 13 and lower)", isOn: $useMailPlugin)
+            // Toggle between Mail bundle plugin (macOS ≤12) and Mail extension (macOS ≥13)
+            Group {
+                if #available(macOS 13, *) {
+                    Toggle("Enable Mail Extension (requires macOS 13 or higher)", isOn: $useMailPlugin)
+                } else {
+                    Toggle("Use Apple Mail Plugin (only works on macOS 12 and lower)", isOn: $useMailPlugin)
+                }
+            }
             TextField("Search Party Token", text: $searchPartyToken)
         }
         .padding(20)

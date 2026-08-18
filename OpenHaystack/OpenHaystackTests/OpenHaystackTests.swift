@@ -164,16 +164,21 @@ class OpenHaystackTests: XCTestCase {
         XCTAssertNotNil(keyData)
     }
 
-    func testPluginInstallation() {
+    // Test installation of Mail bundle plugin (skipped on macOS 13+ where Mail extensions replace bundles)
+    func testPluginInstallation() throws {
+        if #available(macOS 13, *) {
+            try XCTSkip("Mail bundle plugins are unsupported on macOS 13 or newer")
+        }
         do {
             let pluginManager = MailPluginManager()
+            // Ensure clean state
             if pluginManager.isMailPluginInstalled {
                 try pluginManager.uninstallMailPlugin()
             }
+            // Install bundle plugin
             try pluginManager.installMailPlugin()
-
+            // Verify plugin bundle exists
             XCTAssert(FileManager.default.fileExists(atPath: pluginManager.pluginURL.path))
-
         } catch {
             XCTFail(String(describing: error))
         }
