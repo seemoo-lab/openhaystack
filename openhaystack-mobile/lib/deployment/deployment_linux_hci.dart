@@ -21,7 +21,7 @@ class DeploymentInstructionsLinux extends StatelessWidget {
           title: Text('Requirements'),
           content: Text('Install the hcitool software on a Bluetooth '
             'Low Energy Linux device, for example a Raspberry Pi. '
-            'Additionally Pyhton 3 needs to be installed.'),
+            'Additionally Python 3 needs to be installed.'),
         ),
         Step(
           title: const Text('Download'),

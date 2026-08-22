@@ -115,7 +115,7 @@ struct AccessoryListEntry: View {
             pasteboard.prepareForNewContents(with: .currentHostOnly)
             pasteboard.setString(publicKey.base64EncodedString(), forType: .string)
         } catch {
-            os_log("Failed extracing public key %@", String(describing: error))
+            os_log("Failed extracting public key %@", String(describing: error))
             assert(false)
         }
     }
@@ -127,7 +127,7 @@ struct AccessoryListEntry: View {
             pasteboard.prepareForNewContents(with: .currentHostOnly)
             pasteboard.setString(publicKey.base64EncodedString(), forType: .string)
         } catch {
-            os_log("Failed extracing public key %@", String(describing: error))
+            os_log("Failed extracting public key %@", String(describing: error))
             assert(false)
         }
     }
@@ -139,7 +139,7 @@ struct AccessoryListEntry: View {
             pasteboard.prepareForNewContents(with: .currentHostOnly)
             pasteboard.setString(keyID, forType: .string)
         } catch {
-            os_log("Failed extracing public key %@", String(describing: error))
+            os_log("Failed extracting public key %@", String(describing: error))
             assert(false)
         }
     }
@@ -161,7 +161,7 @@ struct AccessoryListEntry: View {
                 pasteboard.setString(string, forType: .string)
             }
         } catch {
-            os_log("Failed extracing public key %@", String(describing: error))
+            os_log("Failed extracting public key %@", String(describing: error))
             assert(false)
         }
     }
@@ -177,7 +177,7 @@ struct AccessoryListEntry: View {
             pasteboard.prepareForNewContents(with: .currentHostOnly)
             pasteboard.setString("Symmetric key: \(symmetricKeyString)\n Uncompressed public key: \(publicKeyString) ", forType: .string)
         } catch {
-            os_log("Failed extracing public key %@", String(describing: error))
+            os_log("Failed extracting public key %@", String(describing: error))
             assert(false)
         }
     }
@@ -191,7 +191,7 @@ struct AccessoryListEntry: View {
             pasteboard.prepareForNewContents(with: .currentHostOnly)
             pasteboard.setString("Symmetric key: \(symmetricKey.base64EncodedString())\n Uncompressed public key: \(publicKey.base64EncodedString()) ", forType: .string)
         } catch {
-            os_log("Failed extracing public key %@", String(describing: error))
+            os_log("Failed extracting public key %@", String(describing: error))
             assert(false)
         }
     }

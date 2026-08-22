@@ -350,7 +350,7 @@ struct OpenHaystackMainView: View {
                 dismissButton: Alert.Button.okay())
         case .deployedSuccessfully:
             return Alert(
-                title: Text("Deploy successfull"),
+                title: Text("Deploy successful"),
                 message: Text("This device will now be tracked by all iPhones and you can use this app to find its last reported location"),
                 dismissButton: Alert.Button.okay())
         case .deletionFailed:
@@ -381,7 +381,7 @@ struct OpenHaystackMainView: View {
                 title: Text("Mail Plugin installation failed"),
                 message: Text(
                     "To access the location reports of your devices an Apple Mail plugin is necessary"
-                        + "\nThe installtion of this plugin has failed.\n\n Please download it manually unzip it and move it to /Library/Mail/Bundles"),
+                        + "\nThe installation of this plugin has failed.\n\n Please download it manually unzip it and move it to /Library/Mail/Bundles"),
                 primaryButton: .default(
                     Text("Download plug-in"),
                     action: {

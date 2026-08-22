@@ -37,7 +37,7 @@ class MicrocontrollerTests: XCTestCase {
             let pattern = Data([0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0x0, 0x1])
             let key = Data([1, 1, 1, 1, 1, 1, 1, 1])
             _ = try MicrobitController.patchFirmware(firmware, pattern: pattern, with: key)
-            XCTFail("Should thrown an erorr before")
+            XCTFail("Should thrown an error before")
         } catch PatchingError.patternNotFound {
             // This should be thrown
         } catch {

@@ -117,7 +117,7 @@ struct ManageAccessoriesView: View {
         VStack {
             Text("Select target")
                 .font(.title)
-            Text("Please select to which device you want to deply")
+            Text("Please select to which device you want to deploy")
                 .padding(.bottom, 4)
 
             VStack {
